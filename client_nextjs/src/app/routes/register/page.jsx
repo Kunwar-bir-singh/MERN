@@ -17,15 +17,31 @@ const page = () => {
         })
     }
 
-    const submitHandler = (e)=>{
+    const submitHandler = async (e)=>{
         e.preventDefault();
-        console.log(input)
-        setInput({
-            username:"",
-        email:"",
-        phone:"",
-        password:""
-        })
+        console.log(input);
+        try {
+            const response = await fetch('http://localhost:3001/api/auth/register' ,{
+                method:"POST",
+                headers:{
+                    "Content-Type" : "application/json" 
+                },
+                body:JSON.stringify(input)
+            });
+            if(response.ok){
+                const res_data = await response.json();
+                console.log(res_data);
+                setInput({
+                    username:"",
+                email:"",
+                phone:"",
+                password:""
+                })
+            }
+        } catch (error) {
+            console.log(error);
+        }
+
     }
   return (
     <>
@@ -38,12 +54,12 @@ const page = () => {
         <input type="text" placeholder="Email" id="email" onChange={inputHandler} name="email" value={input.email}/>
         
         <label htmlFor="phone">Phone</label>
-        <input type="text" placeholder="Phone" id="phone" onChange={inputHandler} name="phone" value={input.phone}/>
+        <input type="number" placeholder="Phone" id="phone" onChange={inputHandler} name="phone" value={input.phone}/>
 
         <label htmlFor="password">Password</label>
         <input type="password" placeholder="Password" id="password" onChange={inputHandler} name="password" value={input.password}/>
 
-        <button>Log In</button>
+        <button>Register</button>
         <div className="social">
           <div className="go"><i className="fab fa-google"></i>  Google</div>
           <div className="fb"><i className="fab fa-facebook"></i>  Facebook</div>

@@ -18,7 +18,7 @@ const login = async (req, res)=>{
        else{
         const checkPassword = await bcrypt.compare(password , userExists.password);
         if(checkPassword){
-            res.status(200).json({msg: "User Logged In Successfully"});
+            res.status(200).json({msg: "User Logged In Successfully", token: await  userExists.generateToken() , userId : userExists._id.toString()});
             console.log("Sucessful Login");
         }
         else{
@@ -46,8 +46,9 @@ const register = async (req, res) => {
         phone,
         password: hashedPassword,
       });
-      res.status(201).json({ msg: "User Created Sucessfully" , token: await userCreated.generateToken() , userID:userCreated._id.toString()});
-      console.log("User Created Successfully bkl");
+      const token = await userCreated.generateToken()
+      res.status(201).json({ msg: "User Created Sucessfully" , token , userID:userCreated._id.toString()});
+      console.log("User Created Successfully bkl", token);
     }
   } catch (error) {
     res.status(401).json({msg:"Error While Registering."})
