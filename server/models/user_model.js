@@ -35,7 +35,6 @@ userSchema.methods.generateToken = async function() {
         });
     } catch (error) {
         console.log(error);
-        throw error; // Ensure errors are propagated
     }
 }
 
