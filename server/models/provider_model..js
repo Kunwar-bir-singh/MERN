@@ -28,5 +28,5 @@ const ProviderSchema = new mongoose.Schema({
 
 })
 
-const Provider = new mongoose.Model("Provider" , ProviderSchema);
+const Provider = new mongoose.model("Provider" , ProviderSchema);
 module.exports = Provider;
