@@ -5,6 +5,9 @@ const MainContent = () => {
         profession:"",
         city:""
     })
+
+    const [city, setCity] = useState([])
+
     const getInput =(e)=>{
         const {name ,value} = e.target;
          
@@ -14,22 +17,31 @@ const MainContent = () => {
         })
     }
 
-    const getSearch = ()=>{
-        console.log(input);
-    }
-
+    
     const citiesData = async()=>{
         const api = await fetch('https://raw.githubusercontent.com/fayazara/Indian-Cities-API/master/cities.json');
         const data = await api.json();
         return data;
     }   
-    citiesData().then((data)=>{
-        const city= data.cities[0];
-        console.log(city);
-    }).catch((error)=>{
-        console.log(error);
-    })
-  return (
+    const getSearch = ()=>{
+        console.log(input);
+        citiesData().then((data)=>{
+            setCity(data.cities)
+        //     city.map((item , index)=>{
+        //     if(item.City.toLowerCase()== input.city.toLowerCase()){
+        //         console.log("The City Is Found At Index : ",index);
+        //     }
+        //     else{
+        //         console.log("No Such City Was Found");
+        //     }
+        // })
+        }).catch((error)=>{
+            console.log(error);
+        })
+        
+    }
+console.log(city);  
+return (
     <>
     <div>
         <input className='p-1 m-1 border-2 border-slate-950	 text-lg' type="text" name="profession" onChange={getInput} value={input.profession} id="" />
