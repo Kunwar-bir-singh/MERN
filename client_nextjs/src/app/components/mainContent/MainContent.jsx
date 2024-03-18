@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-
+import SearchPandC from "./SearchPandC";
 const MainContent = () => {
   const [res, setRes] = useState([]);
   const citiesData = async () => {
@@ -35,7 +35,7 @@ const MainContent = () => {
         item.City.toLowerCase().includes(input.city.toLowerCase())
     ))
     console.log(foundCity);
-    setDisplayData[foundCity];
+    setDisplayData(foundCity);
   }
 
   return (
@@ -65,29 +65,12 @@ const MainContent = () => {
         <tbody>
           <tr>
             <th>City</th>
-            <th>State</th>
+            <th>State</th>  
           </tr>
-          <>
-            {input ===  "" ? (
-                <h3>Enter The City To Be Searched</h3>
-            )
-            :(
-                <>
-                {displayData.length > 0 ? (
-                    displayData.map((item , index)=>{
-                        <tr>
-                            <td>{displayData.item.City}</td>
-                        </tr>
-                    })
-                ):(
-                    <h3>So Such City Is Found</h3>
-                )}
-                </>
-            )
-            }
-          </>
+            <SearchPandC input={input} displayData = {displayData}  />
         </tbody>
       </table>
+
     </>
   );
 };
