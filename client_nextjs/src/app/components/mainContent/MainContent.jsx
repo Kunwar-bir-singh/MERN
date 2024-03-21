@@ -66,10 +66,6 @@ const MainContent = () => {
         </button>
         <table>
         <tbody>
-          <tr>
-            <th>City</th>
-            <th>State</th>
-          </tr>
           {res == null ? (
             "Enter The Profession To Be Searched."
           ) : res.hasOwnProperty("name") ? (
