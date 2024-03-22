@@ -2,8 +2,8 @@
 import React from "react";
 import Navbar from "./components/navbar/Navbar";
 import './globals.css'
-import MainContent from "./components/mainContent/MainContent";
-
+import dynamic from 'next/dynamic'
+const MainContent = dynamic(() => import('./components/mainContent/MainContent'), { ssr: false })
 const page = () => {
   return (
     <>

@@ -64,6 +64,7 @@ const MainContent = () => {
         >
           Search
         </button>
+      </div>
         <table>
         <tbody>
           <tr>
@@ -76,7 +77,8 @@ const MainContent = () => {
               <tr>
               <td>
 
-                <Link href={`/profession`}>
+                {/* <Link href={`/routes/profession/${res.name}`}> */}
+                <Link href={`/routes/profession/${res.name}`}>
                 {res.name}
                 </Link>
                 </td>
@@ -89,7 +91,6 @@ const MainContent = () => {
           )}
         </tbody>
       </table>
-      </div>
     </>
   );
 };

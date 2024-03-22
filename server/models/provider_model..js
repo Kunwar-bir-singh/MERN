@@ -2,21 +2,20 @@ const mongoose = require("mongoose");
 
 const ProviderSchema = new mongoose.Schema({
   profession: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Profession", // Reference to the Profession model
-    required: true,
+    type: String,
+    require:true
   },
   fullname: {
     type: String,
-    requre: true,
+    require: true,
   },
   password: {
     type: String,
-    requre: true,
+    require: true,
   },
   phone: {
     type: Number,
-    requre: true,
+    require: true,
   },
   address: {
     type: String,

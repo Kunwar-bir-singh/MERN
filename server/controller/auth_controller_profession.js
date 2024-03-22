@@ -1,4 +1,5 @@
 const Profession = require("../models/profession_model");
+const { param } = require("../router/auth_router");
 
 const createProfession = async (req, res) => {
   try {
@@ -36,4 +37,28 @@ const getProfession = async (req, res) => {
   }
 };
 
-module.exports = {getProfession , createProfession};
+const editProfession = async (req, res)=>{
+  const providerId = req.body;
+  const asdf = req.query;
+  console.log(asdf);
+
+  // try {
+
+  //   const profession = await Profession.findById(professionId);
+  //   if(!profession){
+  //     console.log("Profession Doesn't Exist");
+  //     res.status(400).json({msg:"Profession Doens't Exist."})
+  //   }
+  //   profession.provider.push(providerId.providerId);
+  //   await profession.save();
+
+  //   res.status(200).json({success:true , msg:"Provider added to the profession."})
+  //   console.log("Provider Added Successfully.");
+  // } catch (error) {
+  //   console.log(error);
+  //   res.status(400).json({success:false , msg:"Some Error has occured."})
+  //   console.log("Some Error Has Occcured");
+  // }
+}
+
+module.exports = {getProfession , createProfession , editProfession};
