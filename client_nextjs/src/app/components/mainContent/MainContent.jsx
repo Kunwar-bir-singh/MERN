@@ -72,9 +72,7 @@ const MainContent = () => {
           ) : res.hasOwnProperty("name") ? (
               <tr>
               <td>
-
-                {/* <Link href={`/routes/profession/${res.name}`}> */}
-                <Link href={`/routes/profession/${res.name}`}>
+              <Link href={`/routes/profession/${encodeURIComponent(res.name)}/${encodeURIComponent(res.city)}`}>
                 {res.name}
                 </Link>
                 </td>
