@@ -1,5 +1,5 @@
 const Profession = require("../models/profession_model");
-const { param } = require("../router/auth_router");
+const Provider = require("../models/provider_model.");
 
 const createProfession = async (req, res) => {
   try {
@@ -27,11 +27,9 @@ const getProfession = async (req, res) => {
     const professionExists = await Profession.findOne({ name, city });
 
     if (!professionExists) {
-      res
-        .status(400)
-        .json({
-          msg: "No results found. Ensure Details are Correct or Create That Profession",
-        });
+      res.status(400).json({
+        msg: "No results found. Ensure Details are Correct or Create That Profession",
+      });
     } else {
       res.status(200).json(professionExists);
     }
@@ -70,4 +68,37 @@ const editProfession = async (req, res) => {
   }
 };
 
-module.exports = { getProfession, createProfession, editProfession };
+const getProviders = async (req, res) => {
+  try {
+    const profession_city = req.query;
+    console.log(profession_city.city);
+    console.log(profession_city.name);
+
+    const profession = await Profession.findOne({
+      city: profession_city.city,
+      name: profession_city.name,
+    });
+    if (!profession) {
+      console.log("Profession Doesn't Exist");
+      return res.status(400).json({ msg: "Profession Doens't Exist." });
+    }
+    const providersId = profession.provider;
+
+    const providers = await Provider.find({ _id: { $in: providersId } });
+
+    if (providers == null || providers.length === 0) {
+      console.log("No providers found.");
+      res.status(400).json({ msg: "Providers Doens't Exist." });
+    } 
+    res.status(200).json({ msg: "Providers Found!", providers });
+      console.log("Providers Found!", providers[0]);
+  } catch (error) {
+    console.log(error);
+  }
+};
+module.exports = {
+  getProfession,
+  getProviders,
+  createProfession,
+  editProfession,
+};
