@@ -70,32 +70,32 @@ const editProfession = async (req, res) => {
 
 const getProviders = async (req, res) => {
   try {
-    const profession_city = req.query;
-    console.log(profession_city.city);
-    console.log(profession_city.name);
+    const { name, city } = req.query;
+    const profession = await Profession.findOne({ name, city });
 
-    const profession = await Profession.findOne({
-      city: profession_city.city,
-      name: profession_city.name,
-    });
     if (!profession) {
-      console.log("Profession Doesn't Exist");
-      return res.status(400).json({ msg: "Profession Doens't Exist." });
+      res.status(400).json({
+        msg: "No results found. Ensure Details are Correct or Create That Profession",
+      });
     }
     const providersId = profession.provider;
-
-    const providers = await Provider.find({ _id: { $in: providersId } });
+    console.log(providersId);
+    const providers = await Provider.find({_id : {$in : providersId}})
+    console.log(providers);
 
     if (providers == null || providers.length === 0) {
       console.log("No providers found.");
-      res.status(400).json({ msg: "Providers Doens't Exist." });
-    } 
-    res.status(200).json({ msg: "Providers Found!", providers });
-      console.log("Providers Found!", providers[0]);
+      res.status(400).json({ msg: "Providers Doesn't Exist." });
+    }
+    else{
+      res.status(200).json({ msg: "Providers Found!", providers });
+      console.log("Providers Found!", providers);
+    }
   } catch (error) {
     console.log(error);
   }
 };
+
 module.exports = {
   getProfession,
   getProviders,
