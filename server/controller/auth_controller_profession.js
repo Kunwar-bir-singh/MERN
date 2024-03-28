@@ -89,7 +89,7 @@ const getProviders = async (req, res) => {
     }
     else{
       res.status(200).json({ msg: "Providers Found!", providers });
-      console.log("Providers Found!", providers);
+      console.log("Providers Found!");
     }
   } catch (error) {
     console.log(error);

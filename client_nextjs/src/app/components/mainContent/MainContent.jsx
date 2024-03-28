@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-const MainContent = () => {
-    const [res, setRes] = useState(null);
+import "./mainContent.scss";
+import Response from "./response/Response";
 
+const MainContent = () => {
+  const [res, setRes] = useState(null);
   const search = async () => {
     try {
       let queryString = `name=${input.name
@@ -41,50 +43,49 @@ const MainContent = () => {
   };
   return (
     <>
-      <div>
-        <input
-          className="p-1 m-1 border-2 border-slate-950	 text-lg"
-          type="text"
-          name="name"
-          onChange={getInput}
-          value={input.profession}
-          id=""
-        />
-        <input
-          className="p-1 m-1 border-2 border-slate-950	 text-lg"
-          type="text"
-          name="city"
-          onChange={getInput}
-          value={input.city}
-          id=""
-        />
-        <button
-          onClick={search}
-          className="p-2 m-4 bg-pink-800 text-lg text-white rounded-lg "
-        >
-          Search
-        </button>
+      <div className="content_container">
+        <div className="card">
+          <label className="input">
+            <input
+              className="input__field mb-5"
+              type="text"
+              name="name"
+              onChange={getInput}
+              value={input.name}
+              id=""
+              placeholder=" "
+            />
+            <span className="input__label">Profession</span>
+          </label>
+          <label className="input">
+            <input
+              className="input__field"
+              type="text"
+              name="city"
+              onChange={getInput}
+              value={input.city}
+              id=""
+              placeholder=" "
+            />
+            <span className="input__label">City</span>
+          </label>
+          <div className="button-group">
+            <button onClick={search}>Send</button>
+            <button
+              type="reset"
+              onClick={() => {
+                setInput({
+                  name: "",
+                  city: "",
+                });
+              }}
+            >
+              Reset
+            </button>
+          </div>
+        </div>
+        <Response res={res} />
       </div>
-        <table>
-        <tbody>
-          {res == null ? (
-            "Enter The Profession To Be Searched."
-          ) : res.hasOwnProperty("name") ? (
-              <tr>
-              <td>
-              <Link href={`/routes/profession/${encodeURIComponent(res.name)}/${encodeURIComponent(res.city)}`}>
-                {res.name}
-                </Link>
-                </td>
-              <td>{res.city}</td>
-            </tr>
-          ) : (
-            <tr>
-              <td>{res.msg}</td>
-            </tr>
-          )}
-        </tbody>
-      </table>
     </>
   );
 };
