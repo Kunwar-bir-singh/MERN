@@ -84,7 +84,8 @@ mark {
     border: 3px solid currentColor;
     padding: calc(var(--size-bezel) * 1.5) var(--size-bezel);
     color: currentColor;
-    background: transparent;
+    background-color: white !important    ;
+    outline: none;
     border-radius: var(--size-radius);
     
     &:focus,

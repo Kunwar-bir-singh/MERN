@@ -7,12 +7,10 @@ const MainContent = dynamic(() => import('./components/mainContent/MainContent')
 const page = () => {
   return (
     <>
-      <div className="container">
-        <div className="content">
+    <div>
           <Navbar/>
           <MainContent/>
         </div>
-      </div>
     </>
   );
 };
