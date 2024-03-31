@@ -12,12 +12,45 @@
   height: 100px;
   width: 100vw;
   background-color: aliceblue;
-  justify-content:space-between;
+  justify-content: space-between;
   align-items: center;
-  padding: 0 30px  0 10px;
+  padding: 0 30px 0 10px;
 }
+.profile img {
+  --s: 80px; /* image size */
+  --b: 2px; /* border thickness */
+  --c: #ae3ec9; /* border color */
+  --cb: #e9ecef; /* background color */
+  --f: 1; /* initial scale */
 
+  width: var(--s);
+  /* aspect-ratio: 1; */
+  padding-top: 10px;
+  margin-right: 10px;
+  cursor: pointer;
+  border-radius: 0 0 999px 999px;
+  --_g: 50% / calc(100% / var(--f)) 100% no-repeat content-box;
+  --_o: calc((1 / var(--f) - 1) * var(--s) / 2 - var(--b));
+  outline: var(--b) solid var(--c);
+  outline-offset: var(--_o);
+  background: radial-gradient(
+      circle closest-side,
+      var(--cb) calc(99% - var(--b)),
+      var(--c) calc(100% - var(--b)) 99%,
+      #0000
+    )
+    var(--_g);
+  -webkit-mask: linear-gradient(#000 0 0) no-repeat 50% calc(1px - var(--_o)) /
+      calc(100% / var(--f) - 2 * var(--b) - 2px) 50%,
+    radial-gradient(circle closest-side, #000 99%, #0000) var(--_g);
+  transform: scale(var(--f));
+  transition: 0.5s;
+}
+.profile img:hover {
+  --f: 1.4; /* hover scale */
+}
 .login_button button {
+  margin: 0% !important;
   padding: 15px 25px;
   border: unset;
   border-radius: 15px;
@@ -27,13 +60,13 @@
   position: relative;
   font-weight: 1000;
   font-size: 17px;
-  -webkit-box-shadow: 4px 8px 19px -3px rgba(0,0,0,0.27);
-  box-shadow: 4px 8px 19px -3px rgba(0,0,0,0.27);
+  -webkit-box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
+  box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
   transition: all 250ms;
   overflow: hidden;
- }
- 
- .login_button button::before {
+}
+
+.login_button button::before {
   content: "";
   position: absolute;
   top: 0;
@@ -43,15 +76,15 @@
   border-radius: 15px;
   background-color: #212121;
   z-index: -1;
-  -webkit-box-shadow: 4px 8px 19px -3px rgba(0,0,0,0.27);
-  box-shadow: 4px 8px 19px -3px rgba(0,0,0,0.27);
-  transition: all 250ms
- }
- 
- .login_button button:hover {
+  -webkit-box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
+  box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
+  transition: all 250ms;
+}
+
+.login_button button:hover {
   color: #e8e8e8;
- }
- 
- .login_button button:hover::before {
+}
+
+.login_button button:hover::before {
   width: 100%;
- }
+}

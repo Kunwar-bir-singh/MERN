@@ -17,7 +17,7 @@ const userSchema = new mongoose.Schema({
         type:String,
         require: true,
     },
-    isAdmin:{
+    isProvider:{
         type:Boolean,
         default: false,
     }
@@ -27,7 +27,6 @@ userSchema.methods.generateToken = async function() {
     try {
         return jwt.sign({
             userID: this._id.toString(),
-            phone: this.phone,
             isAdmin: this.isAdmin,
         },
         process.env.JWT_Key,{

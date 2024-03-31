@@ -1,35 +1,49 @@
 const User = require("../models/user_model");
+const jsonwebtoken = require('jsonwebtoken');
+
 const bcrypt = require("bcrypt");
-const home = (req, res) => {
+
+const clearCookies = (req, res) => {
   try {
-    res.send("Auth Controller Working");
+    res.clearCookie('token');
+    res.json({msg : "Cookies Cleared"});
+    // res.send('Cookie cleared successfully');
   } catch (error) {
-    console.log("Some error has occured.", error);
+    console.log(error);
   }
 };
 
-const login = async (req, res)=>{
-    try {
-       const {phone , password} = req.body;
-       const userExists = await User.findOne({phone});
-       if(!userExists){
-        res.status(401).json({msg:"User Doesnt Exists."});
-       }
-       else{
-        const checkPassword = await bcrypt.compare(password , userExists.password);
-        if(checkPassword){
-            res.status(200).json({msg: "User Logged In Successfully", token: await  userExists.generateToken() , userId : userExists._id.toString()});
-            console.log("Sucessful Login");
-        }
-        else{
-            res.status(400).json({msg: "Login Credentails Are Wrong"});
-            console.log(" Credentails Are Wrong");
-        }
-       }
-    } catch (error) {
-        console.log("Error While Logging" , error);
+const login = async (req, res) => {
+  try {
+    const { phone, password } = req.body;
+    const userExists = await User.findOne({ phone });
+    if (!userExists) {
+      return res.status(401).json({ msg: "User Doesn't Exist." });
     }
-}
+
+    const checkPassword = await bcrypt.compare(password, userExists.password);
+    if (!checkPassword) {
+      return res.status(400).json({ msg: "Incorrect Password" });
+    }
+
+    const token = await userExists.generateToken();
+    // res.cookie('token',token, { httpOnly: true});
+    res.cookie('token',token);
+
+    res.status(200).json({
+      msg: "User Logged In Successfully",
+      token,
+      userId: userExists._id.toString(),
+    });
+
+    console.log("Successful Login","Token : ", token); 
+    
+  } catch (error) {
+    console.log("Error While Logging", error);
+    res.status(500).json({ msg: "Internal Server Error" });
+  }
+};
+
 
 const register = async (req, res) => {
   try {
@@ -46,18 +60,25 @@ const register = async (req, res) => {
         phone,
         password: hashedPassword,
       });
-      const token = await userCreated.generateToken()
-      res.status(201).json({ msg: "User Created Sucessfully" , token , userID:userCreated._id.toString()});
+
+      const token = await userCreated.generateToken();
+      res
+        .status(201)
+        .json({
+          msg: "User Created Sucessfully",
+          token,
+          userID: userCreated._id.toString(),
+        });
       console.log("User Created Successfully bkl", token);
     }
   } catch (error) {
-    res.status(401).json({msg:"Error While Registering."})
+    res.status(401).json({ msg: "Error While Registering." });
     console.log("Some Error While Registering.", error);
   }
 };
 
 module.exports = {
-  home,
+  clearCookies,
   register,
   login,
 };

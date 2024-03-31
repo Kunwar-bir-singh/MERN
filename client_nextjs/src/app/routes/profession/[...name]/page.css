@@ -22,12 +22,12 @@
   max-width: 439px;
   min-width: 439px;
   height: 197px;
-  background-color: lightblue;
+
   display: flex;
   padding: 13px;
 
   position: relative;
-  background-color: #f2f8f9;
+
   border-radius: 10px;
   text-decoration: none;
   z-index: 0;

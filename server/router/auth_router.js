@@ -1,9 +1,9 @@
 const express = require('express');
-const {home , register ,login} = require('../controller/auth_controller_user');
+const {clearCookies , register ,login} = require('../controller/auth_controller_user');
 
 const router = express.Router();
 
-router.get('/', home);
+router.get('/clearCookies', clearCookies);
 router.post('/registerUser', register);
 router.post('/loginUser', login);
 

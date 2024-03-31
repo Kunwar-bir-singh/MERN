@@ -25,6 +25,10 @@ const ProviderSchema = new mongoose.Schema({
     type: String,
     require: false,
   },
+  isProvider:{
+    type:Boolean,
+    default: true,
+}
 });
 
 const Provider = new mongoose.model("Provider", ProviderSchema);

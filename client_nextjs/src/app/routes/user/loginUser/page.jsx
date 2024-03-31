@@ -22,14 +22,15 @@ const page = () => {
         try {
             const response  = await fetch("http://localhost:3001/api/auth/loginUser" , {
                 method :"POST",
+                credentials: 'include',
                 headers :{
                     "Content-Type":"application/json"
                 },
                 body:JSON.stringify(input)
             })
             if(response.ok){
-                localStorage.setItem("token", res_data.token);
-                console.log("User Login Successfull")
+                const data = await response.json();
+                console.log("User Login Successfull" , data.Token);
                 setInput({
                     phone:"",
                     password:""
@@ -44,6 +45,7 @@ const page = () => {
     }
   return (
     <>
+    <div className="user_form_container">
     <form onSubmit={submitHandler}>
         <h3>Login Here</h3>
         <label htmlFor="phone">Phone</label>
@@ -58,6 +60,7 @@ const page = () => {
           <div className="fb"><i className="fab fa-facebook"></i>  Facebook</div>
         </div>
     </form>
+    </div>
     </>
   );
 };

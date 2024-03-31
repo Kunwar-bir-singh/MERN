@@ -8,7 +8,6 @@ const page = () => {
   return (
     <>
     <div>
-          <Navbar/>
           <MainContent/>
         </div>
     </>
