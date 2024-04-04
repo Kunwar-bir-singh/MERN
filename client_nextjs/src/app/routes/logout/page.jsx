@@ -1,3 +1,4 @@
+'use client'
 import React from 'react'
 
   const handleClick = async ()=>{
@@ -5,8 +6,6 @@ import React from 'react'
       const reponse = await fetch('http://localhost:3001/api/auth/clearCookies' , {
         credentials: 'include'
       });
-      const log = await reponse.json();
-      console.log(log);
     } catch (error) {
       console.log(error);
     }
@@ -14,8 +13,10 @@ import React from 'react'
 
 const Logout = () => {
   return (
-    <>
-    </>
+    <button className='p-2 bg-orange-600 text-white border-2' onClick={handleClick }>
+        Logout
+    </button>
+
   )
 }
 

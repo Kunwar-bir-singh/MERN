@@ -7,14 +7,14 @@ const createProfession = async (req, res) => {
     const professionExists = await Profession.findOne({ name, city });
     if (professionExists) {
       console.log("Profession Already Exists.");
-      res.status(400).json({ msg: "Profession Already Exists" });
+      res.status(400).json({ msg: `The Profession In ${city}  Already Exists` ,success: "true"} );
     } else {
       const professionCreated = await Profession.create({
         name,
         city,
       });
       console.log("Profession Created");
-      res.status(201).json({ msg: "Profession Created", professionCreated });
+      res.status(201).json({ msg: `Profession named "${name}"  Created In ${city} `,sucess : "true" , professionCreated });
     }
   } catch (error) {
     console.log(error);

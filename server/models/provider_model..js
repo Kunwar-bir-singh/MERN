@@ -31,5 +31,19 @@ const ProviderSchema = new mongoose.Schema({
 }
 });
 
+ProviderSchema.methods.generateToken = async function() {
+  try {
+      return jwt.sign({
+          userID: this._id.toString(),
+          isAdmin: this.isAdmin,
+      },
+      process.env.JWT_Key,{
+          expiresIn: "1d",
+      });
+  } catch (error) {
+      console.log(error);
+  }
+}
+
 const Provider = new mongoose.model("Provider", ProviderSchema);
 module.exports = Provider;

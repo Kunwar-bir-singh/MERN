@@ -3,6 +3,26 @@ const jsonwebtoken = require('jsonwebtoken');
 
 const bcrypt = require("bcrypt");
 
+const jwtVerify = async (req, res , next)=>{
+  try {
+    const token = req.headers.authorization?.split(' ')[1];
+    if(!token) { 
+      return res.status(401).json({msg : "No Token Provided"});
+    } 
+    
+    const decoded = jsonwebtoken.verify(token , process.env.JWT_KEY);
+    try {
+      return res.status(200).json({msg : "Token Verified!" , valid : true , decoded});
+    } catch (error) {
+      return res.status(401).json({msg : "Invalid Token" , error});
+    }
+  } catch (error) {
+    return res.status(401).json({msg : "Server Error" , error});
+    console.log(error);
+  }
+
+}
+
 const clearCookies = (req, res) => {
   try {
     res.clearCookie('token');
@@ -81,4 +101,5 @@ module.exports = {
   clearCookies,
   register,
   login,
+  jwtVerify,
 };

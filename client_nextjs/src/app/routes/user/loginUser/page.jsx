@@ -1,7 +1,9 @@
 'use client'
 import React, { useState } from "react";
 import "./login.css";
+import { useRouter } from "next/navigation";
 const page = () => {
+    const router = useRouter();
     const [input, setInput] = useState({
         phone:"",
         password:""
@@ -31,10 +33,12 @@ const page = () => {
             if(response.ok){
                 const data = await response.json();
                 console.log("User Login Successfull" , data.Token);
+                router.push('/')
                 setInput({
                     phone:"",
                     password:""
                 })
+
             }
             else{
                 console.log("Some Error Has Occured.");
@@ -54,7 +58,7 @@ const page = () => {
         <label htmlFor="password">Password</label>
         <input type="password" placeholder="Password" id="password" onChange={inputHandler} name="password" value={input.password}/>
 
-        <button>Log In</button>
+        <button className="user_login_button">Log In</button>
         <div className="social">
           <div className="go"><i className="fab fa-google"></i>  Google</div>
           <div className="fb"><i className="fab fa-facebook"></i>  Facebook</div>
