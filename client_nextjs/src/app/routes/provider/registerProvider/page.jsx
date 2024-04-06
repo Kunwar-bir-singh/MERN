@@ -20,29 +20,27 @@ const page = () => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    console.log(input);
+    // console.log(input);
     try {
-      const response = await fetch(
-        "http://localhost:3001/api/authProvider/registerProvider",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(input),
-        }
-      );
+      const response = await fetch("http://localhost:3001/api/authProvider/registerProvider", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(input),
+      });
+      const res = await response.json();
+      console.log(res);
       if (response.ok) {
-        const res_data = await response.json();
-        localStorage.setItem("token", res_data.token);
+        // const res_data = await response.json();
         console.log("Registration Successfull");
-        setInput({
-          profession: "",
-          username: "",
-          password: "",
-          phone: "",
-          city: "",
-        });
+        // setInput({
+        //   profession: "",
+        //   username: "",
+        //   phone: "",
+        //   password: "",
+        //   city: "",
+        // });
       }
     } catch (error) {
       console.log(error);
@@ -56,7 +54,7 @@ const page = () => {
         <input
           type="text"
           placeholder="Profession Name"
-          id="username"
+          id="profession"
           onChange={inputHandler}
           name="profession"
           value={input.profession}

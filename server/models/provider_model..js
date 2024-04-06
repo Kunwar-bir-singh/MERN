@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const jwt = require('jsonwebtoken');
 
 const ProviderSchema = new mongoose.Schema({
   profession: {
@@ -35,7 +36,7 @@ ProviderSchema.methods.generateToken = async function() {
   try {
       return jwt.sign({
           userID: this._id.toString(),
-          isAdmin: this.isAdmin,
+          isProvider: this.isProvider,  
       },
       process.env.JWT_Key,{
           expiresIn: "1d",

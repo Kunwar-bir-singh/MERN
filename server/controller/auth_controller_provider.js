@@ -1,41 +1,55 @@
 const Provider = require("../models/provider_model.");
 const bcrypt = require('bcrypt');
 
-const registerProvider = async (req ,res ) =>{
-    try {
-      const {profession, fullname,password ,phone,address,city} = req.body;
-      const providerExist = await Provider.findOne({phone});
-      if(providerExist){
-        res.status(400).json({msg:"Provider Aleady Exists , Please Login"});
-      }
-      else{
-        const hashedPassword = await bcrypt.hash(password ,10);
-        const providerCreated = await Provider.create({
-            profession, fullname,password:hashedPassword ,phone,address,city
-        });
-        
-        res.status(201).json({msg:"Provider Created Successfully."});
-        console.log("Provider Created");
-      }
-
-    } catch (error) {
-        console.log(error);
-    }
-}
+const registerProvider = async (req, res) => {
+  try {
+     const { profession, username, password, phone, address, city } = req.body;
+     const providerExists = await Provider.findOne({ phone });
+     if (providerExists) {
+       return res.status(400).json({ msg: "Provider Already Exists, Please Login" });
+     } else {
+       const hashedPassword = await bcrypt.hash(password, 10);
+       const providerCreated = await Provider.create({
+         profession,
+         username,
+         password: hashedPassword,
+         phone,
+         address,
+         city,
+       });
+ 
+       return res.status(201).json({ msg: "Provider Created Successfully." });
+     }
+  } catch (error) {
+     console.log(error);
+     return res.status(500).json({ msg: "Server Error" });
+  }
+ };
+ 
 
 const loginProvider = async (req , res)=>{
   try {
     const {phone , password} = req.body;
-    const providerExist = await Provider.findOne({phone});
-    if(!providerExist){
-      console.log("Create A Provider");
+    const providerExists = await Provider.findOne({phone});
+    if(!providerExists){
+      console.log("Create A Provider First");
       res.status(400).json({msg:"Provider Doesn't Exists"});
     }
     else{
-      const comparePass = await bcrypt.compare(password , providerExist.password);
+      const comparePass = await bcrypt.compare(password , providerExists.password);
       if(comparePass){
         console.log("Provider Exists!!");
-      res.status(200).json({msg:"Successful login"});
+
+        const token = await providerExists.generateToken();
+        res.cookie('token',token);
+
+        res.status(200).json({
+          msg: "Provider Logged In Successfully",
+          token,
+          userId: providerExists._id.toString(),
+        });
+    
+        console.log("Successful Login As Provider","Token : ", token); 
       }
       else{
         console.log("Invalid Credentails");
@@ -44,6 +58,7 @@ const loginProvider = async (req , res)=>{
     }
   } catch (error) {
     console.log(error);
+    res.status(400).json({msg:"Server Error While Provider Login"});
   }  
 }
 

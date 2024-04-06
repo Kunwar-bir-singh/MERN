@@ -20,16 +20,17 @@ const page = () => {
         console.log(input)
         
         try {
-            const response  = await fetch("http://localhost:3001/api/auth/loginProvider" , {
+            const response  = await fetch("http://localhost:3001/api/authProvider/loginProvider" , {
                 method :"POST",
+                credentials: 'include',
                 headers :{
                     "Content-Type":"application/json"
                 },
                 body:JSON.stringify(input)
             })
+            const jsonResponse = await response.json();
             if(response.ok){
-                localStorage.setItem("token", res_data.token);
-                console.log("User Login Successfull")
+                console.log("User Login Successfull" ,jsonResponse)
                 setInput({
                     phone:"",
                     password:""

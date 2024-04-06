@@ -56,7 +56,7 @@ const login = async (req, res) => {
       userId: userExists._id.toString(),
     });
 
-    console.log("Successful Login","Token : ", token); 
+    console.log("Successful Login ","Token : ", token); 
     
   } catch (error) {
     console.log("Error While Logging", error);

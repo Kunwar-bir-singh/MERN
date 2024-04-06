@@ -30,7 +30,6 @@ const page = () => {
       });
       if (response.ok) {
         const res_data = await response.json();
-        localStorage.setItem("token", res_data.token);
         console.log("Registration Successfull");
         setInput({
           username: "",
