@@ -2,33 +2,34 @@
 import React, { useEffect, useState } from "react";
 import "./createProfession.css";
 import Link from "next/link";
-import LinkProfession from '../../components/linkProfession/LinkProfession';
+import LinkProfession from "@/app/components/LinkProfession/LinkProfession";
+
 
 const page = () => {
   const [input, setInput] = useState({
     name: "",
     city: "",
   });
-  const [apiResponse, setApiResponse] = useState({});
+
   const getInput = async (e) => {
     const { name, value } = e.target;
     setInput({
       ...input,
-      [name]: value,
+      [name]: value.toLowerCase(),
     });
   };
 
-  const linkProfession = async () => {
-    try {
-      const api = await fetch();
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const [apiResponse, setApiResponse] = useState({});
 
+  const [responseStatus, setResponseStatus] = useState({});
+  const handleStatus = (status) => {
+    setResponseStatus(status);
+  };
+  
   useEffect(() => {
-    console.log(apiResponse);
-  }, [apiResponse]);
+    console.log(responseStatus.msg);
+    console.log(responseStatus.code);
+  }, [responseStatus]);
 
   const submit = async (e) => {
     e.preventDefault();
@@ -46,7 +47,7 @@ const page = () => {
       }
     );
     const result = await api.json();
-    console.log(result);
+    console.log("The Result of the api " ,result);
     setApiResponse(result);
   };
 
@@ -85,7 +86,9 @@ const page = () => {
         <div>{apiResponse.msg}</div>
         <div>
           {apiResponse.success == "true" ? (
-            <button onClick={<LinkProfession/>}> Want to link with that profesison?</button>
+            <div>
+              <LinkProfession params={input} onResponse={handleStatus}/>
+            </div>
           ) : (
             <></>
           )}
