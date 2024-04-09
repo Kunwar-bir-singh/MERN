@@ -1,23 +1,29 @@
-'use client'
-import React from 'react'
+  'use client'
+  import { useRouter } from "next/navigation";
+  import React, { useEffect } from "react";
+  const Logout = () => {
+    const router = useRouter();
 
-  const handleClick = async ()=>{
-    try {
-      const reponse = await fetch('http://localhost:3001/api/auth/clearCookies' , {
-        credentials: 'include'
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  }
+    const handleClick = async () => {
+      try {
+        const reponse = await fetch("http://localhost:3001/api/auth/clearCookies", {
+          credentials: "include",
+        });
+        router.push("/");
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    
+    useEffect(() => {
+      handleClick();
+    }, []);
+    return (
+      // <button className='p-2 bg-orange-600 text-white border-2' onClick={handleClick }>
+      //     Logout
+      // </button>
+      null
+    );
+  };
 
-const Logout = () => {
-  return (
-    <button className='p-2 bg-orange-600 text-white border-2' onClick={handleClick }>
-        Logout
-    </button>
-
-  )
-}
-
-export default Logout
+  export default Logout;

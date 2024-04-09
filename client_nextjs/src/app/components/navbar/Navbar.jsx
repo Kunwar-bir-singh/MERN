@@ -8,6 +8,9 @@ import Logout from "@/app/routes/logout/page";
 const Navbar = () => {
   const [loggedIn, setLoggedIn] = useState(null);
 
+  const logUserOut = () =>{
+    <Logout/>
+  }
   useEffect(() => {
     // Check if JWT token cookie exists
     const tokenCookie = document.cookie
@@ -47,9 +50,8 @@ const Navbar = () => {
                           </button>
                       </a>
                       <li>
-                        <a href="#">
-                          <Logout />
-                        </a>
+                        <button onClick={logUserOut}>Logout
+                          </button>
                       </li>
                     </ul>
                   </li>
