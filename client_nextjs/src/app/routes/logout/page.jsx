@@ -3,7 +3,6 @@
   import React, { useEffect } from "react";
   const Logout = () => {
     const router = useRouter();
-
     const handleClick = async () => {
       try {
         const reponse = await fetch("http://localhost:3001/api/auth/clearCookies", {

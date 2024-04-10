@@ -4,13 +4,16 @@ import "./Navbar.css";
 import "./Buttons.css";
 import Link from "next/link";
 import Logout from "@/app/routes/logout/page";
+import { useRouter } from "next/navigation";
 
 const Navbar = () => {
   const [loggedIn, setLoggedIn] = useState(null);
+  const router = useRouter();
 
   const logUserOut = () =>{
-    <Logout/>
+    router.push('http://localhost:3000/routes/logout');
   }
+  
   useEffect(() => {
     // Check if JWT token cookie exists
     const tokenCookie = document.cookie
