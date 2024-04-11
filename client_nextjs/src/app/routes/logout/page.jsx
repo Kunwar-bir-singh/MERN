@@ -8,6 +8,7 @@
         const reponse = await fetch("http://localhost:3001/api/auth/clearCookies", {
           credentials: "include",
         });
+        // router.reload();  
         router.push("/");
       } catch (error) {
         console.log(error);
