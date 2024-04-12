@@ -1,6 +1,7 @@
 import React from "react";
 import "./Response.css";
 import Link from "next/link";
+import LinkProfession from "../../LinkProfession/LinkProfession";
 
 const Response = ({ res }) => {
   console.log(res);
@@ -13,9 +14,14 @@ const Response = ({ res }) => {
           </div>
         ) : res.hasOwnProperty("name") ? (
           <div className="response_card">
+            <Link href={'/routes/linkProfession'}>
+            <span className="response_above-text">
+              Want To Link With This Profession?
+            </span>
+            </Link>
             <div className="response_border"></div>
             <div className="response_content">
-                  <h2>Profession Found!</h2>
+              <h2>Profession Found!</h2>
               <span className="response_logo-bottom-text">
                 <div>
                   <Link
@@ -23,12 +29,14 @@ const Response = ({ res }) => {
                       res.name
                     )}/${encodeURIComponent(res.city)}`}
                   >
-                      List of providers
+                    List of providers
                   </Link>
                 </div>
               </span>
             </div>
-            <span className="response_bottom-text">Number of providers : {res.provider.length}</span>
+            <span className="response_bottom-text">
+              Number of providers : {res.provider.length}
+            </span>
           </div>
         ) : (
           <div>
