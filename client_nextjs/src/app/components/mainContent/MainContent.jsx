@@ -5,6 +5,8 @@ import Response from "./response/Response";
 
 const MainContent = () => {
   const [res, setRes] = useState(null);
+  const [cookieValue , setCookievalue] = useState("");
+
   const search = async () => {
     try {
       let queryString = `name=${input.name
@@ -16,6 +18,7 @@ const MainContent = () => {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${cookieValue}`,
           },
         }
       );
@@ -27,6 +30,10 @@ const MainContent = () => {
   };
 
   useEffect(() => {}, [res]);
+  useEffect(() => {
+    const cookie = document.cookie.slice(6);
+    setCookievalue(cookie);
+  }, []);
 
   const [input, setInput] = useState({
     name: "",
@@ -84,7 +91,7 @@ const MainContent = () => {
             </button>
           </div>
         </div>
-        <Response res={res} />
+        <Response inputData={input} res={res} />
       </div>
     </>
   );

@@ -30,6 +30,7 @@ const createProfession = async (req, res) => {
         });
     }
   } catch (error) {
+    res.status(500).json({msg:"Internal Server Error"})
     console.log(error);
   }
 };
@@ -37,15 +38,27 @@ const createProfession = async (req, res) => {
 const getProfession = async (req, res) => {
   try {
     const { name, city } = req.query;
+    const token = req.headers.authorization?.split(' ')[1];
+    console.log(token);
+    let isProvider = false; 
+    try {
+      const providerID = jwt.verify(token, process.env.JWT_KEY);
+      console.log(providerID);
+    } catch (error) {
+      console.log(error);
+    }
     const professionExists = await Profession.findOne({ name, city });
 
     if (!professionExists) {
       res.status(400).json({
         msg: "No results found. Ensure Details are Correct or Create That Profession",
       });
+      console.log("Profession Isn't Found :( ");
     } else {
       const numberOfProviders = professionExists.provider.length;
-      res.status(200).json(professionExists);
+      // res.status(200).json({professionExists , isProvider});
+      res.status(200).json({professionExists , code : 1});
+      console.log("Profession Found :) ");
     }
   } catch (error) {
     res.status(500).json({ msg: "Some Internal Server Error" });
@@ -55,11 +68,11 @@ const getProfession = async (req, res) => {
 
 const editProfession = async (req, res) => {
   try {
-    const providerId = req.cookies.token;
+    const token = req.headers.authorization?.split(' ')[1];
     const profession_city = req.query;
-    const providerID = jwt.verify(providerId , process.env.JWT_KEY).userID;
+    const providerID = jwt.verify(token, process.env.JWT_KEY).userID;
+    console.log(providerID);
     
-    // console.log(decodedToken.userID);
     // console.log(profession_city.city);
     // console.log(profession_city.name);
 
@@ -89,6 +102,7 @@ const editProfession = async (req, res) => {
       console.log("Some Error Has Occcured");
     }
   } catch (error) {
+    res.status(500).json({msg:"Internal Server Error"})
     console.log(error);
   }
 };

@@ -10,11 +10,14 @@ export async function middleware(request) {
       "/routes/choose",
       "/routes/user/loginUser",
       "/routes/user/registerUser",
+      "/routes/provider/loginProvider",
+      "/routes/provider/registerProvider",
     ];
     if (!allowedPaths.includes(request.nextUrl.pathname)) {
       return NextResponse.redirect("http://localhost:3000/"); // Redirect to the home page
     }
   } else {
+    console.log("Middleware cookie : ", cookie.value);
     const response = await fetch("http://localhost:3001/api/auth/jwtVerify", {
       method: "POST",
       headers: {

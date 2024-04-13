@@ -4,8 +4,12 @@ import "./createProfession.css";
 import Link from "next/link";
 import LinkProfession from "@/app/components/LinkProfession/LinkProfession";
 
-
 const page = () => {
+  const [linkClicked, setLinkClicked] = useState(false);
+  const linkClickedOrNot = () => {
+    setLinkClicked(true);
+  };
+
   const [input, setInput] = useState({
     name: "",
     city: "",
@@ -22,18 +26,19 @@ const page = () => {
   const [apiResponse, setApiResponse] = useState({});
 
   const [responseStatus, setResponseStatus] = useState({});
+
   const handleStatus = (status) => {
     setResponseStatus(status);
   };
-  
+
   useEffect(() => {
-    console.log(responseStatus.msg);
-    console.log(responseStatus.code);
+    console.log("responseStatus.msg : ", responseStatus.msg);
+    console.log("responseStatus.code", responseStatus.code);
   }, [responseStatus]);
 
   const submit = async (e) => {
     e.preventDefault();
-    if((input.name || input.city)==""){
+    if ((input.name || input.city) == "") {
       return apiResponse;
     }
     const api = await fetch(
@@ -47,7 +52,7 @@ const page = () => {
       }
     );
     const result = await api.json();
-    console.log("The Result of the api " ,result);
+    console.log("The Result of the api ", result);
     setApiResponse(result);
   };
 
@@ -86,9 +91,16 @@ const page = () => {
         <div>{apiResponse.msg}</div>
         <div>
           {apiResponse.success == "true" ? (
-            <div>
-              <LinkProfession params={input} onResponse={handleStatus}/>
-            </div>
+            <>
+              <div className="" onClick={linkClickedOrNot}>
+                Want To Link With This Profession?
+              </div>
+              <div>
+                {linkClicked && (
+                  <LinkProfession params={input} onResponse={handleStatus} />
+                )}
+              </div>
+            </>
           ) : (
             <></>
           )}
