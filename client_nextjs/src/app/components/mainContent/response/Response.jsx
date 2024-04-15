@@ -1,20 +1,25 @@
 import React, { useEffect, useState } from "react";
 import "./Response.css";
 import Link from "next/link";
-import LinkProfession from "../../LinkProfession/LinkProfession";
+import LinkProfession from "../../linkProfession/LinkProfession";
+import CookieValue from "../../cookieValue/CookieValue";
+
 
 const Response = ({ inputData, res }) => {
 
   console.log("Response of Response.jsx " ,res);
   const [linkClicked, setLinkClicked] = useState(false);
   const [linkProfesRes, setLinkProfesRes] = useState(null)
+  const [key, setKey] = useState(Date.now());
 
   const linkClickedOrNot = () => {
      setLinkClicked(true);
+     setTimeout(()=>{
+      setLinkClicked(false);
+     },1000)
   };
 
   const onResponse = (response) =>{
-    console.log('Response received:', response);
     setLinkProfesRes(response);
   }
 
@@ -22,10 +27,16 @@ const Response = ({ inputData, res }) => {
     console.log("Value of linkProfesRes " ,linkProfesRes);
   }, [linkProfesRes])
 
+  useEffect(() => {
+    if (res && res.code === 1) {
+      setKey(Date.now()); // Update the key to force re-render
+    }
+ }, [res])
   
   return (
     <>
-      <div className="response_area">
+    <CookieValue/>
+      <div className="response_area" key={key}>
         {res == null ? (
           <div>
             <h2>Enter The Profession To Be Searched.</h2>
@@ -36,6 +47,7 @@ const Response = ({ inputData, res }) => {
               Want To Link With This Profession?
             </div>
             {linkClicked && (<LinkProfession params={inputData} onResponse={onResponse} />)}
+
             <div className="response_border"></div>
             <div className="response_content">
               <h2>Profession Found!</h2>

@@ -1,20 +1,23 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import "./createProfession.css";
-import Link from "next/link";
-import LinkProfession from "@/app/components/LinkProfession/LinkProfession";
+import LinkProfession from "@/app/components/linkProfession/LinkProfession";
+import CookieValue from "@/app/components/cookieValue/CookieValue";
 
 const page = () => {
   const [linkClicked, setLinkClicked] = useState(false);
   const linkClickedOrNot = () => {
     setLinkClicked(true);
+    setTimeout(()=>{
+      setLinkClicked(false);
+    },1000)
   };
-
+  
   const [input, setInput] = useState({
     name: "",
     city: "",
   });
-
+  
   const getInput = async (e) => {
     const { name, value } = e.target;
     setInput({
@@ -26,7 +29,7 @@ const page = () => {
   const [apiResponse, setApiResponse] = useState({});
 
   const [responseStatus, setResponseStatus] = useState({});
-
+  
   const handleStatus = (status) => {
     setResponseStatus(status);
   };
@@ -35,7 +38,7 @@ const page = () => {
     console.log("responseStatus.msg : ", responseStatus.msg);
     console.log("responseStatus.code", responseStatus.code);
   }, [responseStatus]);
-
+  
   const submit = async (e) => {
     e.preventDefault();
     if ((input.name || input.city) == "") {

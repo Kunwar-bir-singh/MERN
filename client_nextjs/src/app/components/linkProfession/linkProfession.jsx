@@ -1,11 +1,17 @@
-'use client'
+"use client";
 import React, { useEffect, useState } from "react";
-// import { cookies } from "next/headers";
-const LinkProfession = ({ params, onResponse }) => {
+import { toast } from "react-toastify";
+import CookieValue from "../cookieValue/CookieValue";
 
+const LinkProfession = ({ params, onResponse }) => {
+  const [cookieValue, setCookieValue] = useState(null);
   const result = async () => {
-    console.log(params);
-    const cookie = document.cookie.slice(6);
+    const handleCookieValue = (value) => {
+      setCookieValue(value);
+      console.log("Value Of Cookie : ", value);
+    };
+    <CookieValue CookieValueProp={handleCookieValue} />;
+
     const api = await fetch(
       `http://localhost:3001/api/authProfession/editProfession/?city=${params.city}&name=${params.name}`,
       {
@@ -13,26 +19,27 @@ const LinkProfession = ({ params, onResponse }) => {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${cookie}`,
+          Authorization: `Bearer ${123}`,
         },
       }
     );
     const response = await api.json();
     onResponse(response);
-    console.log(response);
+    if (response.code === 0) {
+      toast.warn("You are already linked!");
+    } else if (response.code === 1) {
+      toast.success("Successfully Linked");
+    } else {
+      toast.error("Some Error Has Occcured.");
+    }
+    console.log("Response : " , response);
   };
 
   useEffect(() => {
     result();
   }, []);
 
-
-  return (
-    // <div>
-    //   <button onClick={result}>Want To Link With The Profession?</button>
-    // </div>
-    null
-  );
+  return null;
 };
 
 export default LinkProfession;

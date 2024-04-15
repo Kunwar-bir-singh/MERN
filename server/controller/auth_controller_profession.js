@@ -70,6 +70,7 @@ const editProfession = async (req, res) => {
   try {
     const token = req.headers.authorization?.split(' ')[1];
     const profession_city = req.query;
+    console.log(token);
     const providerID = jwt.verify(token, process.env.JWT_KEY).userID;
     console.log(providerID);
     

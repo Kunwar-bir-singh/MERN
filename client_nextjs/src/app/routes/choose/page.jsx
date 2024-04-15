@@ -8,7 +8,7 @@ const page = () => {
       <div className="login_div">
         <div className="login_register_contents">
           <h1>Join As A User</h1>
-          <Link href={"/routes/user/loginUser"}>
+         <Link href={"/routes/user/loginUser"}>
             <button>Login</button>
           </Link>
           <Link href={"/routes/user/registerUser"}>

@@ -1,7 +1,10 @@
 'use client'
 import React, { useState } from "react";
 import "./login.css";
+import { useRouter } from "next/navigation";
+
 const page = () => {
+    const router = useRouter();
     const [input, setInput] = useState({
         phone:"",
         password:""
@@ -35,6 +38,7 @@ const page = () => {
                     phone:"",
                     password:""
                 })
+                router.push('/')
             }
             else{
                 console.log("Some Error Has Occured.");
