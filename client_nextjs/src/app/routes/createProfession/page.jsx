@@ -2,7 +2,8 @@
 import React, { useEffect, useState } from "react";
 import "./createProfession.css";
 import LinkProfession from "@/app/components/linkProfession/LinkProfession";
-import CookieValue from "@/app/components/cookieValue/CookieValue";
+import { toast } from "react-toastify";
+
 
 const page = () => {
   const [linkClicked, setLinkClicked] = useState(false);
@@ -36,6 +37,7 @@ const page = () => {
 
   useEffect(() => {
     console.log("responseStatus.msg : ", responseStatus.msg);
+    // if(responseStatus.code == 0) toast.warn(responseStatus.msg);
     console.log("responseStatus.code", responseStatus.code);
   }, [responseStatus]);
   
@@ -90,12 +92,12 @@ const page = () => {
           </button>
         </form>
       </div>
-      <div>
-        <div>{apiResponse.msg}</div>
+      <div className="apiResponse">
+        <div className="apiResponse_msg">{apiResponse.msg}</div>
         <div>
           {apiResponse.success == "true" ? (
             <>
-              <div className="" onClick={linkClickedOrNot}>
+              <div className="want_to_click_link" onClick={linkClickedOrNot}>
                 Want To Link With This Profession?
               </div>
               <div>

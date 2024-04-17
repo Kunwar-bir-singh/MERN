@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 import "./Response.css";
 import Link from "next/link";
 import LinkProfession from "../../linkProfession/LinkProfession";
-import CookieValue from "../../cookieValue/CookieValue";
-
 
 const Response = ({ inputData, res }) => {
 
@@ -35,7 +33,6 @@ const Response = ({ inputData, res }) => {
   
   return (
     <>
-    <CookieValue/>
       <div className="response_area" key={key}>
         {res == null ? (
           <div>

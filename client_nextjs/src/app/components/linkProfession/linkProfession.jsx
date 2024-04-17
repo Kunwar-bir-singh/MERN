@@ -4,14 +4,15 @@ import { toast } from "react-toastify";
 import CookieValue from "../cookieValue/CookieValue";
 
 const LinkProfession = ({ params, onResponse }) => {
-  const [cookieValue, setCookieValue] = useState(null);
-  const result = async () => {
-    const handleCookieValue = (value) => {
-      setCookieValue(value);
-      console.log("Value Of Cookie : ", value);
-    };
-    <CookieValue CookieValueProp={handleCookieValue} />;
 
+  const [cookieValue, setCookieValue] = useState(null);
+  
+  const handleCookieValue = (value) => {
+    setCookieValue(value);
+    console.log("Value Of Cookie : ", cookieValue);
+  };
+
+  const result = async () => {
     const api = await fetch(
       `http://localhost:3001/api/authProfession/editProfession/?city=${params.city}&name=${params.name}`,
       {
@@ -19,7 +20,7 @@ const LinkProfession = ({ params, onResponse }) => {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${123}`,
+          Authorization: `Bearer ${cookieValue}`,
         },
       }
     );
@@ -36,10 +37,11 @@ const LinkProfession = ({ params, onResponse }) => {
   };
 
   useEffect(() => {
+    if(cookieValue != null)
     result();
-  }, []);
+  }, [cookieValue]);
 
-  return null;
+  return <CookieValue CookieValueProp={handleCookieValue} />;
 };
 
 export default LinkProfession;

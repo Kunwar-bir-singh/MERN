@@ -2,16 +2,14 @@
     border: 2px solid black;
 }
 .createProfession_container{
-    display: flex;
-    height: 100vh;
-    width: 100%;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
+  display: flex;
+  height: 80vh;
+  width: 100%;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: column;
+  margin-top: 3%;
 }
-html {
-    height: 100%;
-  }
   body {
     margin:0;
     padding:0;
@@ -102,4 +100,38 @@ html {
       .createProfession_btn:active .button_top {
         /* Push the button downwards when pressed */
         transform: translateY(0);
+      }
+
+      .apiResponse{
+        opacity: 0;
+        animation: fadeIn ease-in 0.5s forwards; 
+      }
+
+      .apiResponse_msg{
+        font-size: 1.3vw;
+        margin-top: 10%;
+        font-weight: bold;
+      }
+      .want_to_click_link{
+        color: black;
+        text-align: center;
+        font-size: 1.3vw;
+        font-weight: 500;
+        font-family: sans-serif;
+        margin-top: 1%;
+        cursor: pointer;
+      }
+      .want_to_click_link:hover{
+        text-decoration: underline;
+        transition: 0.2s ease-in-out;
+        font-size: 1.4vw;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0; /* Start with opacity 0 */
+        }
+        to {
+          opacity: 1; /* End with opacity 1 */
+        }
       }
