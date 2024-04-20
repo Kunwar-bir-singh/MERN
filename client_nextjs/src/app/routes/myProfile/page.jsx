@@ -1,9 +1,24 @@
-import React from 'react'
+import React from 'react';
+import './myProfile.css';
 
-const page = () => {
+const Page = () => {
   return (
-    <div>My Profile</div>
-  )
-}
+    <div className='myProfile_body'>
+      <div className='myProfile_container'>
+      <div className='profile_user_img'>
+        <div className='user_img'>
+          {/* <img src="" alt="" srcSet="" /> */}
+        </div>
+        <div className='user_profession'>
 
-export default page
+        </div>
+      </div>
+      <div className='profile_user_details'>
+
+      </div>
+      </div>
+    </div>
+  );
+};
+
+export default Page;

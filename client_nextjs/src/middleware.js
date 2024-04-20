@@ -1,6 +1,5 @@
 "use server";
 import { NextResponse } from "next/server";
-import { cookies } from "next/headers";
 
 export async function middleware(request) {
   const cookie = request.cookies.get("token");

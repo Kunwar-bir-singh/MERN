@@ -9,7 +9,6 @@ const jwtVerify = async (req, res , next)=>{
     if(!token) { 
       return res.status(401).json({msg : "No Token Provided"});
     } 
-    
     const decoded = jsonwebtoken.verify(token , process.env.JWT_KEY);
     try {
       return res.status(200).json({msg : "Token Verified!" , valid : true , decoded});

@@ -1,0 +1,31 @@
+.myProfile_body{
+    height:630px;
+    background-color:aliceblue ;
+}
+.myProfile_container{
+    /* padding-top: 10vh; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* background-color: brown ; */
+    height: 100%;
+    width: 100%;
+}
+.profile_user_img{
+    width: 15%;
+    height: 60%;
+    background-color: green;
+    margin-right: 3%;
+    border-radius: 10px;
+}
+.profile_user_details{
+    width: 45%;
+    height: 60%;
+    background-color: red;
+    border-radius: 10px;
+}
+
+.user_img img{
+    width: 100%;
+    background-image: url('../../components/images/profile.jpg');
+}

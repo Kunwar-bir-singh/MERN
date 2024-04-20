@@ -57,7 +57,7 @@ const page = () => {
         <label htmlFor="password">Password</label>
         <input type="password" placeholder="Password" id="password" onChange={inputHandler} name="password" value={input.password}/>
 
-        <button>Log In</button>
+        <button className="login_provider_btn">Log In</button>
         <div className="social">
           <div className="go"><i className="fab fa-google"></i>  Google</div>
           <div className="fb"><i className="fab fa-facebook"></i>  Facebook</div>
