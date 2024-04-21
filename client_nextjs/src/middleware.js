@@ -36,6 +36,9 @@ export async function middleware(request) {
     }
 
     const decoded = data.decoded;
+    const responseHeader = new NextResponse(NextResponse.next());
+    response.headers.set('Decoded-JWT', JSON.stringify(decoded));
+
     console.log(decoded);
     if (decoded.isProvider) {
       if (request.nextUrl.pathname === "/routes/createProfession") {
