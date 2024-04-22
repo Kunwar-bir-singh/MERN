@@ -6,6 +6,10 @@ const ProviderSchema = new mongoose.Schema({
     type: String,
     require:true
   },
+  fullname: {
+    type: String,
+    require: true,
+  },
   username: {
     type: String,
     require: true,

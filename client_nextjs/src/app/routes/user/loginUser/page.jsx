@@ -2,6 +2,8 @@
 import React, { useState } from "react";
 import "./login.css";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
+
 const page = () => {
     const router = useRouter();
     const [input, setInput] = useState({
@@ -19,8 +21,7 @@ const page = () => {
 
     const submitHandler = async (e)=>{
         e.preventDefault();
-        console.log(input)
-        
+        console.log(input);
         try {
             const response  = await fetch("http://localhost:3001/api/auth/loginUser" , {
                 method :"POST",
@@ -30,18 +31,26 @@ const page = () => {
                 },
                 body:JSON.stringify(input)
             })
-            if(response.ok){
-                const data = await response.json();
-                console.log("User Login Successfull" , data.Token);
-                router.push('/')
+            const data = await response.json();
+            console.log(data);
+            if(data.code === 1){
+                toast.success('User Login Successfull!')
+                console.log("User Login Successfull");
+                setTimeout(()=>{
+                    window.location.href = "/";
+                },1000)
                 setInput({
                     phone:"",
                     password:""
                 })
-
+            }
+            else if (data.code === 0){
+                toast.warn("Incorrect Credentials")
+                console.log("Incorrect Credentials.");
             }
             else{
-                console.log("Some Error Has Occured.");
+                toast.error("Some Error Has Occured!")
+                console.log("Some Error Has Occured!");
             }
         } catch (error) {
             console.log(error);

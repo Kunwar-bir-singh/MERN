@@ -58,10 +58,11 @@
   background-color: #f0f0f0;
 }
 
-.profile_login_button {
-  margin: 0% !important;
+.profile_login_button  {
+  margin: 6%;
+  margin-right: 0%;
   padding: 15px 25px;
-  width: 8%;
+  width: 91px;
   border: unset;
   border-radius: 15px;
   color: #212121;
@@ -70,7 +71,6 @@
   position: relative;
   font-weight: 1000;
   font-size: 17px;
-  -webkit-box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
   box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
   transition: all 250ms;
   overflow: hidden;
@@ -101,12 +101,12 @@
 .menu {
   box-shadow: 0 1px 4px rgb(146 161 176 / 15%);
   height: 100px;
-  width: 100vw;
+  width: 98vw;
   justify-content: space-between;
   display: flex;
   flex-direction: row;
-  padding: 7px 18px 0 0px; 
-  /* margin-bottom: 10px;  */
+  padding: 12px 18px 0 0px;
+  /* margin-bottom: 10px; */
 }
 .profile_login ol{
   width: 100%;

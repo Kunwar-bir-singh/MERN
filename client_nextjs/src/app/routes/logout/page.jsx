@@ -7,9 +7,8 @@
       try {
         const reponse = await fetch("http://localhost:3001/api/auth/clearCookies", {
           credentials: "include",
-        });
-        // router.reload();  
-        router.push("/");
+        });  
+        window.location.href = "/";
       } catch (error) {
         console.log(error);
       }
@@ -19,9 +18,6 @@
       handleClick();
     }, []);
     return (
-      // <button className='p-2 bg-orange-600 text-white border-2' onClick={handleClick }>
-      //     Logout
-      // </button>
       null
     );
   };

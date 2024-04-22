@@ -1,7 +1,10 @@
 const User = require("../models/user_model");
+const Provider = require('../models/provider_model.');
 const jsonwebtoken = require('jsonwebtoken');
+const { ObjectId } = require('mongodb');
 
 const bcrypt = require("bcrypt");
+const { trace } = require("../router/auth_router");
 
 const jwtVerify = async (req, res , next)=>{
   try {
@@ -42,7 +45,7 @@ const login = async (req, res) => {
 
     const checkPassword = await bcrypt.compare(password, userExists.password);
     if (!checkPassword) {
-      return res.status(400).json({ msg: "Incorrect Password" });
+      return res.status(400).json({ msg: "Incorrect Password" , code: 0, });
     }
 
     const token = await userExists.generateToken();
@@ -51,30 +54,32 @@ const login = async (req, res) => {
 
     res.status(200).json({
       msg: "User Logged In Successfully",
-      token,
       userId: userExists._id.toString(),
+      code: 1,
     });
 
     console.log("Successful Login ","Token : ", token); 
     
   } catch (error) {
     console.log("Error While Logging", error);
-    res.status(500).json({ msg: "Internal Server Error" });
+    res.status(500).json({ msg: "Internal Server Error"});
   }
 };
 
 
 const register = async (req, res) => {
   try {
-    const { username, email, phone, password } = req.body;
+    const { username, fullname, email, phone, password } = req.body;
     const UserExits = await User.findOne({ phone });
     if (UserExits) {
-      res.status(200).json({ msg: "User Already Exists" });
+      res.status(200).json({ msg: "User Already Exists" , code : 0 });
       console.log("User Already Exists bsdk.");
+      return;
     } else {
       const hashedPassword = await bcrypt.hash(password, 10);
       const userCreated = await User.create({
         username,
+        fullname,
         email,
         phone,
         password: hashedPassword,
@@ -85,20 +90,43 @@ const register = async (req, res) => {
         .status(201)
         .json({
           msg: "User Created Sucessfully",
-          token,
+          code : 1,
           userID: userCreated._id.toString(),
         });
       console.log("User Created Successfully bkl", token);
     }
   } catch (error) {
-    res.status(401).json({ msg: "Error While Registering." });
+    res.status(401).json({ msg: "Some Error Occured While Registering."});
     console.log("Some Error While Registering.", error);
   }
 };
+
+const getUserDetails = async (req , res ) =>{
+  try {
+    let userType = User;
+    const data = req.body.decoded;
+    console.log(data);
+    if(data.isProvider) userType = Provider;
+
+    const user = await userType.findOne({"_id" : ObjectId.createFromHexString(data.userID)});
+    console.log(user);  
+    if(user){
+      res.status(200).json({msg:"Sucessfully Data Found " , user})
+      console.log("User Successfully Found");
+      return;
+    }
+    console.log("Some Error");
+    res.status(400).json({msg:"Error during Search "})
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({msg:"Some Error has occured. "})
+  }
+}
 
 module.exports = {
   clearCookies,
   register,
   login,
   jwtVerify,
+  getUserDetails,
 };

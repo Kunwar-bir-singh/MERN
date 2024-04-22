@@ -103,7 +103,7 @@ mark {
   margin-top: calc(var(--size-bezel) * 2.5);
 }
 
-button {
+.send_button button {
   color: currentColor;
   padding: var(--size-bezel) calc(var(--size-bezel) * 2);
   background: var(--color-accent);
@@ -117,7 +117,7 @@ button {
   } 
 }
 
-button + button {
+.send_button button + button {
   margin-left: calc(var(--size-bezel) * 2);
 }
 

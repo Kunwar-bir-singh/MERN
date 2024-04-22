@@ -78,7 +78,7 @@ const MainContent = () => {
             <span className="input__label">City</span>
           </label>
           <div className="button-group">
-            <button onClick={search}>Send</button>
+            <button onClick={search} className="send_button">Send</button>
             <button
               type="reset"
               onClick={() => {

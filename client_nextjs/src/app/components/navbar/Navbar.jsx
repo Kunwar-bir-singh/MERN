@@ -4,33 +4,56 @@ import "./Navbar.css";
 import "./Buttons.css";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import CookieValue from "../cookieValue/CookieValue";
+
 
 const Navbar = () => {
   const [loggedIn, setLoggedIn] = useState(null);
-  const router = useRouter();
-
+  const router = useRouter()
   const logUserOut = () => {
     router.push("http://localhost:3000/routes/logout");
   };
+  const [cookieValue, setCookieValue] = useState(null);
+  const [userAuthorization , setUserAuthorization] = useState(null);
 
-  useEffect(() => {
-    // Check if JWT token cookie exists
-    const tokenCookie = document.cookie
-      .split("; ")
-      .find((row) => row.startsWith("token="));
-    if (tokenCookie) {
-      // User is logged in
-      setLoggedIn(true);
-    } else {
-      // User is not logged in
+  const handleCookieValue = (value) => {
+    setCookieValue(value);
+  };
+  const jwtVerify = async () => {
+    const response = await fetch("http://localhost:3001/api/auth/jwtVerify", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${cookieValue}`,
+      },
+    }).then(async (res) =>{
+      if(res.ok){
+        const data = await res.json();
+        setUserAuthorization(data.decoded);
+        setLoggedIn(true);
+        return;
+      }
       setLoggedIn(false);
+    })
+  };
+  
+  useEffect(() => {
+    if (cookieValue !== null) {
+      jwtVerify();
     }
-  }, []);
+  }, [cookieValue]);
+
+  useEffect(()=>{
+    console.log(userAuthorization);
+  },[userAuthorization])
   return (
     <>
+    <CookieValue CookieValueProp={handleCookieValue}/>
       <nav className="menu">
         <div className="home_page_logo">
+          <Link href={'/'}>
           SOME LOGO
+          </Link>
         </div>
 
         <div className="profile_login">
@@ -54,9 +77,9 @@ const Navbar = () => {
             </ol>
           </li>
         </ol>):(
-          <button className="profile_login_button">
-          <Link href={"/routes/choose"}>Login</Link>
-        </button>
+          <Link href={"/routes/choose"}>
+          <button className="profile_login_button">Login</button>
+          </Link>
         )}
         </div>
       </nav>

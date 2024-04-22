@@ -36,6 +36,7 @@ export async function middleware(request) {
     }
 
     const decoded = data.decoded;
+
     const responseHeader = new NextResponse(NextResponse.next());
     response.headers.set('Decoded-JWT', JSON.stringify(decoded));
 
@@ -52,7 +53,7 @@ export async function middleware(request) {
     }
 
     // Allow access to the myProfile route for all logged-in users
-    if (request.nextUrl.pathname === "/routes/myProfile") {
+    if (request.nextUrl.pathname === "/routes/myProfile" || request.nextUrl.pathname === "/pages/myProfile") {
       return NextResponse.next();
     }
 
