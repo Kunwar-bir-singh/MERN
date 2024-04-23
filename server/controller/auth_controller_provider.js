@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 
 const registerProvider = async (req, res) => {
   try {
-     const { profession, username, password, phone, address, city } = req.body;
+     const { profession, fullname, username, password, phone, address, city } = req.body;
      const providerExists = await Provider.findOne({ phone });
      if (providerExists) {
        return res.status(400).json({ msg: "Provider Already Exists, Please Login" });
@@ -12,6 +12,7 @@ const registerProvider = async (req, res) => {
        const providerCreated = await Provider.create({
          profession,
          username,
+         fullname,
          password: hashedPassword,
          phone,
          address,

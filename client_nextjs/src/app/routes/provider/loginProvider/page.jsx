@@ -49,6 +49,8 @@ const page = () => {
     }
   return (
     <>
+     <div className="user_form_container">
+
     <form onSubmit={submitHandler}>
         <h3>Login Provider</h3>
         <label htmlFor="phone">Phone</label>
@@ -63,6 +65,7 @@ const page = () => {
           <div className="fb"><i className="fab fa-facebook"></i>  Facebook</div>
         </div>
     </form>
+    </div>
     </>
   );
 };

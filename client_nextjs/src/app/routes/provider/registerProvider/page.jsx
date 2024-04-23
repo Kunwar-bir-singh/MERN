@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import "./register.css";
 const page = () => {
-  const [input, setInput] = useState({
+const [input, setInput] = useState({
     profession: "",
     username: "",
     password: "",
@@ -50,15 +50,7 @@ const page = () => {
     <>
       <form onSubmit={submitHandler}>
         <h3>Register Here</h3>
-        <label htmlFor="username">Profession</label>
-        <input
-          type="text"
-          placeholder="Profession Name"
-          id="profession"
-          onChange={inputHandler}
-          name="profession"
-          value={input.profession}
-        />
+     
         <label htmlFor="username">Username</label>
         <input
           type="text"
@@ -89,16 +81,7 @@ const page = () => {
           value={input.password}
         />
 
-        <label htmlFor="username">City</label>
-        <input
-          type="text"
-          placeholder="City"
-          id="city"
-          onChange={inputHandler}
-          name="city"
-          value={input.city}
-        />
-        <button>Register</button>
+        <button>Next</button>
         {/* <div className="social">
           <div className="go">
             <i className="fab fa-google"></i> Google

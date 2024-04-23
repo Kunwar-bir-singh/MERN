@@ -38,7 +38,7 @@ const page = () => {
                 console.log("User Login Successfull");
                 setTimeout(()=>{
                     window.location.href = "/";
-                },1000)
+                },2000)
                 setInput({
                     phone:"",
                     password:""
