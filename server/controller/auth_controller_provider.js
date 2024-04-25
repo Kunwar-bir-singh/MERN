@@ -6,7 +6,7 @@ const registerProvider = async (req, res) => {
      const { profession, fullname, username, password, phone, address, city } = req.body;
      const providerExists = await Provider.findOne({ phone });
      if (providerExists) {
-       return res.status(400).json({ msg: "Provider Already Exists, Please Login" });
+       return res.status(400).json({ msg: "Provider Already Exists, Please Login" , code : 0 });
      } else {
        const hashedPassword = await bcrypt.hash(password, 10);
        const providerCreated = await Provider.create({
@@ -19,7 +19,7 @@ const registerProvider = async (req, res) => {
          city,
        });
  
-       return res.status(201).json({ msg: "Provider Created Successfully." });
+       return res.status(201).json({ msg: "Provider Created Successfully.", code : 1 });
      }
   } catch (error) {
      console.log(error);
