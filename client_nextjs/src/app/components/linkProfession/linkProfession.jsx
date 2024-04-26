@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { toast } from "react-toastify";
+import toast from 'react-hot-toast';
 import CookieValue from "../cookieValue/CookieValue";
 
 const LinkProfession = ({ params, onResponse }) => {
@@ -27,7 +27,7 @@ const LinkProfession = ({ params, onResponse }) => {
     const response = await api.json();
     onResponse(response);
     if (response.code === 0) {
-      toast.warn("You are already linked!");
+      toast.error("You are already linked!");
     } else if (response.code === 1) {
       toast.success("Successfully Linked");
     } else {
