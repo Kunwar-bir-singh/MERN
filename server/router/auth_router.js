@@ -1,5 +1,6 @@
 const express = require('express');
-const {clearCookies , register ,login, jwtVerify, getUserDetails} = require('../controller/auth_controller_user');
+const {clearCookies , register ,login, jwtVerify, getUserDetails, editUserDetails} = require('../controller/auth_controller_user');
+
 
 const router = express.Router();
 
@@ -8,5 +9,6 @@ router.post('/registerUser', register);
 router.post('/loginUser', login);
 router.post('/jwtVerify', jwtVerify);
 router.post('/getUserDetails', getUserDetails);
+router.post('/editUserDetails', editUserDetails);
 
 module.exports = router;

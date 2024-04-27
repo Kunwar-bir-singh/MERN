@@ -1,34 +1,36 @@
 const User = require("../models/user_model");
-const Provider = require('../models/provider_model.');
-const jsonwebtoken = require('jsonwebtoken');
-const { ObjectId } = require('mongodb');
+const Provider = require("../models/provider_model.");
+const jsonwebtoken = require("jsonwebtoken");
+const { ObjectId } = require("mongodb");
 
 const bcrypt = require("bcrypt");
-const { trace } = require("../router/auth_router");
+const { trace, propfind } = require("../router/auth_router");
+const e = require("express");
 
-const jwtVerify = async (req, res , next)=>{
+const jwtVerify = async (req, res, next) => {
   try {
-    const token = req.headers.authorization?.split(' ')[1];
-    if(!token) { 
-      return res.status(401).json({msg : "No Token Provided"});
-    } 
-    const decoded = jsonwebtoken.verify(token , process.env.JWT_KEY);
+    const token = req.headers.authorization?.split(" ")[1];
+    if (!token) {
+      return res.status(401).json({ msg: "No Token Provided" });
+    }
+    const decoded = jsonwebtoken.verify(token, process.env.JWT_KEY);
     try {
-      return res.status(200).json({msg : "Token Verified!" , valid : true , decoded});
+      return res
+        .status(200)
+        .json({ msg: "Token Verified!", valid: true, decoded });
     } catch (error) {
-      return res.status(401).json({msg : "Invalid Token" , error});
+      return res.status(401).json({ msg: "Invalid Token", error });
     }
   } catch (error) {
-    return res.status(401).json({msg : "Server Error" , error});
+    return res.status(401).json({ msg: "Server Error", error });
     console.log(error);
   }
-
-}
+};
 
 const clearCookies = (req, res) => {
   try {
-    res.clearCookie('token');
-    res.json({msg : "Cookies Cleared"});
+    res.clearCookie("token");
+    res.json({ msg: "Cookies Cleared" });
     // res.send('Cookie cleared successfully');
   } catch (error) {
     console.log(error);
@@ -45,12 +47,12 @@ const login = async (req, res) => {
 
     const checkPassword = await bcrypt.compare(password, userExists.password);
     if (!checkPassword) {
-      return res.status(400).json({ msg: "Incorrect Password" , code: 0, });
+      return res.status(400).json({ msg: "Incorrect Password", code: 0 });
     }
 
     const token = await userExists.generateToken();
     // res.cookie('token',token, { httpOnly: true});
-    res.cookie('token',token);
+    res.cookie("token", token);
 
     res.status(200).json({
       msg: "User Logged In Successfully",
@@ -58,21 +60,19 @@ const login = async (req, res) => {
       code: 1,
     });
 
-    console.log("Successful Login ","Token : ", token); 
-    
+    console.log("Successful Login ", "Token : ", token);
   } catch (error) {
     console.log("Error While Logging", error);
-    res.status(500).json({ msg: "Internal Server Error"});
+    res.status(500).json({ msg: "Internal Server Error" });
   }
 };
-
 
 const register = async (req, res) => {
   try {
     const { username, fullname, email, phone, password } = req.body;
     const UserExits = await User.findOne({ phone });
     if (UserExits) {
-      res.status(200).json({ msg: "User Already Exists" , code : 0 });
+      res.status(200).json({ msg: "User Already Exists", code: 0 });
       console.log("User Already Exists bsdk.");
       return;
     } else {
@@ -86,42 +86,72 @@ const register = async (req, res) => {
       });
 
       const token = await userCreated.generateToken();
-      res
-        .status(201)
-        .json({
-          msg: "User Created Sucessfully",
-          code : 1,
-          userID: userCreated._id.toString(),
-        });
+      res.status(201).json({
+        msg: "User Created Sucessfully",
+        code: 1,
+        userID: userCreated._id.toString(),
+      });
       console.log("User Created Successfully bkl", token);
     }
   } catch (error) {
-    res.status(401).json({ msg: "Some Error Occured While Registering."});
+    res.status(401).json({ msg: "Some Error Occured While Registering." });
     console.log("Some Error While Registering.", error);
   }
 };
 
-const getUserDetails = async (req , res ) =>{
+const getUserDetails = async (req, res) => {
   try {
     let userType = User;
     const data = req.body.decoded;
     console.log(data);
-    if(data.isProvider) userType = Provider;
+    if (data.isProvider) userType = Provider;
 
-    const user = await userType.findOne({"_id" : ObjectId.createFromHexString(data.userID)});
-    console.log(user);  
-    if(user){
-      res.status(200).json({msg:"Sucessfully Data Found " , user})
+    const user = await userType.findOne({
+      _id: ObjectId.createFromHexString(data.userID),
+    });
+    console.log(user);
+    if (user) {
+      res.status(200).json({ msg: "Sucessfully Data Found ", user });
       console.log("User Successfully Found");
       return;
     }
     console.log("Some Error");
-    res.status(400).json({msg:"Error during Search "})
+    res.status(400).json({ msg: "Error during Search " });
   } catch (error) {
     console.log(error);
-    res.status(500).json({msg:"Some Error has occured. "})
+    res.status(500).json({ msg: "Some Error has occured. " });
   }
-}
+};
+
+const editUserDetails = async (req, res) => {
+  try {
+    let userType = User;
+    const reqData = req.body;
+    if (reqData.isProvider == "true") userType = Provider;
+
+    const user = await userType.updateOne(
+      { phone: reqData.input.phone },
+      {
+        $set: {
+          profession: reqData.input.profession,
+          username: reqData.input.username,
+          fullname: reqData.input.fullname,
+          phone: reqData.input.phone,
+          city: reqData.input.city,
+          email: reqData.input.email,
+        },
+      }
+    );
+    console.log(user);
+
+    const updatedUser = await userType.findOne({ phone: reqData.input.phone });
+    console.log(updatedUser);
+    res.status(200).json({ msg: "Operation Successfull!" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ msg: "Something Went Wrong!" });
+  }
+};
 
 module.exports = {
   clearCookies,
@@ -129,4 +159,5 @@ module.exports = {
   login,
   jwtVerify,
   getUserDetails,
+  editUserDetails,
 };

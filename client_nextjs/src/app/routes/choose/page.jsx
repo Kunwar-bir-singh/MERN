@@ -3,7 +3,7 @@ import "./choose.css";
 import Link from "next/link";
 
 const page = () => {
-  return (
+    return (
     <div className="container">
       <div className="login_div">
         <div className="login_register_contents">

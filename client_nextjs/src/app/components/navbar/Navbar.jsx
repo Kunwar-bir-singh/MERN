@@ -6,19 +6,28 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import CookieValue from "../cookieValue/CookieValue";
 
-
 const Navbar = () => {
   const [loggedIn, setLoggedIn] = useState(null);
-  const router = useRouter()
+  const router = useRouter();
   const logUserOut = () => {
     router.push("http://localhost:3000/routes/logout");
   };
   const [cookieValue, setCookieValue] = useState(null);
-  const [userAuthorization , setUserAuthorization] = useState(null);
+  const [userAuthorization, setUserAuthorization] = useState(null);
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
+  };
+
+  const handleLinkClick = () => {
+    setMenuOpen(false); // Close the menu when a link is clicked
+  };
 
   const handleCookieValue = (value) => {
     setCookieValue(value);
   };
+
   const jwtVerify = async () => {
     const response = await fetch("http://localhost:3001/api/auth/jwtVerify", {
       method: "POST",
@@ -26,61 +35,80 @@ const Navbar = () => {
         "Content-Type": "application/json",
         Authorization: `Bearer ${cookieValue}`,
       },
-    }).then(async (res) =>{
-      if(res.ok){
+    }).then(async (res) => {
+      if (res.ok) {
         const data = await res.json();
         setUserAuthorization(data.decoded);
         setLoggedIn(true);
         return;
       }
       setLoggedIn(false);
-    })
+    });
   };
-  
+
   useEffect(() => {
     if (cookieValue !== null) {
       jwtVerify();
     }
   }, [cookieValue]);
 
-  useEffect(()=>{
+  useEffect(() => {
     console.log(userAuthorization);
-  },[userAuthorization])
+  }, [userAuthorization]);
+
   return (
     <>
-    <CookieValue CookieValueProp={handleCookieValue}/>
-      <nav className="menu">
-        <div className="home_page_logo">
-          <Link href={'/'}>
-          SOME LOGO
-          </Link>
-        </div>
-
-        <div className="profile_login">
-        {loggedIn ? 
-        (<ol>
-          <li className="menu-item" id="profile_img">
-                        {" "}
-                        <img
-                          src="https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg"
-                          alt=""
-                        />
-            <ol className="sub-menu">
-              <li className="menu-item">
-                <Link href={'/routes/myProfile'}>
-                My Profile
+      <CookieValue CookieValueProp={handleCookieValue} />
+      <nav>
+        <div className="navbar">
+          <div className="container nav-container">
+            <input
+              className="checkbox"
+              type="checkbox"
+              name=""
+              id=""
+              checked={menuOpen}
+              onChange={toggleMenu}
+            />
+            <div className="hamburger-lines">
+              <span className="line line1"></span>
+              <span className="line line2"></span>
+              <span className="line line3"></span>
+            </div>
+            <div className="logo">
+              {loggedIn ? (
+                <li className="menu-item" id="profile_img">
+                  {" "}
+                  <img
+                    src="https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg"
+                    alt=""
+                  />
+                </li>
+              ) : (
+                <Link href={"/routes/choose"}>
+                  <button className="profile_login_button">Login</button>
                 </Link>
-              </li>
-              <li className="menu-item">
-              <div onClick={logUserOut}>Logout</div>
-              </li>
-            </ol>
-          </li>
-        </ol>):(
-          <Link href={"/routes/choose"}>
-          <button className="profile_login_button">Login</button>
-          </Link>
-        )}
+              )}
+            </div>
+            <div className="menu-items" onClick={handleLinkClick}>
+              <Link href={"/"}>Home </Link>
+              {loggedIn ? (
+                <>
+                  <Link href={"/routes/myProfile"}>My Profile</Link>
+                  <Link href={"/routes/logout"}>Logout</Link>
+                </>
+              ) : (
+                <Link href={"/routes/choose"}>Login</Link>
+              )}
+              {userAuthorization ? (
+                <Link href={"/routes/createProfession"}>Create Profession</Link>
+              ) : (
+                <li>
+                  <a href="#">contact</a>
+                </li>
+              )}
+            </div>
+          </div>
         </div>
       </nav>
     </>
