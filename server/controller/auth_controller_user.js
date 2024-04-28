@@ -125,28 +125,28 @@ const getUserDetails = async (req, res) => {
 
 const editUserDetails = async (req, res) => {
   try {
-    let userType = User;
     const reqData = req.body;
-    if (reqData.isProvider == "true") userType = Provider;
+    console.log("Data From Body " ,reqData);
+    let userType = User;
+    if (reqData.isProvider) userType = Provider;
 
     const user = await userType.updateOne(
-      { phone: reqData.input.phone },
+      { phone: reqData.phone },
       {
         $set: {
-          profession: reqData.input.profession,
-          username: reqData.input.username,
-          fullname: reqData.input.fullname,
-          phone: reqData.input.phone,
-          city: reqData.input.city,
-          email: reqData.input.email,
+          profession: reqData.profession,
+          username: reqData.username,
+          fullname: reqData.fullname,
+          phone: reqData.phone,
+          city: reqData.city,
+          email: reqData.email,
+          address : reqData.address 
         },
       }
     );
-    console.log(user);
-
-    const updatedUser = await userType.findOne({ phone: reqData.input.phone });
-    console.log(updatedUser);
-    res.status(200).json({ msg: "Operation Successfull!" });
+    const updatedUser = await userType.findOne({ phone: reqData.phone });
+    console.log("Details Successfully Updated" ,updatedUser);
+    res.status(200).json({ msg: "Details Successfully Updated"  , code : 1});
   } catch (error) {
     console.log(error);
     res.status(500).json({ msg: "Something Went Wrong!" });

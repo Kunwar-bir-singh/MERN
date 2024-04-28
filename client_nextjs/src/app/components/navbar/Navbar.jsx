@@ -75,7 +75,7 @@ const Navbar = () => {
               <span className="line line2"></span>
               <span className="line line3"></span>
             </div>
-            <div className="logo">
+            <div className="logo" onClick={()=>{router.push("http://localhost:3000/routes/myProfile");}}>
               {loggedIn ? (
                 <li className="menu-item" id="profile_img">
                   {" "}

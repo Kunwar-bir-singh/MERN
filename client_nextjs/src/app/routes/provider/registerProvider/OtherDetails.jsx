@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./register.css";
-import toast from 'react-hot-toast';
+import { toast } from "sonner";
 
 const OtherDetails = ({ firstHalfInput }) => {
   const [input, setInput] = useState(firstHalfInput);

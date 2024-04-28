@@ -2,7 +2,8 @@
 import React, { useState } from "react";
 import "./login.css";
 import { useRouter } from "next/navigation";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
+
 
 const page = () => {
     const router = useRouter();

@@ -27,11 +27,12 @@ const page = ({ params }) => {
                   <img
                     src="https://img.freepik.com/free-photo/young-bearded-man-with-striped-shirt_273609-5677.jpg?size=626&ext=jpg&ga=GA1.1.1395991368.1711584000&semt=sph"
                     alt=""
-                    srcset=""
+                    srcSet=""
                     />
                 </div>
                 <div className="provider_details">
-                  <h5>Name : {item.fullname}</h5>
+                  <h5>Username : {item.username}</h5>
+                  <h5>Fullname : {item.fullname}</h5>
                   <h6>Profession : {item.profession}</h6>
                   <h6>Phone : {item.phone}</h6>
                   <h6>Address : {item.address}</h6>

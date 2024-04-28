@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import "./mainContent.scss";
 import Response from "./response/Response";
-import { toast } from 'react-toastify';
+import { toast } from "sonner";
 
 const MainContent = () => {
   const [res, setRes] = useState(null);

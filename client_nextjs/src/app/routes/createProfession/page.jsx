@@ -2,8 +2,7 @@
 import React, { useEffect, useState } from "react";
 import "./createProfession.css";
 import LinkProfession from "@/app/components/linkProfession/LinkProfession";
-import { toast } from "react-toastify";
-
+import { toast } from "sonner";
 
 const page = () => {
   const [linkClicked, setLinkClicked] = useState(false);
