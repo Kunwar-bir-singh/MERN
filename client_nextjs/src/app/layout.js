@@ -15,7 +15,7 @@ export default function RootLayout({ children }) {
     <html lang="en" suppressHydrationWarning={true}>
       <body suppressHydrationWarning={true} className={inter.className}>
         <Toaster richColors position="top-center"/>
-        <Navbar />
+        {/* <Navbar />   */}
         {children}
       </body>
     </html>

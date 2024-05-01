@@ -1,10 +1,10 @@
 const mongoose = require("mongoose");
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 
 const ProviderSchema = new mongoose.Schema({
   profession: {
     type: String,
-    require:true
+    require: true,
   },
   fullname: {
     type: String,
@@ -30,25 +30,37 @@ const ProviderSchema = new mongoose.Schema({
     type: String,
     require: false,
   },
-  isProvider:{
-    type:Boolean,
+  image: {
+    publicId: {
+      type: String,
+    },
+    url: {
+      type: String,
+
+    },
+  },
+  isProvider: {
+    type: Boolean,
     default: true,
-}
+  },
 });
 
-ProviderSchema.methods.generateToken = async function() {
+ProviderSchema.methods.generateToken = async function () {
   try {
-      return jwt.sign({
-          userID: this._id.toString(),
-          isProvider: this.isProvider,  
+    return jwt.sign(
+      {
+        userID: this._id.toString(),
+        isProvider: this.isProvider,
       },
-      process.env.JWT_Key,{
-          expiresIn: "1d",
-      });
+      process.env.JWT_Key,
+      {
+        expiresIn: "1d",
+      }
+    );
   } catch (error) {
-      console.log(error);
+    console.log(error);
   }
-}
+};
 
 const Provider = new mongoose.model("Provider", ProviderSchema);
 module.exports = Provider;

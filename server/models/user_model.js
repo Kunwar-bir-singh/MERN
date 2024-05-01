@@ -24,7 +24,17 @@ const userSchema = new mongoose.Schema({
     isProvider:{
         type:Boolean,
         default: false,
-    }
+    },
+    image:{
+        publicId:{
+            type: String,
+            required: true,
+        },
+        url: {
+            type: String,
+            required: true,
+        }
+    }    
 })
 
 userSchema.methods.generateToken = async function() {
