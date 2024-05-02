@@ -8,6 +8,7 @@ import { toast } from "sonner";
 const Page = () => {
   const [cookieValue, setCookieValue] = useState(null);
   const [userDetails, setUserDetails] = useState(null);
+  const [resFromDetailsSaved, setResFromDetailsSaved] = useState(null);
   const [profileImg, setProfileImg] = useState("");
   const [editMode, setEditMode] = useState(false);
   const [editedDetails, setEditedDetails] = useState({
@@ -20,6 +21,8 @@ const Page = () => {
     address: "",
     isProvider: null,
   });
+  const [image, setImage] = useState(null);
+  const [imageBase64, setImageBase64] = useState("");
 
   let [checkDetailsSaved, setCheckDetailsSaved] = useState(0);
 
@@ -65,8 +68,6 @@ const Page = () => {
       [name]: value,
     });
   };
-  const [image, setImage] = useState(null);
-  const [imageBase64, setImageBase64] = useState("");
 
   // convert image file to base64
   const setFileToBase64 = (file) => {
@@ -100,6 +101,7 @@ const Page = () => {
       console.log(json);
     }
   };
+
   useEffect(() => {
     if (checkDetailsSaved === 1) {
       setEditedDetails({
@@ -127,19 +129,40 @@ const Page = () => {
           }
         );
         const apiRes = await api.json();
-        setCheckDetailsSaved(0);
-        if (apiRes.code === 1) {
-          setTimeout(() => {
-            window.location.href = "/routes/myProfile";
-          }, 1000);
-          toast.success(apiRes.msg);
-        } else {
-          toast.error(apiRes.msg);
-        }
+        setResFromDetailsSaved(apiRes);
+        console.log("API Response ", apiRes);
       };
       response();
+
+      if (image) {
+        const getImageApi = async () => {
+          const response = await fetch(
+            "http://localhost:3001/api/auth/createImage",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ userDetails, image: imageBase64 }),
+            }
+          );
+        };
+        getImageApi();
+      }
+      toast.info("Loading...Please wait");
+      setCheckDetailsSaved(0);
     }
   }, [checkDetailsSaved]);
+
+  useEffect(() => {
+    if (resFromDetailsSaved!=null) {
+      setTimeout(() => {
+          toast.success(resFromDetailsSaved.msg);
+          window.location.href = "/routes/myProfile";
+        }, 2000);
+    }
+  }, [resFromDetailsSaved])
+  
 
   useEffect(() => {
     console.log("Value 0f checkDetailsSaved ", checkDetailsSaved);
@@ -147,11 +170,11 @@ const Page = () => {
 
   useEffect(() => {
     if (userDetails && userDetails.image && userDetails.image.url) {
-      console.log("userDetails : " ,userDetails);
-      setProfileImg(userDetails.image.url)
+      console.log("userDetails : ", userDetails);
+      setProfileImg(userDetails.image.url);
     }
   }, [userDetails]);
-
+  
   useEffect(() => {
     if (cookieValue !== null) {
       console.log("Cookie Value in Profile : ", cookieValue);
@@ -163,8 +186,33 @@ const Page = () => {
     <div className="myProfile_body">
       <div className="myProfile_container">
         <div className="profile_user_img">
-          <div className="user-avatar">
-            {/* <svg className="feather feather-edit" id="edit_image_svg" fill="none" height="24" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> */}
+          <div
+            className={`user-avatar ${
+              checkDetailsSaved === 0 ? "with-margin" : ""
+            }`}
+          >
+            {checkDetailsSaved === 1 ? (
+              <label id="edit_image_svg" htmlFor="image">
+                <svg
+                  className="feather feather-edit"
+                  fill="none"
+                  height="27"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  viewBox="0 0 24 24"
+                  width="27"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                  <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+                </svg>
+              </label>
+            ) : (
+              <></>
+            )}
+
             <img src={profileImg} alt="Loading..." />
             <form onSubmit={handleSubmit} action="" method="post">
               <input
@@ -175,22 +223,21 @@ const Page = () => {
                 accept="image/*"
                 id="image"
                 onChange={handleImage}
+                style={{ display: "none" }}
               />
-              <div className="flex items-center justify-between">
-                <button
-                  type="submit"
-                  className="inline-block rounded-lg bg-blue-500 px-5 py-3 text-sm font-medium text-white"
-                >
-                  Submit
-                </button>
-              </div>
             </form>
           </div>
           <div className="user_deatils_view">
+            {image ? (
+              <div className="ifImageSeleected">
+                <h6>Image Selected!</h6>
+              </div>
+            ) : (
+              <></>
+            )}
             <div className="username_phone">
               <h5 className="user-name">{userDetails.username}</h5>
               <h6 className="user-phone">
-                {" "}
                 <strong>Phone :</strong> {userDetails.phone}
               </h6>
             </div>
@@ -270,13 +317,13 @@ const Page = () => {
                   </g>
                 </svg> */}
                 <svg
-                  class="feather feather-save"
+                  className="feather feather-save"
                   fill="none"
                   height="24"
                   stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
                   viewBox="0 0 24 24"
                   width="24"
                   xmlns="http://www.w3.org/2000/svg"

@@ -9,20 +9,9 @@ import CookieValue from "../cookieValue/CookieValue";
 const Navbar = () => {
   const [loggedIn, setLoggedIn] = useState(null);
   const router = useRouter();
-  const logUserOut = () => {
-    router.push("http://localhost:3000/routes/logout");
-  };
   const [cookieValue, setCookieValue] = useState(null);
   const [userAuthorization, setUserAuthorization] = useState(null);
   const [menuOpen, setMenuOpen] = useState(false);
-
-  const toggleMenu = () => {
-    setMenuOpen(!menuOpen);
-  };
-
-  const handleLinkClick = () => {
-    setMenuOpen(false); // Close the menu when a link is clicked
-  };
 
   const handleCookieValue = (value) => {
     setCookieValue(value);
@@ -67,8 +56,6 @@ const Navbar = () => {
               type="checkbox"
               name=""
               id=""
-              checked={menuOpen}
-              onChange={toggleMenu}
             />
             <div className="hamburger-lines">
               <span className="line line1"></span>
@@ -90,7 +77,7 @@ const Navbar = () => {
                 </Link>
               )}
             </div>
-            <div className="menu-items" onClick={handleLinkClick}>
+            <div className="menu-items">
               <Link href={"/"}>Home </Link>
               {loggedIn ? (
                 <>

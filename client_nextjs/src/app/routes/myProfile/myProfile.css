@@ -120,7 +120,7 @@
   }
 }
 
-.profile_user_img .user-avatar {
+.with-margin {
   margin: 2rem 0 0 0;
 }
 .user-avatar img {
@@ -236,9 +236,16 @@ circle {
 }
 
 #edit_image_svg{
+  display: inline-block;
   position: relative;
-  left: 76%;
-  top: 14%;
-  cursor: 'pointer' 
-                
+  left: 85%;
+  top: 15%;
+  font-size: 15px;
+  cursor: pointer;  
+}
+.ifImageSeleected{
+  color: #696b6f;
+  font-size: 15px;
+  font-weight: bold;
+  margin-top: 6px;
 }

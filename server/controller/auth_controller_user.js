@@ -146,7 +146,7 @@ const editUserDetails = async (req, res) => {
     );
     const updatedUser = await userType.findOne({ phone: reqData.phone });
     console.log("Details Successfully Updated" ,updatedUser);
-    res.status(200).json({ msg: "Details Successfully Updated"  , code : 1});
+    res.status(200).json({ msg: "Details Successfully Updated" , code : 1});
   } catch (error) {
     console.log(error);
     res.status(500).json({ msg: "Something Went Wrong!" });
