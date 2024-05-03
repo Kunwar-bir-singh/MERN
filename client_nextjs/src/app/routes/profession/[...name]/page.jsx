@@ -22,11 +22,11 @@ const page = ({ params }) => {
           <div className="container">
             {providers.map((item, index) => (
               <>
-              <div className="box">
+              <div className="box" key={index}>
                 <div className="provider_image">
                   <img
-                    src="https://img.freepik.com/free-photo/young-bearded-man-with-striped-shirt_273609-5677.jpg?size=626&ext=jpg&ga=GA1.1.1395991368.1711584000&semt=sph"
-                    alt=""
+                    src={item.image.url}
+                    alt="Provider Image"
                     srcSet=""
                     />
                 </div>

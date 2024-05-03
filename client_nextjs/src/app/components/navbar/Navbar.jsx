@@ -8,11 +8,11 @@ import CookieValue from "../cookieValue/CookieValue";
 
 const Navbar = () => {
   const [loggedIn, setLoggedIn] = useState(null);
-  const router = useRouter();
+  const [profileImgUrl , setProfileImgUrl] = useState(null);
   const [cookieValue, setCookieValue] = useState(null);
   const [userAuthorization, setUserAuthorization] = useState(null);
   const [menuOpen, setMenuOpen] = useState(false);
-
+  const router = useRouter();
   const handleCookieValue = (value) => {
     setCookieValue(value);
   };
@@ -42,6 +42,27 @@ const Navbar = () => {
   }, [cookieValue]);
 
   useEffect(() => {
+    if(userAuthorization){
+      const api = async () => {
+        try {
+          const response = await fetch(
+            "http://localhost:3001/api/auth/getImage",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(userAuthorization),
+            }
+          );
+          const jsonResponse = await response.json();
+          setProfileImgUrl(jsonResponse);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      api();
+    }
     console.log(userAuthorization);
   }, [userAuthorization]);
 
@@ -62,23 +83,21 @@ const Navbar = () => {
               <span className="line line2"></span>
               <span className="line line3"></span>
             </div>
-            <div className="logo" onClick={()=>{router.push("http://localhost:3000/routes/myProfile");}}>
+            <div className="logo" onClick={() => router.push(loggedIn ? "/routes/myProfile" : "/routes/choose")}>
               {loggedIn ? (
                 <li className="menu-item" id="profile_img">
                   {" "}
                   <img
-                    src="https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg"
+                    src={profileImgUrl}
                     alt=""
                   />
                 </li>
               ) : (
-                <Link href={"/routes/choose"}>
-                  <button className="profile_login_button">Login</button>
-                </Link>
+                <span> Login</span>
               )}
             </div>
             <div className="menu-items">
-              <Link href={"/"}>Home </Link>
+              <Link  href={"/"}>Home </Link>
               {loggedIn ? (
                 <>
                   <Link href={"/routes/myProfile"}>My Profile</Link>

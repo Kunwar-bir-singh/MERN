@@ -51,7 +51,6 @@ const login = async (req, res) => {
     }
 
     const token = await userExists.generateToken();
-    // res.cookie('token',token, { httpOnly: true});
     res.cookie("token", token);
 
     res.status(200).json({
@@ -83,6 +82,9 @@ const register = async (req, res) => {
         email,
         phone,
         password: hashedPassword,
+        image :{
+          url: 'https://i.pinimg.com/1200x/fc/04/73/fc047347b17f7df7ff288d78c8c281cf.jpg'
+        }
       });
 
       const token = await userCreated.generateToken();

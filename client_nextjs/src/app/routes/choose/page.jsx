@@ -4,7 +4,7 @@ import Link from "next/link";
 
 const page = () => {
     return (
-    <div className="container">
+    <div className="choose_container">
       <div className="login_div">
         <div className="login_register_contents">
           <h1>Join As A User</h1>

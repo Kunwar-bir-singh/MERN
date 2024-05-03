@@ -5,19 +5,18 @@
     box-sizing: border-box;
 }
 body{
-    background-color: #080710;
-    background-image: url(../../../components/images/login_background.jpg);
-    background-repeat: no-repeat;
-    background-size: cover;
-    
+  
+  
 }
 .user_form_container{
-display: flex;
+  background-color: #080710;
+  height: 89.4  vh;
+  display: flex;
 align-items: center;
 justify-content: center;
 }
 .user_form_container form{
-    height: 520px;
+    height: 450px;
     width: 400px;
     background-color: rgba(255,255,255,0.13);
     position: relative;
@@ -63,7 +62,7 @@ input{
     color: #e5e5e5;
 }
 .user_login_button{
-    margin-top: 50px;
+    margin-top: 30px;
     width: 100%;
     background-color: #ffffff;
     color: #080710;
@@ -94,4 +93,9 @@ input{
 }
 .social i{
   margin-right: 4px;
+}
+
+.formErrors{
+  color: red;
+    font-size: 0.9em;
 }

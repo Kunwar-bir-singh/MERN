@@ -6,6 +6,11 @@ import { toast } from "sonner";
 
 const page = () => {
   const [linkClicked, setLinkClicked] = useState(false);
+  const [formErrors, setFormErrors] = useState({});
+  const [isSubmit, setIsSubmit] = useState(false);
+  const [apiResponse, setApiResponse] = useState({});
+  const [responseStatus, setResponseStatus] = useState({});
+  
   const linkClickedOrNot = () => {
     setLinkClicked(true);
     setTimeout(()=>{
@@ -26,9 +31,6 @@ const page = () => {
     });
   };
 
-  const [apiResponse, setApiResponse] = useState({});
-
-  const [responseStatus, setResponseStatus] = useState({});
   
   const handleStatus = (status) => {
     setResponseStatus(status);
@@ -39,9 +41,27 @@ const page = () => {
     // if(responseStatus.code == 0) toast.warn(responseStatus.msg);
     console.log("responseStatus.code", responseStatus.code);
   }, [responseStatus]);
-  
+
+  const validate = (values) => {
+    const errors = {};
+    // const regex = /^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/;
+    if (!values.name) {
+      errors.name = "Profession name is required.";
+    }
+    //  else if (values.phone.length != 10) {
+    //   errors.phone = "Phone Number must be of 10 digits.";
+    // }
+    if (!values.city) {
+      errors.city = "City name is required.";
+    }
+    return errors;
+  };
+
   const submit = async (e) => {
     e.preventDefault();
+    setFormErrors(validate(input));
+    setIsSubmit(true);
+
     if ((input.name || input.city) == "") {
       return apiResponse;
     }
@@ -74,8 +94,8 @@ const page = () => {
               id=""
             />
             <label>Enter Name:</label>
+          <p className="formErrors">{formErrors.name}</p>
           </div>
-
           <div className="user-box">
             <input
               type="text"
@@ -85,9 +105,10 @@ const page = () => {
               id=""
             />
             <label>Enter City:</label>
+          <p className="formErrors">{formErrors.city}</p>
           </div>
           <button type="submit" className="createProfession_btn">
-            <span className="button_top"> Button</span>
+            <span className="button_top"> Create</span>
           </button>
         </form>
       </div>
@@ -97,7 +118,7 @@ const page = () => {
           {apiResponse.success == "true" ? (
             <>
               <div className="want_to_click_link" onClick={linkClickedOrNot}>
-                Want To Link With This Profession?
+                Click To Link With This Profession.
               </div>
               <div>
                 {linkClicked && (

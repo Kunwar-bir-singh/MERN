@@ -17,6 +17,9 @@ const registerProvider = async (req, res) => {
          phone,
          address,
          city,
+         image :{
+          url: 'https://i.pinimg.com/1200x/fc/04/73/fc047347b17f7df7ff288d78c8c281cf.jpg'
+        }
        });
  
        return res.status(201).json({ msg: "Provider Created Successfully.", code : 1 });
@@ -46,15 +49,14 @@ const loginProvider = async (req , res)=>{
 
         res.status(200).json({
           msg: "Provider Logged In Successfully",
-          token,
-          userId: providerExists._id.toString(),
+          code : 1
         });
     
         console.log("Successful Login As Provider","Token : ", token); 
       }
       else{
         console.log("Invalid Credentails");
-      res.status(400).json({msg:"Invalid Credentails"});
+      res.status(400).json({msg:"Invalid Credentails" , code : 0});
       }
     }
   } catch (error) {

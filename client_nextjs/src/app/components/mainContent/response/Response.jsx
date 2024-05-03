@@ -107,7 +107,8 @@ const Response = ({ inputData, res }) => {
             <>
               <div className="text-center	">{res.msg.slice(0, 17)}</div>
               <div>{res.msg.slice(18, 47)}</div>
-              <Link href={"/routes/createProfession"}>{res.msg.slice(47)}</Link>
+              <Link className="createProfLink" href={"/routes/createProfession"}>
+                <span>{res.msg.slice(47)}</span></Link>
             </>
           </div>
         )}

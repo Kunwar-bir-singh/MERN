@@ -2,7 +2,7 @@ body {
     margin: 0;
     padding: 0;
 }
-.container{
+.choose_container{
     height: 86.4vh;
     width: 100%;
     display: flex;

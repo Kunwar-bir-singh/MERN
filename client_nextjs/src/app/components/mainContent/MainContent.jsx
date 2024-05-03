@@ -6,7 +6,7 @@ import { toast } from "sonner";
 
 const MainContent = () => {
   const [res, setRes] = useState(null);
-  const [cookieValue , setCookievalue] = useState("");
+  const [cookieValue, setCookievalue] = useState("");
 
   const search = async () => {
     try {
@@ -78,18 +78,23 @@ const MainContent = () => {
             <span className="input__label">City</span>
           </label>
           <div className="button-group">
-            <button onClick={search} className="send_button">Send</button>
+            <button className="searchBtn" onClick={search}>
+              {" "}
+              Send
+            </button>
             <button
+            className="searchBtn"
+            id="resetBtn"
               type="reset"
               onClick={() => {
                 setInput({
                   name: "",
                   city: "",
                 });
-                toast('Input Cleared');
-
+                toast("Input Cleared");
               }}
             >
+               {" "}
               Reset
             </button>
           </div>
