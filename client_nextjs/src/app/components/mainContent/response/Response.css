@@ -238,3 +238,28 @@
   background-clip: text;
   color: transparent;
 }
+
+@media screen and (max-width: 1200px){
+  .response_area{
+    width: 529px;
+  }
+
+ }
+ @media screen and (max-width: 800px){
+  .response_area{
+    width: 459px;
+  }
+
+ }
+ @media screen and (max-width: 500px){
+  .response_area{
+    width: 390px;
+  }
+
+ }
+ @media screen and (max-width: 400px){
+  .response_area{
+    width: 340px;
+  }
+
+ }

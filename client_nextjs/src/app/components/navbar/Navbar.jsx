@@ -71,7 +71,7 @@ const Navbar = () => {
       <CookieValue CookieValueProp={handleCookieValue} />
       <nav>
         <div className="navbar">
-          <div className="container nav-container">
+          <div className="nav_container nav-container">
             <input
               className="checkbox"
               type="checkbox"
@@ -93,7 +93,7 @@ const Navbar = () => {
                   />
                 </li>
               ) : (
-                <span> Login</span>
+                <span className="navbar_logo_link"> Login</span>
               )}
             </div>
             <div className="menu-items">
@@ -109,9 +109,7 @@ const Navbar = () => {
               {userAuthorization ? (
                 <Link href={"/routes/createProfession"}>Create Profession</Link>
               ) : (
-                <li>
-                  <a href="#">contact</a>
-                </li>
+               <></>
               )}
             </div>
           </div>

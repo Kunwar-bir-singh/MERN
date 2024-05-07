@@ -135,7 +135,7 @@ mark {
 }
 
 .searchBtn {
-  --color: #560bad;
+  --color: #3498DB;
   font-family: inherit;
   display: inline-block;
   width: 6em;
@@ -185,4 +185,28 @@ mark {
 
  #resetBtn{
   margin-left: 10px;
+ }
+
+ @media screen and (max-width: 1200px){
+  .card{
+    width: 529px;
+  }
+
+ }
+ @media screen and (max-width: 800px){
+  .card{
+    width: 459px;
+  }
+
+ }
+ @media screen and (max-width: 500px){
+  .card{
+    width: 390px;
+  }
+ }
+ @media screen and (max-width: 400px){
+  .card{
+    width: 340px;
+  }
+
  }
