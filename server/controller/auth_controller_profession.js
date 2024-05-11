@@ -39,6 +39,8 @@ const createProfession = async (req, res) => {
 const getProfession = async (req, res) => {
   try {
     const { name, city } = req.query;
+    console.log('Name :' , name);
+    console.log('City :' , city);
     const token = req.headers.authorization?.split(' ')[1];
     console.log(token);
     let isProvider = false; 

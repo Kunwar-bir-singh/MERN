@@ -80,7 +80,7 @@ const MainContent = () => {
           <div className="button-group">
             <button className="searchBtn" onClick={search}>
               {" "}
-              Send
+              Search
             </button>
             <button
             className="searchBtn"

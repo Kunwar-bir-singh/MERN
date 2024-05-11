@@ -1,4 +1,5 @@
 .provider_title {
+  margin-top: 1vw;
   font-size: 3vmax;
   text-align: center;
   margin-bottom: 20px;
@@ -18,9 +19,9 @@
   }
 }
 
+
 .box {
-  max-width: 439px;
-  min-width: 439px;
+  width: 439px;
   height: 197px;
 
   display: flex;
@@ -72,4 +73,18 @@
   max-width: calc(70% - 13px);
   flex-grow: 1;
   overflow-wrap: break-word;
+}
+@media screen and (min-width: 500px) and (max-width: 900px){
+  .provider_title{
+    font-size: 5vw;
+  }
+}
+@media screen and (max-width: 500px) {
+  .box {
+    width: 394px;
+    height: 154px;
+  }
+  .provider_title{
+    font-size: 7vw;
+  }
 }

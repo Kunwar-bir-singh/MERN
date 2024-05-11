@@ -1,4 +1,4 @@
-const User = require("../models/user_model");
+  const User = require("../models/user_model");
 const Provider = require("../models/provider_model.");
 const jsonwebtoken = require("jsonwebtoken");
 const { ObjectId } = require("mongodb");
@@ -124,6 +124,7 @@ const getUserDetails = async (req, res) => {
     res.status(500).json({ msg: "Some Error has occured. " });
   }
 };
+
 
 const editUserDetails = async (req, res) => {
   try {

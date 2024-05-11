@@ -14,6 +14,7 @@ const page = () => {
     city: "",
     email: "",
   });
+  const [formErrors, setFormErrors] = useState({});
 
   const inputHandler = (e) => {
     const { name, value } = e.target;
@@ -25,13 +26,31 @@ const page = () => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-   
+     setFormErrors(validate(input));
     setHalfDetailCheck(true);
-    
+  };
+  const validate = (values) => {
+    const errors = {};
+    const regex = /^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/;
+    if (!values.phone) {
+      errors.phone = "Phone Number is required.";
+    }
+     else if (values.phone.length != 10) {
+      errors.phone = "Phone Number must be of 10 digits.";
+    }
+    if (!values.password) {
+      errors.password = "Password is required.";
+    }
+    if (!values.username) {
+      errors.username = "Username is required.";
+    }else if (values.username.length < 3) {
+      errors.username = "Username must be atleast 3 characters long.";
+    }
+    return errors;
   };
   return (
     <>
-    {halfDetailCheck ?(<div>
+    {Object.keys(formErrors).length === 0 && halfDetailCheck ?(<div>
         <OtherDetails firstHalfInput={input} /> 
     </div>) : (  <div className="user_form_container">
         <form onSubmit={submitHandler}>
@@ -45,7 +64,7 @@ const page = () => {
             name="username"
             value={input.username}
           />
-
+<p className="formErrors">{formErrors.username}</p>
           <label htmlFor="phone">Phone</label>
           <input
             type="number"
@@ -55,6 +74,7 @@ const page = () => {
             name="phone"
             value={input.phone}
           />
+          <p className="formErrors">{formErrors.phone}</p>
 
           <label htmlFor="password">Password</label>
           <input
@@ -65,7 +85,7 @@ const page = () => {
             name="password"
             value={input.password}
           />
-
+<p className="formErrors">{formErrors.password}</p>
           <button>Next</button>
           {/* <div className="social">
           <div className="go">

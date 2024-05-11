@@ -21,7 +21,7 @@ const registerProvider = async (req, res) => {
           url: 'https://i.pinimg.com/1200x/fc/04/73/fc047347b17f7df7ff288d78c8c281cf.jpg'
         }
        });
- 
+       console.log("Provider Created Successfully" , providerCreated);
        return res.status(201).json({ msg: "Provider Created Successfully.", code : 1 });
      }
   } catch (error) {

@@ -335,9 +335,9 @@ circle {
   }
   .profile_user_img {
     width: 77%;
-    height: 45%;
+    height: 49%;
     margin-bottom: 7%;
-    margin-top: 22%;
+    margin-top: 29%;
   }
   .user-avatar img {
     width: 120px;
@@ -352,8 +352,8 @@ circle {
     margin-top: 5%;
   }
   .btn {
-    width: 78px;
-    height: 37px;
+    width: 92px;
+    height: 45px;
     font-size: 17px;
     left: 72%;
     top: 5%;

@@ -96,3 +96,8 @@ button{
 .social i{
   margin-right: 4px;
 }
+.formErrors{
+  color: red;
+    font-size: 0.9em;
+}
+

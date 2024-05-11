@@ -48,6 +48,7 @@ body {
   font-weight: 500;
   font-size: 1.5vw;
   padding: 1rem 1.7rem;
+  text-align: center;
 }
 .navbar .nav-container a:hover{
   text-decoration: underline  ;
@@ -182,7 +183,7 @@ body {
 }
 @media screen and (max-width: 439px) {
   .navbar .menu-items{
-    width: 40vw;
+    width: 46vw;
     align-items: center;
   }
   .navbar .menu-items a{
