@@ -44,6 +44,7 @@ const page = () => {
   };
   return (
     <>
+    <div className="user_form_container">
       <form onSubmit={submitHandler}>
         <h3>Register Here</h3>
         <label htmlFor="username">Username</label>
@@ -87,15 +88,16 @@ const page = () => {
         />
 
         <button>Register</button>
-        <div className="social">
+        {/* <div className="social">
           <div className="go">
             <i className="fab fa-google"></i> Google
           </div>
           <div className="fb">
             <i className="fab fa-facebook"></i> Facebook
           </div>
-        </div>
+        </div> */}
       </form>
+    </div>
     </>
   );
 };

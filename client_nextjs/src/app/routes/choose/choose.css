@@ -11,7 +11,10 @@ body {
     width: 60%;
 }
 .login_div{
-    background-color: rgb(0, 255, 94);
+    background-image: url('https://hdwallpaperim.com/wp-content/uploads/2017/08/31/154406-blurred-gradient-748x421.jpg');
+    background-position: center ;
+    background-repeat: no-repeat;
+    background-size: cover;
     width: 50%;
     display: flex;
     align-items: center;
@@ -47,7 +50,11 @@ body {
   box-shadow: 0px 0px 0px 0px #a29bfe;
 }
 .register_div{
-    background-color: blue;
+    background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSMAAjNlH7VmgF5Zd4ypShnXmWwZn7SnZ82Cw&usqp=CAU');
+    background-position: center ;
+    background-repeat: no-repeat;
+    background-size: cover;
+   
     width: 50%;
     display: flex;
     align-items: center;
