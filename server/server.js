@@ -28,7 +28,7 @@ app.use("/api/authProvider", routerProvider);
 app.use("/api/authProfession", routerProfession);
 
 MongoDB().then(() => {
-  app.listen(3001, () => {
-    console.log("Server Is Running");
+  app.listen(process.env.PORT, () => {
+    console.log("Server Is Running at port " + process.env.PORT);
   });
 });

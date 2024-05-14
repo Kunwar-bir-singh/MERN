@@ -71,7 +71,7 @@ const page = () => {
               password: "",
             });
           } else if (data.code === 0) {
-            toast.warn("Incorrect Credentials");
+            toast.warning("Incorrect Credentials");
             console.log("Incorrect Credentials.");
           } else {
             toast.error("Some Error Has Occured!");
