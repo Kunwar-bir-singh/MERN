@@ -3,9 +3,10 @@
 This MERN (MongoDB, Express.js, React.js, Node.js) project allows users to search for professions in specific cities. If the profession is found, users can view details of providers linked with that profession. If the profession is not found, users can create a new profession. The system supports two types of users: normal users and providers. Providers have the ability to create new professions or link with existing ones. Middleware functionality restricts unauthorized access, allowing only logged-in users to access certain routes.
 
 ## Features
-Profession Search: Users can search for professions in specific cities.
-Provider Details: Users can view details of providers linked with a profession.
-![Demo GIF](gifs/Login_as_Provider.gif)
+**Profession Search:** Users can search for professions in specific cities.
+**Provider Details:** Users can view details of providers linked with a profession.
+<img src="gifs/NormalSearch.gif" width="300" height="200" alt="Alt Text">
+
 
 Profession Creation: Users can create new professions if they are not found in the system.
 ![Demo GIF](gifs/Create_Profession.gif)
