@@ -37,7 +37,7 @@ const loginProvider = async (req , res)=>{
     const providerExists = await Provider.findOne({phone});
     if(!providerExists){
       console.log("Create A Provider First");
-      res.status(400).json({msg:"Provider Doesn't Exists"});
+      res.status(400).json({msg:"Provider Doesn't Exists" , code : 2});
     }
     else{
       const comparePass = await bcrypt.compare(password , providerExists.password);

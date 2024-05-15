@@ -83,7 +83,7 @@ const page = () => {
   return (
     <div className="createProfession_container">
       <div className="login-box">
-        <h2>Create A Profession</h2>
+        <h2 className="login_box_title">Create A Profession</h2>
         <form action="" className="createProfession" onSubmit={submit}>
           <div className="user-box">
             <input

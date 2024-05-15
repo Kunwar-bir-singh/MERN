@@ -73,7 +73,7 @@ const Response = ({ inputData, res }) => {
           </div>
         ) : res.code === 1 ? (
           <div className="response_card">
-            {userAuthorization && userAuthorization.isProvider !== undefined && (
+            {userAuthorization && userAuthorization.isProvider !== false && (
               <>
                 <div className="response_above-text" onClick={linkClickedOrNot}>
                   Want To Link With This Profession?
@@ -109,6 +109,7 @@ const Response = ({ inputData, res }) => {
               <div>{res.msg.slice(18, 47)}</div>
               <Link className="createProfLink" href={"/routes/createProfession"}>
                 <span>{res.msg.slice(47)}</span></Link>
+                <p className="provider_note">Note: Only Providers could create a Profession</p>
             </>
           </div>
         )}

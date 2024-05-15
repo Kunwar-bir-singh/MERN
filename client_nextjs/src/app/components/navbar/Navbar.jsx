@@ -13,6 +13,15 @@ const Navbar = () => {
   const [userAuthorization, setUserAuthorization] = useState(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const router = useRouter();
+  
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
+  };
+
+  const closeMenu = () => {
+    setMenuOpen(false);
+  };
+
   const handleCookieValue = (value) => {
     setCookieValue(value);
   };
@@ -75,10 +84,11 @@ const Navbar = () => {
             <input
               className="checkbox"
               type="checkbox"
-              name=""
-              id=""
+               id=""
+            checked={menuOpen}
+            onChange={toggleMenu}
             />
-            <div className="hamburger-lines">
+            <div className="hamburger-lines"  onClick={toggleMenu}>
               <span className="line line1"></span>
               <span className="line line2"></span>
               <span className="line line3"></span>
@@ -96,18 +106,18 @@ const Navbar = () => {
                 <span className="navbar_logo_link"> Login</span>
               )}
             </div>
-            <div className="menu-items">
-              <Link  href={"/"}>Home </Link>
+            <div className={`menu-items ${menuOpen ? '' : 'closed'}`}>
+              <Link  href={"/"} onClick={closeMenu}>Home </Link>
               {loggedIn ? (
                 <>
-                  <Link href={"/routes/myProfile"}>My Profile</Link>
-                  <Link href={"/routes/logout"}>Logout</Link>
+                  <Link href={"/routes/myProfile"} onClick={closeMenu}>My Profile</Link>
+                  <Link href={"/routes/logout"} onClick={closeMenu}>Logout</Link>
                 </>
               ) : (
-                <Link href={"/routes/choose"}>Login</Link>
+                <Link href={"/routes/choose"} onClick={closeMenu}>Login</Link>
               )}
               {userAuthorization ? (
-                <Link href={"/routes/createProfession"}>Create Profession</Link>
+                <Link href={"/routes/createProfession"} onClick={closeMenu}>Create Profession</Link>
               ) : (
                <></>
               )}

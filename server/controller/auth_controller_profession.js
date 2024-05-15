@@ -25,7 +25,7 @@ const createProfession = async (req, res) => {
       res
         .status(201)
         .json({
-          msg: `Profession named "${name}"  Created In ${city} `,
+          msg: `Profession named "${name}"  created In ${city} `,
           success: "true",
           professionCreated,
         });

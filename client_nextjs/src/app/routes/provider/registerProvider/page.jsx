@@ -58,7 +58,7 @@ const page = () => {
           <label htmlFor="username">Username</label>
           <input
             type="text"
-            placeholder="Email or Phone"
+            placeholder="Username"
             id="username"
             onChange={inputHandler}
             name="username"

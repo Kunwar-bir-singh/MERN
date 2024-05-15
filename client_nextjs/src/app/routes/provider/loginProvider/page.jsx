@@ -72,6 +72,10 @@ const page = () => {
           else if (jsonResponse.code === 0) {
             console.log("Invalid Credentails.");
             toast.warning("Invalid Credentails.");
+          } 
+          else if (jsonResponse.code === 2) {
+            console.log("Provider Doens't Exist.");
+            toast.warning("Provider Doens't Exist.");
           } else {
             toast.error("Some Error Has Occured.");
             console.log("Some Error Has Occured.");

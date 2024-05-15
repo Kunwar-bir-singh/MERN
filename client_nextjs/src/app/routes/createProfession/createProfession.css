@@ -34,6 +34,9 @@
     text-align: center;
     font-size : 1.5vw;  
   }
+  .login_box_title{
+    font-size : 1.5vw;  
+  }
   
   .login-box .user-box {
     position: relative;
@@ -140,11 +143,18 @@
         }
       }
       @media screen and  (max-width: 550px){
-        .want_to_click_link ,.login-box h2 ,.apiResponse_msg{
+        .want_to_click_link ,.apiResponse_msg{
           width: 80%;
           margin-left: 10%;
           text-align: center;
           font-size: 4.3vw;
+        }
+        .login-box{
+          width: 300px;
+          padding: 17px;
+        }
+        .login-box h2{
+          font-size: 5.3vw;
         }
       }
       @keyframes fadeIn {

@@ -47,8 +47,9 @@ body {
   color: white;
   font-weight: 500;
   font-size: 1.5vw;
-  padding: 1rem 1.7rem;
+  padding: 15px 0vw;
   text-align: center;
+  margin-left: 12px;
 }
 .navbar .nav-container a:hover{
   text-decoration: underline  ;
@@ -70,7 +71,7 @@ body {
   width: 32px;
   top: 22px;
   left: 20px;
-  z-index: 5;
+  z-index: 12;
   opacity: 0;
   cursor: pointer;
 }
@@ -89,8 +90,12 @@ body {
   transition: transform 0.5s ease-in-out;
   background-color: #3498DB;
   position: relative;
-  z-index: 1;
+  z-index: 10;
 }
+.menu-items.closed {
+  display: none; /* Initially hide the menu items */
+}
+
 
 .nav-container .hamburger-lines {
   display: block;
@@ -99,8 +104,9 @@ body {
   position: absolute;
   top: 27px;
   left: 20px;
-  z-index: 2;
+  z-index: 12;
   display: flex;
+  cursor: pointer;
   flex-direction: column;
   justify-content: space-between;
 }
@@ -183,7 +189,7 @@ body {
 }
 @media screen and (max-width: 439px) {
   .navbar .menu-items{
-    width: 46vw;
+    width: 50vw;
     align-items: center;
   }
   .navbar .menu-items a{

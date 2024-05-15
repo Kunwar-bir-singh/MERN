@@ -165,6 +165,10 @@
 .response_card:hover .response_trail {
   animation: trail 1s ease-in-out;
 }
+.provider_note{
+  opacity: 0.6;
+  font-size: 1vw;
+}
 
 @keyframes opacity {
   0% {
@@ -254,6 +258,9 @@
  @media screen and (max-width: 500px){
   .response_area{
     width: 390px;
+  }
+  .provider_note{
+    font-size: 4vw;
   }
 
  }

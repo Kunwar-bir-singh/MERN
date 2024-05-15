@@ -4,6 +4,9 @@ const {createImage, getImage} = require('../controller/auth_controller_imageUplo
 
 const router = express.Router();
 
+router.get('/', (req, res) => {
+    res.send('Server Running...');
+});
 router.get('/clearCookies', clearCookies);
 router.post('/registerUser', register);
 router.post('/loginUser', login);
