@@ -5,7 +5,7 @@ This MERN (MongoDB, Express.js, React.js, Node.js) project allows users to searc
 ## Features
 **Profession Search:** Users can search for professions in specific cities.
 **Provider Details:** Users can view details of providers linked with a profession.
-<img src="gifs/NormalSearch.gif" width="300" height="200" alt="Alt Text">
+<img src="gifs/NormalSearch.gif" width="600" height="400" alt="Alt Text">
 
 
 Profession Creation: Users can create new professions if they are not found in the system.
