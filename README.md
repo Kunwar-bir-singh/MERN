@@ -14,6 +14,10 @@ This MERN (MongoDB, Express.js, React.js, Node.js) project allows users to searc
 
 <img src="gifs/Create_Profession.gif" width="800" height="500" alt="Alt Text">
 
+**Edit Details:** Ability to change the profile picture and edit user details.
+
+<img src="gifs/Edit_Profile.gif" width="800" height="500" alt="Alt Text">
+
 **User Roles:** Two types of users are supported: normal users and providers.
 
 <img src="gifs/Login_as_Provider.gif" width="800" height="500" alt="Alt Text">
