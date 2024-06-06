@@ -101,7 +101,7 @@
   transform-origin: center;
   animation: rotate4 2s linear infinite;
 }
-svg {
+.loading_svg svg {
   width: 3.25em;
   transform-origin: center;
   animation: rotate4 2s linear infinite;
@@ -115,6 +115,12 @@ svg {
   stroke-dashoffset: 0;
   stroke-linecap: round;
   animation: dash4 1.5s ease-in-out infinite;
+ }
+ .bookmark_div svg{
+  position: absolute;
+  top: -13%;
+  right: -3%;
+  width: 14%;
  }
  
  @keyframes rotate4 {
@@ -138,4 +144,5 @@ svg {
    stroke-dashoffset: -125px;
   }
  }
+
  

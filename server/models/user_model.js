@@ -25,6 +25,11 @@ const userSchema = new mongoose.Schema({
         type:Boolean,
         default: false,
     },
+    bookmarkProvider:[{
+        type: Number,
+        ref: "Bookmark"
+    }]
+    ,
     image:{
         publicId:{
             type: String,

@@ -65,4 +65,18 @@ const loginProvider = async (req , res)=>{
   }  
 }
 
-module.exports = {loginProvider , registerProvider}
+const bookmarkProfession = async (req, res)=>{
+  try {
+    const {phone} = req.body;
+    console.log(phone);
+    const user = await Provider.findOne({phone: phone});
+    // console.log();
+    res.status(200).json({user});
+  } catch (error) {
+      console.log("Bookmark Error : ");
+      console.log(error);
+      res.status(400).json({msg:"Some Error"});
+  }
+}
+
+module.exports = {loginProvider , registerProvider,bookmarkProfession}
