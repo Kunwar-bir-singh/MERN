@@ -36,6 +36,12 @@ const ProviderSchema = new mongoose.Schema({
       ref: "Bookmark",
     },
   ],
+  bookmarkedWith: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "BookmarkedWith",
+    },
+  ],
   image: {
     publicId: {
       type: String,

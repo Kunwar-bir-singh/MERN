@@ -2,7 +2,7 @@
 import ProvidersDetail from "@/app/components/providersDetails/ProvidersDetail";
 import "./page.css";
 import { useEffect, useState } from "react";
-import CookieValue from "@/app/components/cookieValue/CookieValue";
+
 import JwtVerify from "@/app/components/jwtVerify/JwtVerify";
 import { toast } from "sonner";
 
@@ -12,6 +12,7 @@ const page = ({ params }) => {
   const handleProviders = (providers) => {
     setProviders(providers);
   };
+  const [isBookmarked , setIsBookmarked] = useState(false);
 
   const [decodedData, setDecodedData] = useState(null);
   const handleDecodedData = (value) => {
@@ -26,7 +27,7 @@ const page = ({ params }) => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({userID : decodedData.userID ,providerPhone :  providerPhone}),
+        body: JSON.stringify({userID : decodedData.userID ,providerPhone :  providerPhone , isProvider : decodedData.isProvider}),
       }
     );
     const response = await api.json();
@@ -77,7 +78,7 @@ const page = ({ params }) => {
                         viewBox="0 0 48 48"
                       >
                         <path
-                          fill="#F44336"
+                          fill={isBookmarked ? "#36F45B" : "#F44336"}
                           d="M37,43l-13-6l-13,6V9c0-2.2,1.8-4,4-4h18c2.2,0,4,1.8,4,4V43z"
                         ></path>
                         {/* #36F45B Code For green bookmark  */}

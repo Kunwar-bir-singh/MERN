@@ -1,7 +1,6 @@
 const Profession = require("../models/profession_model");
 const Provider = require("../models/provider_model.");
 const jwt = require('jsonwebtoken');
-var ObjectId = require('mongodb').ObjectId; 
 
 const createProfession = async (req, res) => {
   try {

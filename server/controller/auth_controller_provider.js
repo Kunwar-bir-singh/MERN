@@ -75,23 +75,27 @@ const loginProvider = async (req, res) => {
 const bookmarkProfession = async (req, res) => {
   try {
     const { userID, providerPhone, isProvider } = req.body;
-    console.log(userID, providerPhone);
+    console.log(userID,providerPhone , isProvider);
 
     let userType = isProvider ? Provider : User;
+    const userObjectId = ObjectId.createFromHexString(userID);
     const user = await userType
       .findOne({
-        _id: ObjectId.createFromHexString(userID),
+        _id: userObjectId,
       }) 
       const phoneExists = user.bookmarkProvider.includes(providerPhone);
+      console.log(phoneExists);
       if(phoneExists) 
       {
-        await userType.updateOne( {_id : ObjectId.createFromHexString(userID) }, { $pull: {bookmarkProvider : providerPhone  }} )
-        console.log("Provier Bookmarked!");
-        res.status(200).json({ msg: "Provider successfully bookmarked!", code: 1 });
+        await userType.updateOne( {_id : userObjectId}, { $pull: {bookmarkProvider : providerPhone  }} )
+        console.log("Bookmark Removed!",);
+        await Provider.updateOne({phone : providerPhone} , {$pull : {bookmarkedWith: userObjectId}})
+        res.status(200).json({ msg: "Bookmark Removed!", code: 0 });
       }
       else {
-        await userType.updateOne({ _id: ObjectId.createFromHexString(userID) },{ $push: { bookmarkProvider: providerPhone }});
-        res.status(200).json({ msg: "Bookmark Removed!", code: 0 });
+        await userType.updateOne({ _id: userObjectId },{ $push: { bookmarkProvider: providerPhone }});
+        await Provider.updateOne({phone : providerPhone} , {$push : {bookmarkedWith: userObjectId}})
+        res.status(200).json({ msg: "Bookmark Added!", code: 1 });
       }
   } catch (error) {
     console.log("Bookmark Error : ");
