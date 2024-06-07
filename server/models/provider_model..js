@@ -30,13 +30,18 @@ const ProviderSchema = new mongoose.Schema({
     type: String,
     require: false,
   },
+  bookmarkProvider: [
+    {
+      type: Number,
+      ref: "Bookmark",
+    },
+  ],
   image: {
     publicId: {
       type: String,
     },
     url: {
       type: String,
-
     },
   },
   isProvider: {

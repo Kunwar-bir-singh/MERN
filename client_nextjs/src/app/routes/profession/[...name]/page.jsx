@@ -4,6 +4,8 @@ import "./page.css";
 import { useEffect, useState } from "react";
 import CookieValue from "@/app/components/cookieValue/CookieValue";
 import JwtVerify from "@/app/components/jwtVerify/JwtVerify";
+import { toast } from "sonner";
+
 
 const page = ({ params }) => {
   const [providers, setProviders] = useState([]);
@@ -15,10 +17,29 @@ const page = ({ params }) => {
   const handleDecodedData = (value) => {
     setDecodedData(value);
   };
-  useEffect(()=>{
-    console.log("decodedData : ",decodedData);
-  },[decodedData])
-  const bookmarkProvider = () => {};
+  
+  const bookmarkProvider = async (providerPhone)=>{
+    const api = await fetch(
+      `http://localhost:3001/api/authProvider/bookmarkProfession`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({userID : decodedData.userID ,providerPhone :  providerPhone}),
+      }
+    );
+    const response = await api.json();
+    if (response.code === 0) {
+      toast.warning(response.msg);
+    } else if (response.code === 1) {
+      toast.success(response.msg);
+    } else {
+      toast.error("Some Error Has Occcured.");
+    }
+    console.log("Response : " , response);
+  };
+  
 
   return (
     <div>
