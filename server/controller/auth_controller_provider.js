@@ -104,4 +104,19 @@ const bookmarkProfession = async (req, res) => {
   }
 };
 
-module.exports = { loginProvider, registerProvider, bookmarkProfession };
+const getProviders = async (req, res) => {
+  try {
+    const {userID , isProvider} = req.body;
+    let userType = isProvider ? Provider : User;
+    console.log(userID , isProvider , userType);
+    const userBookmarkArray = await userType.findOne({_id : ObjectId.createFromHexString(userID)});
+  
+    console.log(userBookmarkArray);
+    res.status(200).json({msg : "Bookmark Array : ", userBookmarkArray})
+  } catch (error) {
+    console.log(error);  
+    res.status(400).json({msg : "Some Error Has Occured."})
+  }
+}
+
+module.exports = { loginProvider, registerProvider, bookmarkProfession ,getProviders };
