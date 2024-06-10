@@ -111,6 +111,7 @@ const Navbar = () => {
               {loggedIn ? (
                 <>
                   <Link href={"/routes/myProfile"} onClick={closeMenu}>My Profile</Link>
+                  <Link href={"/routes/bookmarks"} onClick={closeMenu}>Bookmarks</Link>
                   <Link href={"/routes/logout"} onClick={closeMenu}>Logout</Link>
                 </>
               ) : (
