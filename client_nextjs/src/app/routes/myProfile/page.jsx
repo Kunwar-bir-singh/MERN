@@ -237,6 +237,13 @@ const Page = () => {
             )}
             <div className="username_phone">
               <h5 className="user-name">{userDetails.username}</h5>
+              <label class="toggle-switch">
+  <input type="checkbox"/>
+  <div class="toggle-switch-background">
+    <div class="toggle-switch-handle"></div>
+  </div>
+</label>
+
               <h6 className="user-phone">
                 <strong>Phone :</strong> {userDetails.phone}
               </h6>

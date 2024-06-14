@@ -122,6 +122,24 @@
     right: -3.4%;
     width: 14%;
    }
+
+   .availablity_tag{
+    position: absolute;
+      bottom: 2%;
+      right: 1%;
+      font-size: 15px;
+      padding: 0.4em;
+      border: 0.5px solid black;
+      color: black !important;;
+      background: #36F45B; 
+      border-radius: 7px;
+      font-family: sans-serif;
+      font-weight: bold;
+   }
+   #unavailable_tag{
+    background: #F44336;
+  
+   }
    
    @keyframes rotate4 {
     100% {

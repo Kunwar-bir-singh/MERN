@@ -30,6 +30,10 @@ const ProviderSchema = new mongoose.Schema({
     type: String,
     require: false,
   },
+  isAvailable: {
+    type: Boolean,
+    default: true,
+  },
   bookmarkProvider: [
     {
       type: Number,

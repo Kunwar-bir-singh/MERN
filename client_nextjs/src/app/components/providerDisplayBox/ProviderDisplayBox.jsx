@@ -5,7 +5,7 @@ import JwtVerify from "@/app/components/jwtVerify/JwtVerify";
 import { toast } from "sonner";
 
 const ProviderDisplayBox = ({providers , decodedData, setProviders , h1Title}) => {
-    // console.log( h1Title);
+    let isAvailable = true;
     const bookmarkProvider = async (providerPhone, index) => {
         const api = await fetch(
           `http://localhost:3001/api/authProvider/bookmarkProfession`,
@@ -103,6 +103,7 @@ const ProviderDisplayBox = ({providers , decodedData, setProviders , h1Title}) =
                       <h6>Profession : {item.profession}</h6>
                       <h6>Phone : {item.phone}</h6>
                       <h6>Address : {item.address}</h6>
+                      <span class="availablity_tag" id={!isAvailable && "unavailable_tag" }  >{!isAvailable ? "Unavailable" : "Available"}</span> 
                     </div>
                   </div>
                 </div>
