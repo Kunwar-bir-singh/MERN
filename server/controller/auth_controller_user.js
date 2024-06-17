@@ -143,7 +143,8 @@ const editUserDetails = async (req, res) => {
           phone: reqData.phone,
           city: reqData.city,
           email: reqData.email,
-          address : reqData.address 
+          address : reqData.address ,
+          isAvailable : reqData.isAvailable,
         },
       }
     );

@@ -1,7 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import "./myProfile.css";
-import "./EditDetails.css";
 import CookieValue from "@/app/components/cookieValue/CookieValue";
 import { toast } from "sonner";
 
@@ -20,6 +19,7 @@ const Page = () => {
     email: "",
     address: "",
     isProvider: null,
+    isAvailable : true,
   });
   const [image, setImage] = useState(null);
   const [imageBase64, setImageBase64] = useState("");
@@ -62,12 +62,21 @@ const Page = () => {
 
   const getInput = (e) => {
     const { name, value } = e.target;
-    console.log(name, value);
+    console.log("Name : ",name ,"Value : ", value);
     setEditedDetails({
       ...editedDetails,
       [name]: value,
     });
   };
+
+  const getToggleInput = (e)=>{
+    const value =  e.target.checked;
+    console.log("Name : ",editedDetails.isAvailable ,"Value : ", value);
+    setEditedDetails({
+     ...editedDetails,
+      isAvailable: value,
+    });
+  }
 
   // convert image file to base64
   const setFileToBase64 = (file) => {
@@ -114,6 +123,7 @@ const Page = () => {
         email: userDetails.email,
         address: userDetails.address,
         isProvider: userDetails.isProvider,
+        isAvailable: userDetails.isAvailable
       });
     } else if (checkDetailsSaved === 2) {
       console.log(editedDetails);
@@ -150,19 +160,20 @@ const Page = () => {
         getImageApi();
       }
       toast.info("Loading...Please wait");
-      setCheckDetailsSaved(0);
     }
   }, [checkDetailsSaved]);
 
   useEffect(() => {
-    if (resFromDetailsSaved!=null) {
+    if (resFromDetailsSaved != null) {
       setTimeout(() => {
-          toast.success(resFromDetailsSaved.msg);
-          window.location.href = "/routes/myProfile";
-        }, 2000);
+        toast.success(resFromDetailsSaved.msg);
+        window.location.href = "/routes/myProfile";
+      }, 2000);
+      setTimeout(()=>{
+        // setCheckDetailsSaved(0);
+      },1000)
     }
-  }, [resFromDetailsSaved])
-  
+  }, [resFromDetailsSaved]);
 
   useEffect(() => {
     console.log("Value 0f checkDetailsSaved ", checkDetailsSaved);
@@ -174,7 +185,7 @@ const Page = () => {
       setProfileImg(userDetails.image.url);
     }
   }, [userDetails]);
-  
+
   useEffect(() => {
     if (cookieValue !== null) {
       console.log("Cookie Value in Profile : ", cookieValue);
@@ -237,12 +248,6 @@ const Page = () => {
             )}
             <div className="username_phone">
               <h5 className="user-name">{userDetails.username}</h5>
-              <label class="toggle-switch">
-  <input type="checkbox"/>
-  <div class="toggle-switch-background">
-    <div class="toggle-switch-handle"></div>
-  </div>
-</label>
 
               <h6 className="user-phone">
                 <strong>Phone :</strong> {userDetails.phone}
@@ -256,6 +261,24 @@ const Page = () => {
               <h6 className="user-city">
                 <strong>City :</strong> {userDetails.city}
               </h6>
+            </div>
+          </div>
+          <div className="provider_available">
+          <div style={{ height: '36px' }}>
+              <label className="toggle-switch" id={checkDetailsSaved === 0 ? "grayed-out" : "" }>
+                <input type="checkbox"  name="isAvailable"  checked={userDetails.isAvailable}
+                 {...(checkDetailsSaved === 0
+                  ? { disabled: true, } 
+                  : { disabled : false ,  checked: editMode.isAvailable ,onChange: getToggleInput })}/>
+                <div className="toggle-switch-background">
+                  <div className="toggle-switch-handle"></div>
+                </div>
+              </label>
+            </div>
+            <div>
+              <h6 className="available_text">
+              {checkDetailsSaved === 0 ? (userDetails.isAvailable ? "Available" : "Not Available") : (editedDetails.isAvailable ? "Available" : "Not Available")
+}              </h6>
             </div>
           </div>
         </div>
@@ -287,42 +310,6 @@ const Page = () => {
           ) : (
             <button className="btn" id="saveBtn" onClick={toggleEditMode}>
               <span className="icon">
-                {/* <svg
-                  height="18px"
-                  version="1.1"
-                  viewBox="0 0 18 18"
-                  width="18px"
-                  xmlns="http://www.w3.org/2000/svg"
-                  xmlnsSketch="http://www.bohemiancoding.com/sketch/ns"
-                  xmlnsXlink="http://www.w3.org/1999/xlink"
-                >
-                  <title />
-                  <desc />
-                  <defs />
-                  <g
-                    fill="none"
-                    fillRule="evenodd"
-                    id="Page-1"
-                    stroke="none"
-                    strokeWidth="1"
-                  >
-                    <g
-                      fill="#000000"
-                      id="Core"
-                      transform="translate(-255.000000, -381.000000)"
-                    >
-                      <g
-                        id="save"
-                        transform="translate(255.000000, 381.000000)"
-                      >
-                        <path
-                          d="M14,0 L2,0 C0.9,0 0,0.9 0,2 L0,16 C0,17.1 0.9,18 2,18 L16,18 C17.1,18 18,17.1 18,16 L18,4 L14,0 L14,0 Z M9,16 C7.3,16 6,14.7 6,13 C6,11.3 7.3,10 9,10 C10.7,10 12,11.3 12,13 C12,14.7 10.7,16 9,16 L9,16 Z M12,6 L2,6 L2,2 L12,2 L12,6 L12,6 Z"
-                          id="Shape"
-                        />
-                      </g>
-                    </g>
-                  </g>
-                </svg> */}
                 <svg
                   className="feather feather-save"
                   fill="none"
