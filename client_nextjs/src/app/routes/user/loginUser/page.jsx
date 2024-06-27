@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import "./login.css";
 import { toast } from "sonner";
-
+import GoogleSignInButton from "@/app/components/googleLogin/GoogleLogin";
 const page = () => {
   const [input, setInput] = useState({
     phone: "",
@@ -111,10 +111,11 @@ const page = () => {
           />
           <p className="formErrors">{formErrors.password}</p>
           <button className="user_login_button">Log In</button>
-          {/* <div className="social">
-            <div className="go"><i className="fab fa-google"></i>  Google</div>
-            <div className="fb"><i className="fab fa-facebook"></i>  Facebook</div>
-            </div> */}
+          <div className="social">
+            {/* <div className="go"><i className="fab fa-google"></i>  Google</div> */}
+            <GoogleSignInButton/>
+            {/* <div className="fb"><i className="fab fa-facebook"></i>  Facebook</div> */}
+            </div>
         </form>
       </div>
     </>

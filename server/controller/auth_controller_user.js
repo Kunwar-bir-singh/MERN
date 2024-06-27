@@ -1,11 +1,8 @@
-  const User = require("../models/user_model");
+const User = require("../models/user_model");
 const Provider = require("../models/provider_model.");
 const jsonwebtoken = require("jsonwebtoken");
 const { ObjectId } = require("mongodb");
-
 const bcrypt = require("bcrypt");
-const { trace, propfind } = require("../router/auth_router");
-const e = require("express");
 
 const jwtVerify = async (req, res, next) => {
   try {
@@ -65,6 +62,30 @@ const login = async (req, res) => {
     res.status(500).json({ msg: "Internal Server Error" });
   }
 };
+
+const googleLogin = async (req, res)=>{
+  try {
+    const {email} = req.body;
+    const userExists = await User.findOne({email : email });
+    if (!userExists) {
+      return res.status(401).json({ msg: "User Doesn't Exist. Please Register First." });
+    }
+
+    const token = await userExists.generateToken();
+    res.cookie("token", token);
+
+    res.status(200).json({
+      msg: "User Logged In Successfully",
+      userId: userExists._id.toString(),
+      code: 1,
+    });
+
+    console.log("Successful Google Login ", "Token : ", token);
+  } catch (error) {
+    console.log("Error While Logging", error);
+    res.status(500).json({ msg: "Internal Server Error" });
+  }
+}
 
 const register = async (req, res) => {
   try {
@@ -161,6 +182,7 @@ module.exports = {
   clearCookies,
   register,
   login,
+  googleLogin,
   jwtVerify,
   getUserDetails,
   editUserDetails,
