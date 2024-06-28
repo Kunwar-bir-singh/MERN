@@ -66,18 +66,20 @@ const login = async (req, res) => {
 const googleLogin = async (req, res)=>{
   try {
     const {email} = req.body;
+    console.log("Email : ", email);
     const userExists = await User.findOne({email : email });
     if (!userExists) {
-      return res.status(401).json({ msg: "User Doesn't Exist. Please Register First." });
+      return res.status(401).json({ msg: "User Doesn't Exist. Please Register First." , code : 0});
     }
-
+    console.log("User :" , userExists);
     const token = await userExists.generateToken();
-    res.cookie("token", token);
+    res.cookie("token", token); 
 
     res.status(200).json({
       msg: "User Logged In Successfully",
       userId: userExists._id.toString(),
       code: 1,
+      token
     });
 
     console.log("Successful Google Login ", "Token : ", token);

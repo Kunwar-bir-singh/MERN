@@ -269,7 +269,7 @@ const Page = () => {
                 <input type="checkbox"  name="isAvailable"  checked={userDetails.isAvailable}
                  {...(checkDetailsSaved === 0
                   ? { disabled: true, } 
-                  : { disabled : false ,  checked: editMode.isAvailable ,onChange: getToggleInput })}/>
+                  : { disabled : false ,  checked: editedDetails.isAvailable ,onChange: getToggleInput })}/>
                 <div className="toggle-switch-background">
                   <div className="toggle-switch-handle"></div>
                 </div>

@@ -41,6 +41,25 @@ const page = () => {
     return errors;
   };
 
+  const resCodeHandler = (code) => {
+    if (code === 1) {
+      toast.success("User Login Successfull!");
+      console.log("User Login Successfull");
+      setTimeout(() => {
+        window.location.href = "/";
+      }, 500);
+      setInput({
+        phone: "",
+        password: "",
+      });
+    } else if (data.code === 0) {
+      toast.warning("Incorrect Credentials");
+      console.log("Incorrect Credentials.");
+    } else {
+      toast.error("Some Error Has Occured!");
+      console.log("Some Error Has Occured!");
+    }
+  }
   useEffect(() => {
     console.log(formErrors);
     if (Object.keys(formErrors).length === 0 && isSubmit) {
@@ -60,23 +79,7 @@ const page = () => {
           );
           const data = await response.json();
           console.log(data);
-          if (data.code === 1) {
-            toast.success("User Login Successfull!");
-            console.log("User Login Successfull");
-            setTimeout(() => {
-              window.location.href = "/";
-            }, 500);
-            setInput({
-              phone: "",
-              password: "",
-            });
-          } else if (data.code === 0) {
-            toast.warning("Incorrect Credentials");
-            console.log("Incorrect Credentials.");
-          } else {
-            toast.error("Some Error Has Occured!");
-            console.log("Some Error Has Occured!");
-          }
+          resCodeHandler(data.code);
         } catch (error) {
           console.log(error);
         }
@@ -110,12 +113,11 @@ const page = () => {
             value={input.password}
           />
           <p className="formErrors">{formErrors.password}</p>
+          <div className="login_btns">
           <button className="user_login_button">Log In</button>
-          <div className="social">
-            {/* <div className="go"><i className="fab fa-google"></i>  Google</div> */}
             <GoogleSignInButton/>
-            {/* <div className="fb"><i className="fab fa-facebook"></i>  Facebook</div> */}
             </div>
+  
         </form>
       </div>
     </>

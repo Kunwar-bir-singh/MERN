@@ -1,10 +1,11 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { jwtDecode } from "jwt-decode";
-
+import { toast } from 'sonner';
 
 const GoogleSignInButton = () => {
+  const [email, setEmail ] = useState(null);
   const google_Id =  process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID
   useEffect(() => {
     const loadScript = () => {
@@ -36,13 +37,40 @@ const GoogleSignInButton = () => {
       }
     };
   }, []);
-
+  const resCodeHandler = (code) => {
+    if (code === 1) {
+      toast.success("User Login Successfull!");
+      console.log("Google Login Successfull");
+      setTimeout(() => {
+        window.location.href = "/";
+      }, 1000);
+    } else if (data.code === 0) {
+      toast.warning("Incorrect Credentials");
+      console.log("Incorrect Credentials.");
+    } else {
+      toast.error("Some Error Has Occured!");
+      console.log("Some Error Has Occured!");
+    }
+  }
   const handleCredentialResponse = (response) => {
-    console.log('Encoded JWT ID token: ' + response.credential);
-    const decodedToken = jwtDecode(response.credential);
-    console.log('Decoded JWT ID token: ' , decodedToken);
+    const googleEmail = jwtDecode(response.credential).email;
 
-
+    const api = async () => {
+      const res = await fetch("http://localhost:3001/api/auth/googleLogin", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: 'include', 
+        body: JSON.stringify({
+          email: googleEmail,
+        }),
+      });
+      const data = await res.json();
+      console.log("Response : ", data);
+      resCodeHandler(data.code);
+    }
+    api();
     // Handle the response (e.g., send it to your server or decode the JWT token)
   };
 
