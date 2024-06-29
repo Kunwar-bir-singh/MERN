@@ -63,31 +63,7 @@ const login = async (req, res) => {
   }
 };
 
-const googleLogin = async (req, res)=>{
-  try {
-    const {email} = req.body;
-    console.log("Email : ", email);
-    const userExists = await User.findOne({email : email });
-    if (!userExists) {
-      return res.status(401).json({ msg: "User Doesn't Exist. Please Register First." , code : 0});
-    }
-    console.log("User :" , userExists);
-    const token = await userExists.generateToken();
-    res.cookie("token", token); 
 
-    res.status(200).json({
-      msg: "User Logged In Successfully",
-      userId: userExists._id.toString(),
-      code: 1,
-      token
-    });
-
-    console.log("Successful Google Login ", "Token : ", token);
-  } catch (error) {
-    console.log("Error While Logging", error);
-    res.status(500).json({ msg: "Internal Server Error" });
-  }
-}
 
 const register = async (req, res) => {
   try {
@@ -123,6 +99,36 @@ const register = async (req, res) => {
     console.log("Some Error While Registering.", error);
   }
 };
+
+const googleLogin = async (req, res)=>{
+  try {
+    let userType = User;
+    const {email, isProvider} = req.body;
+    if (isProvider) userType = Provider;
+    console.log("Email , IsProvider :  ", email, isProvider);
+    const userExists = await userType.findOne({email : email });
+    console.log("User Exists : ", userExists);
+    if (!userExists) {
+      console.log("User Doesnt Exist");
+      return res.status(401).json({ msg: "User Doesn't Exist. Please Register First." , code : 0});
+    }
+    console.log("User :" , userExists);
+    const token = await userExists.generateToken();
+    res.cookie("token", token); 
+
+    res.status(200).json({
+      msg: "User Logged In Successfully",
+      userId: userExists._id.toString(),
+      code: 1,
+      token
+    });
+
+    console.log("Successful Google Login ", "Token : ", token);
+  } catch (error) {
+    console.log("Error While Logging", error);
+    res.status(500).json({ msg: "Internal Server Error" });
+  }
+}
 
 const getUserDetails = async (req, res) => {
   try {

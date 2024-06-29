@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { jwtDecode } from "jwt-decode";
 import { toast } from 'sonner';
 
-const GoogleSignInButton = () => {
+const GoogleSignInButton = ({isProvider = false}) => {
   const [email, setEmail ] = useState(null);
   const google_Id =  process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID
   useEffect(() => {
@@ -37,21 +37,7 @@ const GoogleSignInButton = () => {
       }
     };
   }, []);
-  const resCodeHandler = (code) => {
-    if (code === 1) {
-      toast.success("User Login Successfull!");
-      console.log("Google Login Successfull");
-      setTimeout(() => {
-        window.location.href = "/";
-      }, 1000);
-    } else if (data.code === 0) {
-      toast.warning("Incorrect Credentials");
-      console.log("Incorrect Credentials.");
-    } else {
-      toast.error("Some Error Has Occured!");
-      console.log("Some Error Has Occured!");
-    }
-  }
+ 
   const handleCredentialResponse = (response) => {
     const googleEmail = jwtDecode(response.credential).email;
 
@@ -64,6 +50,7 @@ const GoogleSignInButton = () => {
         credentials: 'include', 
         body: JSON.stringify({
           email: googleEmail,
+          isProvider: isProvider,
         }),
       });
       const data = await res.json();
@@ -71,8 +58,22 @@ const GoogleSignInButton = () => {
       resCodeHandler(data.code);
     }
     api();
-    // Handle the response (e.g., send it to your server or decode the JWT token)
   };
+  const resCodeHandler = (code) => {
+    if (code === 1) {
+      toast.success("User Login Successfull!");
+      console.log("Google Login Successfull");
+      setTimeout(() => {
+        window.location.href = "/";
+      }, 1000);
+    } else if (code === 0) {
+      toast.warning("Incorrect Credentials");
+      console.log("Incorrect Credentials.");
+    } else {
+      toast.error("Some Error Has Occured!");
+      console.log("Some Error Has Occured!");
+    }
+  }
 
   return <span id="googleSignInDiv"></span>;
 };
