@@ -63,8 +63,6 @@ const login = async (req, res) => {
   }
 };
 
-
-
 const register = async (req, res) => {
   try {
     const { username, fullname, email, phone, password } = req.body;
@@ -185,6 +183,8 @@ const editUserDetails = async (req, res) => {
     res.status(500).json({ msg: "Something Went Wrong!" });
   }
 };
+
+
 
 module.exports = {
   clearCookies,
