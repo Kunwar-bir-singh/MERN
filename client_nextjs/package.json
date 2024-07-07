@@ -17,6 +17,7 @@
     "postcss-nesting": "^12.1.1",
     "react": "^18",
     "react-dom": "^18",
+    "reactjs-popup": "^2.0.6",
     "sass": "^1.72.0",
     "sonner": "^1.4.41"
   },

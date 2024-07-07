@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import Popup from 'reactjs-popup'
 import './Popup.css'
 
-const page = () => {
+const VerifyEmail = ({userEmail ,emailVerifyRes, setEmailVerifyRes}) => {
   const [emailVerifyCode, setEmailVerifyCode] = useState(null);
   const [inputCode, setInputCode] = useState('');
 
@@ -18,7 +18,7 @@ const page = () => {
       {
         method :"POST",
         headers : { "Content-Type": "application/json" },
-        body : JSON.stringify({ email : "www.kunwarbirsingh24@gmail.com" })
+        body : JSON.stringify({ email : userEmail })
       }
     )
       const data = await api.json();
@@ -30,9 +30,11 @@ const page = () => {
       console.log(inputCode , emailVerifyCode);
       console.log(typeof inputCode , typeof emailVerifyCode);
       if(Number(inputCode) === emailVerifyCode){
+        setEmailVerifyRes(1);
         console.log("Email Verification Successful");
       }else{
         console.log("Invalid Email Code");
+        setEmailVerifyRes(0);
       }
     }
 
@@ -52,7 +54,7 @@ const page = () => {
           Press the "Send Code" button below and a verification code will be sent to your registered email.<br/>
           Kindly enter that code in the below input field and press "Verify".
           <br />
-          <span> Note : The code will be sent to www.kunwarbirsingh24@gmail.com</span>
+          <span> Note : The code will be sent to {userEmail}</span>
         </div>
         <div className="actions">
           {/* <Popup
@@ -82,4 +84,4 @@ const page = () => {
   )
 
 }
-export default page
+export default VerifyEmail

@@ -1,8 +1,9 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import { toast } from "sonner";
 import "./myProfile.css";
 import CookieValue from "@/app/components/cookieValue/CookieValue";
-import { toast } from "sonner";
+import VerifyEmail from "@/app/components/verifyEmailPopup/VerifyEmailPopup";
 
 const Page = () => {
   const [cookieValue, setCookieValue] = useState(null);
@@ -20,15 +21,18 @@ const Page = () => {
     address: "",
     isProvider: null,
     isAvailable : true,
+    isVerified : false,
   });
+  const [emailVerifyRes, setEmailVerifyRes] = useState(null);
+
   const [image, setImage] = useState(null);
   const [imageBase64, setImageBase64] = useState("");
 
-  let [checkDetailsSaved, setCheckDetailsSaved] = useState(0);
+  const [checkDetailsSaved, setCheckDetailsSaved] = useState(0);
 
   const toggleEditMode = () => {
     setEditMode(!editMode);
-    setCheckDetailsSaved(++checkDetailsSaved);
+    setCheckDetailsSaved((checkDetailsSaved) => ++checkDetailsSaved);
   };
   const handleCookieValue = (value) => {
     setCookieValue(value);
@@ -123,7 +127,8 @@ const Page = () => {
         email: userDetails.email,
         address: userDetails.address,
         isProvider: userDetails.isProvider,
-        isAvailable: userDetails.isAvailable
+        isAvailable: userDetails.isAvailable,
+        isVerified: userDetails.isVerified,
       });
     } else if (checkDetailsSaved === 2) {
       console.log(editedDetails);
@@ -165,13 +170,10 @@ const Page = () => {
 
   useEffect(() => {
     if (resFromDetailsSaved != null) {
+      toast.success(resFromDetailsSaved.msg);
       setTimeout(() => {
-        toast.success(resFromDetailsSaved.msg);
         window.location.href = "/routes/myProfile";
       }, 2000);
-      setTimeout(()=>{
-        // setCheckDetailsSaved(0);
-      },1000)
     }
   }, [resFromDetailsSaved]);
 
@@ -192,6 +194,16 @@ const Page = () => {
       jwtVerify();
     }
   }, [cookieValue]);
+
+    useEffect(() => {
+    if(emailVerifyRes && emailVerifyRes == 1){
+      toast.success("Email Verified! Please Save The Changes.");
+      setEditedDetails({...editedDetails, isVerified: true})
+    }
+    else if(emailVerifyRes && emailVerifyRes == 0){
+      toast.success("Invalid Code.");
+    }
+  },[emailVerifyRes])
 
   return userDetails != null ? (
     <div className="myProfile_body">
@@ -253,15 +265,15 @@ const Page = () => {
                 <strong>Phone :</strong> {userDetails.phone}
               </h6>
             </div>
-            <div>
-              <h5 className="user-profession">
-                {" "}
-                <strong>Profession :</strong> {userDetails.profession}
-              </h5>
-              <h6 className="user-city">
-                <strong>City :</strong> {userDetails.city}
-              </h6>
-            </div>
+            {!userDetails.isVerified ? (<div className={checkDetailsSaved === 0 ? "no_point" : "" }>
+            <VerifyEmail emailVerifyRes = {emailVerifyRes} setEmailVerifyRes={setEmailVerifyRes} userEmail={userDetails.email}  />
+              
+            </div>) :(
+              <div>
+                <h6 className="verified_text">Email Verified!</h6>
+              </div>
+            ) }
+            
           </div>
           <div className="provider_available">
           <div style={{ height: '36px' }}>

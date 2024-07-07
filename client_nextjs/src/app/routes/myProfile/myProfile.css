@@ -67,7 +67,12 @@
 #grayed-out {
   cursor: not-allowed; 
 }
-
+.no_point{
+  pointer-events: none;
+}
+.verified_text{
+  color:  rgb(14, 155, 14);
+}
 #saveBtn{
   background: rgb(14, 155, 14);
   
