@@ -1,7 +1,8 @@
 'use client'
 import React, { useState } from 'react'
 import Popup from 'reactjs-popup'
-import './Popup.css'
+import './css.css' 
+import ChangePassword from '@/app/components/changePassword/ChangePassword'
 
 const page = () => {
   const [emailVerifyCode, setEmailVerifyCode] = useState(null);
@@ -38,7 +39,7 @@ const page = () => {
 
   return (
     <Popup
-    trigger={<button className="button"> Verify Email </button>}
+    trigger={<button className="button"> Change Password   </button>}
     modal
     nested
   >
@@ -47,13 +48,13 @@ const page = () => {
         <button className="close" onClick={close}>
           &times;
         </button>
-        <div className="header"> Verify your email </div>
+        {/* <div className="header"> Verify your email </div>
         <div className="content">
           Press the "Send Code" button below and a verification code will be sent to your registered email.<br/>
           Kindly enter that code in the below input field and press "Verify".
           <br />
           <span> Note : The code will be sent to www.kunwarbirsingh24@gmail.com</span>
-        </div>
+        </div> */}
         <div className="actions">
           {/* <Popup
             trigger={<button className="button"> Send C </button>}
@@ -67,14 +68,15 @@ const page = () => {
               sapiente! Laudantium, aperiam doloribus. Odit, aut.
             </span>
           </Popup> */}
-          <form action="" onSubmit={(e)=>e.preventDefault()} >
+          {/* <form action="" onSubmit={(e)=>e.preventDefault()} >
 
           <button className="button" onClick={sendEmailCode} > Send Code </button> <br/>
           <input type="number"  placeholder="Enter Code" id="" name="inputCode" value={inputCode} onChange={getInputCode} />
           <button onClick={verifyCode}>
             Verify
           </button>
-          </form>
+          </form> */}
+          <ChangePassword/>
         </div>
       </div>
     )}

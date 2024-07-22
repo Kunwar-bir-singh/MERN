@@ -6,7 +6,7 @@
 }
 body{
     background-color: #080710;
-    background-image: url(../../../components/images/login_background.jpg);
+    background-image: url('/client_nextjs/src/app/assets/images/login_background.jpg');
     background-repeat: no-repeat;
     background-size: cover;
     

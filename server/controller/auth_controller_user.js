@@ -117,7 +117,7 @@ const googleLogin = async (req, res)=>{
     res.cookie("token", token); 
 
     res.status(200).json({
-      msg: "User Logged In Successfully",
+      msg: "Login Successfull!",
       userId: userExists._id.toString(),
       code: 1,
       token

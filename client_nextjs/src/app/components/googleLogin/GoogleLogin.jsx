@@ -55,22 +55,22 @@ const GoogleSignInButton = ({isProvider = false}) => {
       });
       const data = await res.json();
       console.log("Response : ", data);
-      resCodeHandler(data.code);
+      resCodeHandler(data);
     }
     api();
   };
-  const resCodeHandler = (code) => {
-    if (code === 1) {
-      toast.success("User Login Successfull!");
+  const resCodeHandler = (data) => {
+    if (data.code === 1) {
+      toast.success(data.msg);
       console.log("Google Login Successfull");
       setTimeout(() => {
         window.location.href = "/";
       }, 1000);
-    } else if (code === 0) {
-      toast.warning("Incorrect Credentials");
+    } else if (data.code === 0) {
+      toast.warning(data.msg);
       console.log("Incorrect Credentials.");
     } else {
-      toast.error("Some Error Has Occured!");
+      toast.error(data.msg);
       console.log("Some Error Has Occured!");
     }
   }
