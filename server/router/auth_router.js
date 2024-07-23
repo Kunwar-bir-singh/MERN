@@ -1,5 +1,5 @@
 const express = require('express');
-const {clearCookies , register ,login, jwtVerify, getUserDetails, editUserDetails, googleLogin, emailVerification} = require('../controller/auth_controller_user');
+const {clearCookies , register ,login, jwtVerify, getUserDetails, editUserDetails, changePassword, googleLogin, emailVerification} = require('../controller/auth_controller_user');
 const {createImage, getImage} = require('../controller/auth_controller_imageUpload');
 
 
@@ -16,6 +16,7 @@ router.post('/googleLogin', googleLogin);
 router.post('/jwtVerify', jwtVerify);
 router.post('/getUserDetails', getUserDetails);
 router.post('/editUserDetails', editUserDetails);
+router.post('/changePassword', changePassword);
 
 router.post('/createImage', createImage);
 router.post('/getImage', getImage);

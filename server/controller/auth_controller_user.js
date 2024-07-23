@@ -4,7 +4,7 @@ const jsonwebtoken = require("jsonwebtoken");
 const { ObjectId } = require("mongodb");
 const bcrypt = require("bcrypt");
 const nodemailer = require("nodemailer");
-
+let userType = User;
 
 const jwtVerify = async (req, res, next) => {
   try {
@@ -81,9 +81,9 @@ const register = async (req, res) => {
         email,
         phone,
         password: hashedPassword,
-        image :{
-          url: 'https://i.pinimg.com/1200x/fc/04/73/fc047347b17f7df7ff288d78c8c281cf.jpg'
-        }
+        image: {
+          url: "https://i.pinimg.com/1200x/fc/04/73/fc047347b17f7df7ff288d78c8c281cf.jpg",
+        },
       });
 
       const token = await userCreated.generateToken();
@@ -100,27 +100,28 @@ const register = async (req, res) => {
   }
 };
 
-const googleLogin = async (req, res)=>{
+const googleLogin = async (req, res) => {
   try {
-    let userType = User;
-    const {email, isProvider} = req.body;
+    const { email, isProvider } = req.body;
     if (isProvider) userType = Provider;
     console.log("Email , IsProvider :  ", email, isProvider);
-    const userExists = await userType.findOne({email : email });
+    const userExists = await userType.findOne({ email: email });
     console.log("User Exists : ", userExists);
     if (!userExists) {
       console.log("User Doesnt Exist");
-      return res.status(401).json({ msg: "User Doesn't Exist. Please Register First." , code : 0});
+      return res
+        .status(401)
+        .json({ msg: "User Doesn't Exist. Please Register First.", code: 0 });
     }
-    console.log("User :" , userExists);
+    console.log("User :", userExists);
     const token = await userExists.generateToken();
-    res.cookie("token", token); 
+    res.cookie("token", token);
 
     res.status(200).json({
       msg: "Login Successfull!",
       userId: userExists._id.toString(),
       code: 1,
-      token
+      token,
     });
 
     console.log("Successful Google Login ", "Token : ", token);
@@ -128,11 +129,10 @@ const googleLogin = async (req, res)=>{
     console.log("Error While Logging", error);
     res.status(500).json({ msg: "Internal Server Error" });
   }
-}
+};
 
 const getUserDetails = async (req, res) => {
   try {
-    let userType = User;
     const data = req.body.decoded;
     console.log(data);
     if (data.isProvider) userType = Provider;
@@ -154,12 +154,10 @@ const getUserDetails = async (req, res) => {
   }
 };
 
-
 const editUserDetails = async (req, res) => {
   try {
     const reqData = req.body;
-    console.log("Data From Body " ,reqData);
-    let userType = User;
+    console.log("Data From Body ", reqData);
     if (reqData.isProvider) userType = Provider;
 
     const user = await userType.updateOne(
@@ -172,18 +170,47 @@ const editUserDetails = async (req, res) => {
           phone: reqData.phone,
           city: reqData.city,
           email: reqData.email,
-          address : reqData.address ,
-          isAvailable : reqData.isAvailable,
+          address: reqData.address,
+          isAvailable: reqData.isAvailable,
           isVerified: reqData.isVerified,
         },
       }
     );
     const updatedUser = await userType.findOne({ phone: reqData.phone });
-    console.log("Details Successfully Updated" ,updatedUser);
-    res.status(200).json({ msg: "Details Successfully Updated" , code : 1});
+    console.log("Details Successfully Updated", updatedUser);
+    res.status(200).json({ msg: "Details Successfully Updated", code: 1 });
   } catch (error) {
     console.log(error);
     res.status(500).json({ msg: "Something Went Wrong!" });
+  }
+};
+
+const changePassword = async (req, res) => {
+  try {
+    const { userID, newPassword, isProvider } = req.body;
+    const userObjectId = ObjectId.createFromHexString(userID);
+    
+    if (isProvider) userType = Provider;
+
+    const newHashedPassword = await bcrypt.hash(newPassword, 10);
+    const user = await userType.findOne({_id: userObjectId});
+    const isSamePassword = await bcrypt.compare(newPassword, user.password);
+
+    if (isSamePassword) {
+      console.log("SAME PASSWORD BOZO")
+      return res.status(400).json({code:2, msg: 'New password must be different from the current password' });
+    }
+    await userType.updateOne({ _id: userObjectId }, { password: newHashedPassword });
+
+    console.log("Password Changed Successfully : ", user);
+    res
+      .status(200)
+      .json({ msg: "Password Changed Successfully", code: 1, user: user });
+  } catch (error) {
+    console.log(error);
+    res
+    .status(400)
+    .json({ msg: "Some Error Has Occured", code: 0 });
   }
 };
 
@@ -200,50 +227,6 @@ const emailVerification = async (req, res) => {
 
   let transporter = nodemailer.createTransport(config);
 
-  //   let Mailgenerator = new Mailgen({
-  //     theme: "default",
-  //     product: {
-  //       name: "Mailgen",
-  //       link: "https://mailgen.js/",
-  //     },
-  //   });
-
-  //   let response = {
-  //     body: {
-  //       name : "Kunwarbir Singh",
-  //       intro: "Your mail has arrived.",
-  //       table: {
-  //         data: [
-  //           {
-  //             item: "Nodemailer working",
-  //             description: "Checking whether nodemailer works or not",
-  //             price: "Not Really",
-  //           },
-  //         ],
-  //       },
-  //       outro: "Outro has yeh bkl",
-  //     },
-  //   };
-
-  //   let mail = Mailgenerator.generate(response);
-  //   let msg = {
-  //     from: process.env.GMAIL,
-  //     to: userEmail,
-  //     subject: "Email Verification",
-  //     html: mail,
-  //   };
-
-  //   transporter
-  //     .sendMail(msg)
-  //     .then(() => {
-  //       console.log("Email Verification Sent");
-  //       return res.status(200).json({ msg: "Email Verification Sent" });
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //       return res.status(500).json({ msg: "Failed to send Email Verification" });
-  //     });
-
   function generateEmailCode() {
     return Math.floor(100000 + Math.random() * 900000);
   }
@@ -251,22 +234,19 @@ const emailVerification = async (req, res) => {
   async function main() {
     const info = await transporter.sendMail({
       from: `Kunwarbir Singh 🤠" ${process.env.GMAIL} `,
-      to: "www.kunwarbirsingh24@gmail.com",
+      to: userEmail,
       subject: "Verification Mail",
       text: "Hello world?",
       html: `Your Verification Code is <b>${emailCode}</b> `,
     });
-
-    // Message sent: <d786aa62-4e0a-070a-47ed-0b0666549519@ethereal.email>
   }
 
   main().catch(console.error);
-  console.log("Email sent: sucessfully." );
+  console.log("Email sent: sucessfully.");
   return res
     .status(200)
     .json({ msg: "Email Verification Sent", emailCode: emailCode, code: 1 });
 };
-
 
 module.exports = {
   clearCookies,
@@ -276,5 +256,6 @@ module.exports = {
   jwtVerify,
   getUserDetails,
   editUserDetails,
-  emailVerification
+  emailVerification,
+  changePassword,
 };
