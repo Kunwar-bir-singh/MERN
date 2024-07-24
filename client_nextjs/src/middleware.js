@@ -46,7 +46,6 @@ export async function middleware(request) {
         return NextResponse.next();
       }
     } else {
-      // If the user is not a service provider, deny access to createProfession route
       if (request.nextUrl.pathname === "/routes/createProfession") {
         return NextResponse.redirect("http://localhost:3000/routes/choose"); // Redirect to an unauthorized page
       }

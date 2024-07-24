@@ -132,7 +132,7 @@
   /* .profile_user_details form .form-row {
     display: block;
   } */
-  form .form-row .input-data {
+ .form-row .input-data {
     margin: 35px 0 !important;
   }
   .submit-btn .input-data {

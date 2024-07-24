@@ -188,6 +188,7 @@ const editUserDetails = async (req, res) => {
 const changePassword = async (req, res) => {
   try {
     const { userID, newPassword, isProvider } = req.body;
+    console.log(userID , newPassword , isProvider);
     const userObjectId = ObjectId.createFromHexString(userID);
     
     if (isProvider) userType = Provider;

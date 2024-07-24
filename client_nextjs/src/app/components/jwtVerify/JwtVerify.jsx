@@ -27,7 +27,7 @@ const JwtVerify = ({ setDecodedData }) => {
     }
   },[cookieValue])
   return <>
-  <CookieValue CookieValueProp={handleCookieValue} />;
+  <CookieValue CookieValueProp={handleCookieValue} />
   </>
 };
 

@@ -4,6 +4,9 @@ import { toast } from "sonner";
 import "./myProfile.css";
 import CookieValue from "@/app/components/cookieValue/CookieValue";
 import VerifyEmail from "@/app/components/verifyEmailPopup/VerifyEmailPopup";
+import EditSvg from "@/app/assets/svgs/EditSvg";
+import SaveSvg from "@/app/assets/svgs/SaveSvg";
+import ChangePassword from "@/app/components/changePassword/ChangePassword";
 
 const Page = () => {
   const [cookieValue, setCookieValue] = useState(null);
@@ -296,49 +299,17 @@ const Page = () => {
         </div>
 
         <div className="profile_user_details">
+        <ChangePassword/>
           {!editMode ? (
             <>
               <button className="btn" onClick={toggleEditMode}>
-                <span className="icon">
-                  <svg
-                    className="feather feather-edit"
-                    fill="none"
-                    height="24"
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    viewBox="0 0 24 24"
-                    width="24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
-                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
-                  </svg>
-                </span>
+                <EditSvg/>
                 <span className="edit_button_text">Edit</span>
               </button>
             </>
           ) : (
             <button className="btn" id="saveBtn" onClick={toggleEditMode}>
-              <span className="icon">
-                <svg
-                  className="feather feather-save"
-                  fill="none"
-                  height="24"
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  viewBox="0 0 24 24"
-                  width="24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z" />
-                  <polyline points="17 21 17 13 7 13 7 21" />
-                  <polyline points="7 3 7 8 15 8" />
-                </svg>
-              </span>
+            <SaveSvg/>
               <span className="edit_button_text">Save</span>
             </button>
           )}
