@@ -40,15 +40,15 @@ const getProfession = async (req, res) => {
     const { name, city } = req.query;
     console.log('Name :' , name);
     console.log('City :' , city);
-    const token = req.headers.authorization?.split(' ')[1];
-    console.log(token);
-    let isProvider = false; 
-    try {
-      const providerID = jwt.verify(token, process.env.JWT_KEY);
-      console.log(providerID);
-    } catch (error) {
-      console.log(error);
-    }
+    // const token = req.headers.authorization?.split(' ')[1];
+    // console.log(token);
+    // let isProvider = false; 
+    // try {
+    //   const providerID = jwt.verify(token, process.env.JWT_KEY);
+    //   console.log(providerID);
+    // } catch (error) {
+    //   console.log(error);
+    // }
     const professionExists = await Profession.findOne({ name, city });
 
     if (!professionExists) {
