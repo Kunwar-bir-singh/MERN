@@ -1,6 +1,8 @@
 const Profession = require("../models/profession_model");
 const Provider = require("../models/provider_model.");
 const jwt = require('jsonwebtoken');
+const { ObjectId } = require('mongodb');
+
 
 const createProfession = async (req, res) => {
   try {
@@ -38,51 +40,39 @@ const createProfession = async (req, res) => {
 const getProfession = async (req, res) => {
   try {
     const { name, city } = req.query;
-    console.log('Name :' , name);
-    console.log('City :' , city);
-    // const token = req.headers.authorization?.split(' ')[1];
-    // console.log(token);
-    // let isProvider = false; 
-    // try {
-    //   const providerID = jwt.verify(token, process.env.JWT_KEY);
-    //   console.log(providerID);
-    // } catch (error) {
-    //   console.log(error);
-    // }
+    const objectUserId =  ObjectId.createFromHexString(req.body.userID);
+    // console.log("Object userId",objectUserId , typeof objectUserId );
     const professionExists = await Profession.findOne({ name, city });
 
     if (!professionExists) {
       res.status(400).json({
         msg: "No results found. Ensure Details are Correct or Create That Profession",
+        code : 0
       });
       console.log("Profession Isn't Found :( ");
     } else {
-      const numberOfProviders = professionExists.provider.length;
-      // res.status(200).json({professionExists , isProvider});
-      res.status(200).json({professionExists , code : 1});
-      console.log("Profession Found :) ");
+      const ifProviderLinked = professionExists.provider.includes(objectUserId);
+      console.log("Output Of ifProviderLinked : ", ifProviderLinked);
+      res.status(200).json({professionExists , code : 1, ifProviderLinked});
+      console.log("Profession Found :) ", professionExists, ifProviderLinked);
     }
   } catch (error) {
-    res.status(500).json({ msg: "Some Internal Server Error" });
+    res.status(500).json({ msg: "Some Internal Server Error" , err : true });
     console.log(error);
   }
 };
 
 const editProfession = async (req, res) => {
   try {
-    const token = req.headers.authorization?.split(' ')[1];
-    const profession_city = req.query;
-    console.log(token);
-    const providerID = jwt.verify(token, process.env.JWT_KEY).userID;
-    console.log(providerID);
-    
-    // console.log(profession_city.city);
-    // console.log(profession_city.name);
+    const professionCity = req.query.city;
+    const professionName = req.query.name;
 
+    const {providerID} = req.body;
+   
     try {
       const profession = await Profession.findOne({
-        city: profession_city.city,
-        name: profession_city.name,
+        city: professionCity,
+        name: professionName,
       });
       if (!profession) {
         console.log("Profession Doesn't Exist");
@@ -137,11 +127,28 @@ const getProviders = async (req, res) => {
   }
 };
 
-
+const unLinkProvider = async (req, res) =>{
+  try {
+    const {userID, professionID} = req.body;
+    // console.log(userID , professionID);
+      const unLinked = await Profession.updateOne(
+        { _id: ObjectId.createFromHexString(professionID) },
+        { $pull: { provider: ObjectId.createFromHexString(userID) } }
+      );
+      if(unLinked.acknowledged){
+        console.log("Profession Successfully Uninked!");
+        res.status(200).json({msg : "Profession Successfully Uninked!", code : 1});
+      } 
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({msg : "Some Error Has Occured."}, );
+  }
+}
 
 module.exports = {
   getProfession,
   getProviders,
   createProfession,
   editProfession,
+  unLinkProvider
 };

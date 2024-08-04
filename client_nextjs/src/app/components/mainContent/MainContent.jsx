@@ -16,11 +16,12 @@ const MainContent = () => {
       const api = await fetch(
         `http://localhost:3001/api/authProfession/getProfession?${queryString}`,
         {
-          method: "GET",
+          method: "POST",
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${cookieValue}`,
           },
+          body: JSON.stringify({userID : '663de36996c61e09d67447e0'})
         }
       );
       const response = await api.json();
@@ -30,7 +31,6 @@ const MainContent = () => {
     }
   };
 
-  useEffect(() => {}, [res]);
   useEffect(() => {
     const cookie = document.cookie.slice(6);
     setCookievalue(cookie);
@@ -79,7 +79,6 @@ const MainContent = () => {
           </label>
           <div className="button-group">
             <button className="searchBtn" onClick={search}>
-              {" "}
               Search
             </button>
             <button

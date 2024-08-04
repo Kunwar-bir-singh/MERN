@@ -9,9 +9,9 @@ const getImage = async (req, res) => {
   let userType = User;
   try {
     if (data.isProvider) userType = Provider;
-    console.log("userType is : ", userType);
+    // console.log("userType is : ", userType);
     const user = await userType.findOne(new ObjectId(data.userID))
-    console.log(user);
+    // console.log(user);
     if (user) {
       res.status(200).json(user.image.url);
       return

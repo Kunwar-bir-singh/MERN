@@ -5,9 +5,8 @@ import LinkProfession from "../../linkProfession/LinkProfession";
 import CookieValue from "../../cookieValue/CookieValue";
 
 const Response = ({ inputData, res }) => {
-  console.log("Response of Response.jsx ", res);
+  // console.log("Response of Response.jsx ", res);
   const [linkClicked, setLinkClicked] = useState(false);
-  const [linkProfesRes, setLinkProfesRes] = useState(null);
   const [key, setKey] = useState(Date.now());
 
   const linkClickedOrNot = () => {
@@ -15,10 +14,6 @@ const Response = ({ inputData, res }) => {
     setTimeout(() => {
       setLinkClicked(false);
     }, 1000);
-  };
-
-  const onResponse = (response) => {
-    setLinkProfesRes(response);
   };
 
   const [cookieValue, setCookieValue] = useState(null);
@@ -50,10 +45,6 @@ const Response = ({ inputData, res }) => {
   }, [cookieValue]);
 
   useEffect(() => {
-    console.log("Value of linkProfesRes ", linkProfesRes);
-  }, [linkProfesRes]);
-
-  useEffect(() => {
     if (res && res.code === 1) {
       setKey(Date.now()); // Update the key to force re-render
     }
@@ -76,10 +67,11 @@ const Response = ({ inputData, res }) => {
             {userAuthorization && userAuthorization.isProvider !== false && (
               <>
                 <div className="response_above-text" onClick={linkClickedOrNot}>
-                  Want To Link With This Profession?
+                  Want To {res.ifProviderLinked ? `UnLink` : `Link`}  With This Profession?
+                  {console.log("Is Provider Linked : ",res.ifProviderLinked)}
                 </div>
                 {linkClicked && (
-                  <LinkProfession params={inputData} onResponse={onResponse} />
+                  <LinkProfession params={inputData} unLink={res.ifProviderLinked} loggedUserData={userAuthorization} professionID ={res.professionExists._id} />
                 )}
               </>
             )}
@@ -105,11 +97,26 @@ const Response = ({ inputData, res }) => {
         ) : (
           <div>
             <>
-              <div className="text-center	">{res.msg.slice(0, 17)}</div>
-              <div>{res.msg.slice(18, 47)}</div>
-              <Link className="createProfLink" href={"/routes/createProfession"}>
-                <span>{res.msg.slice(47)}</span></Link>
-                <p className="provider_note">Note: Only Providers could create a Profession</p>
+              {res.err ? (
+                <>
+                  <div className="text-center	">{res.msg}</div>
+                </>
+              ) : (
+                <>
+                  <div className="text-center	">{res.msg.slice(0, 17)}</div>
+                  <div>{res.msg.slice(18, 47)}</div>
+                  <Link
+                    className="createProfLink"
+                    href={"/routes/createProfession"}
+                  >
+                    <span>{res.msg.slice(47)}</span>
+                  </Link>
+                </>
+              )}
+
+              <p className="provider_note">
+                Note: Only Providers could create a Profession
+              </p>
             </>
           </div>
         )}
