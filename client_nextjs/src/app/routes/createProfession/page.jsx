@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import "./createProfession.css";
-import LinkProfession from "@/app/components/linkProfession/LinkProfession";
+import LinkProfession from "@/app/components/linkProfession/LinkOrUnlinkProfession";
 import { toast } from "sonner";
 
 const page = () => {

@@ -1,20 +1,23 @@
 import React, { useEffect, useState } from "react";
-import "./Response.css";
 import Link from "next/link";
-import LinkProfession from "../../linkProfession/LinkProfession";
+import LinkOrUnlinkProfession from "@/app/components/linkProfession/LinkOrUnlinkProfession";
 import CookieValue from "../../cookieValue/CookieValue";
+import "./Response.css";
+import { toast } from "sonner";
+import ToastNotification from "@/app/utils/toastNotification";
+
 
 const Response = ({ inputData, res }) => {
   // console.log("Response of Response.jsx ", res);
   const [linkClicked, setLinkClicked] = useState(false);
   const [key, setKey] = useState(Date.now());
 
-  const linkClickedOrNot = () => {
-    setLinkClicked(true);
-    setTimeout(() => {
-      setLinkClicked(false);
-    }, 1000);
-  };
+  // const linkClickedOrNot = () => {
+  //   setLinkClicked(true);
+  //   setTimeout(() => {
+  //     setLinkClicked(false);
+  //   }, 1000);
+  // };
 
   const [cookieValue, setCookieValue] = useState(null);
   const [userAuthorization, setUserAuthorization] = useState(null);
@@ -66,13 +69,20 @@ const Response = ({ inputData, res }) => {
           <div className="response_card">
             {userAuthorization && userAuthorization.isProvider !== false && (
               <>
-                <div className="response_above-text" onClick={linkClickedOrNot}>
+                {/* <div className="response_above-text" onClick={linkClickedOrNot}>
                   Want To {res.ifProviderLinked ? `UnLink` : `Link`}  With This Profession?
                   {console.log("Is Provider Linked : ",res.ifProviderLinked)}
                 </div>
-                {linkClicked && (
-                  <LinkProfession params={inputData} unLink={res.ifProviderLinked} loggedUserData={userAuthorization} professionID ={res.professionExists._id} />
-                )}
+                  {linkClicked && (
+                    <LinkOrUnlinkProfession params={inputData} unLink={res.ifProviderLinked} loggedUserData={userAuthorization} professionID ={res.professionExists._id} />
+                  )} */}
+                <LinkOrUnlinkProfession
+                  params={inputData}
+                  unLink={res.ifProviderLinked}
+                  loggedUserData={userAuthorization}
+                  professionID={res.professionExists._id}
+                />
+                {/* {ToastNotification(1, "test")} */}
               </>
             )}
             <div className="response_border"></div>

@@ -1,4 +1,5 @@
-const UnLinkProfession = async (userID, professionID) =>{
+
+const UnLinkProfession = async (userID, professionID, callbackFunc) =>{
     // console.log("professionID in UnLinkProfession COMPONENET" , professionID);
 
         const res = await fetch("http://localhost:3001/api/authProfession/unLinkProvider",{
@@ -12,13 +13,7 @@ const UnLinkProfession = async (userID, professionID) =>{
             })
         })
         const data = await res.json();
-        // if (data.code === 0) {
-        //         toast.error("You are already linked!");
-        //       } else if (data.code === 1) {
-        //         toast.success("Successfully Linked");
-        //       } else {
-        //         toast.error("Some Error Has Occcured.");
-        //       }
+        callbackFunc(data);
         console.log("UNLINKED RESPONSE !!" , data);
     }
 

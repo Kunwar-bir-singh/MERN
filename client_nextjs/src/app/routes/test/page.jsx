@@ -1,13 +1,18 @@
-'use client'
-import React, { useState } from 'react'
-import Popup from 'reactjs-popup'
-import './css.css' 
-import ChangePassword from '@/app/components/changePassword/ChangePassword'
+"use client"
+import React from 'react';
+import { ToastContainer } from 'sonner';
+import ToastNotification from '@/app/utils/toastNotification';
 
-const page = () => {
+function TestComponent() {
+  const showToast = () => {
+    ToastNotification(1, "This is a test success toast!");
+  };
+
   return (
-    <ChangePassword/>
-  )
-
+    <div>
+      <button onClick={showToast}>Show Toast</button>
+      </div>
+  );
 }
-export default page
+
+export default TestComponent;

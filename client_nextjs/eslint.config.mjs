@@ -8,4 +8,10 @@ export default [
   {languageOptions: { globals: globals.browser }},
   pluginJs.configs.recommended,
   pluginReact.configs.flat.recommended,
+  {
+    rules: {
+        "no-unused-vars": "warn",
+        "no-undef": "warn"
+    }
+},
 ];
