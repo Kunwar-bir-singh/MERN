@@ -86,7 +86,7 @@ const editProfession = async (req, res) => {
         await profession.save();
         res
           .status(200)
-          .json({ success: true, msg: "Provider added to the profession." , code : 1 });
+          .json({ success: true, msg: "Profession successfully linked!" , code : 1 });
         console.log("Provider Added Successfully.");
       }
     } catch (error) {

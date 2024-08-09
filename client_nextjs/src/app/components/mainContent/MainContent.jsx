@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
-import Link from "next/link";
-import "./mainContent.scss";
-import Response from "./response/Response";
 import { toast } from "sonner";
+import Response from "./response/Response";
+import "./mainContent.scss";
 
 const MainContent = () => {
-  const [res, setRes] = useState(null);
-  const [cookieValue, setCookievalue] = useState("");
+  const [professionRes, setProfessionRes] = useState(null);
 
   const search = async () => {
     try {
@@ -19,22 +17,16 @@ const MainContent = () => {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${cookieValue}`,
           },
           body: JSON.stringify({userID : '663de36996c61e09d67447e0'})
         }
       );
       const response = await api.json();
-      setRes(response);
+      setProfessionRes(response);
     } catch (error) {
       console.log(error);
     }
   };
-
-  useEffect(() => {
-    const cookie = document.cookie.slice(6);
-    setCookievalue(cookie);
-  }, []);
 
   const [input, setInput] = useState({
     name: "",
@@ -90,7 +82,7 @@ const MainContent = () => {
                   name: "",
                   city: "",
                 });
-                toast("Input Cleared");
+                toast.success("Input Cleared");
               }}
             >
                {" "}
@@ -98,7 +90,7 @@ const MainContent = () => {
             </button>
           </div>
         </div>
-        <Response inputData={input} res={res} />
+        <Response inputData={input} res={professionRes} />
       </div>
     </>
   );

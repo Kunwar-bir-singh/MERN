@@ -1,7 +1,7 @@
 import { toast } from 'sonner';
 
 const ToastNotification = (code, message) => {
-  console.log("Toast Code:", code);
+//   console.log("Toast Code:", code);
   if (code === 1) {
     toast.success(message);
     console.log("Toast success:", message);

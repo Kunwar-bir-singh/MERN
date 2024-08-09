@@ -188,20 +188,28 @@ const editUserDetails = async (req, res) => {
 const changePassword = async (req, res) => {
   try {
     const { userID, newPassword, isProvider } = req.body;
-    console.log(userID , newPassword , isProvider);
+    console.log(userID, newPassword, isProvider);
     const userObjectId = ObjectId.createFromHexString(userID);
-    
+
     if (isProvider) userType = Provider;
 
     const newHashedPassword = await bcrypt.hash(newPassword, 10);
-    const user = await userType.findOne({_id: userObjectId});
+    const user = await userType.findOne({ _id: userObjectId });
     const isSamePassword = await bcrypt.compare(newPassword, user.password);
 
     if (isSamePassword) {
-      console.log("SAME PASSWORD BOZO")
-      return res.status(400).json({code:2, msg: 'New password must be different from the current password' });
+      console.log("SAME PASSWORD BOZO");
+      return res
+        .status(400)
+        .json({
+          code: 2,
+          msg: "New password must be different from the current password",
+        });
     }
-    await userType.updateOne({ _id: userObjectId }, { password: newHashedPassword });
+    await userType.updateOne(
+      { _id: userObjectId },
+      { password: newHashedPassword }
+    );
 
     console.log("Password Changed Successfully : ", user);
     res
@@ -209,44 +217,46 @@ const changePassword = async (req, res) => {
       .json({ msg: "Password Changed Successfully", code: 1, user: user });
   } catch (error) {
     console.log(error);
-    res
-    .status(400)
-    .json({ msg: "Some Error Has Occured", code: 0 });
+    res.status(400).json({ msg: "Some Error Has Occured", code: 0 });
   }
 };
 
 const emailVerification = async (req, res) => {
-  const userEmail = req.body.userEmail;
+  try {
+    const userEmail = req.body.userEmail;
+    console.log("userEmail: ", userEmail);
+    let config = {
+      service: "gmail",
+      auth: {
+        user: process.env.GMAIL,
+        pass: process.env.GMAIL_PASSWORD,
+      },
+    };
 
-  let config = {
-    service: "gmail",
-    auth: {
-      user: process.env.GMAIL,
-      pass: process.env.GMAIL_PASSWORD,
-    },
-  };
+    let transporter = nodemailer.createTransport(config);
 
-  let transporter = nodemailer.createTransport(config);
+    function generateEmailCode() {
+      return Math.floor(100000 + Math.random() * 900000);
+    }
+    let emailCode = generateEmailCode();
+    async function main() {
+      const info = await transporter.sendMail({
+        from: `Kunwarbir Singh 🤠" ${process.env.GMAIL} `,
+        to: userEmail,
+        subject: "Verification Mail",
+        text: "Hello world?",
+        html: `Your Verification Code is <b>${emailCode}</b> `,
+      });
+    }
 
-  function generateEmailCode() {
-    return Math.floor(100000 + Math.random() * 900000);
+    main();
+    console.log("Email sent: sucessfully.");
+    return res
+      .status(200)
+      .json({ msg: "Email Verification Sent", emailCode: emailCode, code: 1 });
+  } catch (error) {
+    console.log("Error : ", error);
   }
-  let emailCode = generateEmailCode();
-  async function main() {
-    const info = await transporter.sendMail({
-      from: `Kunwarbir Singh 🤠" ${process.env.GMAIL} `,
-      to: userEmail,
-      subject: "Verification Mail",
-      text: "Hello world?",
-      html: `Your Verification Code is <b>${emailCode}</b> `,
-    });
-  }
-
-  main().catch(console.error);
-  console.log("Email sent: sucessfully.");
-  return res
-    .status(200)
-    .json({ msg: "Email Verification Sent", emailCode: emailCode, code: 1 });
 };
 
 module.exports = {

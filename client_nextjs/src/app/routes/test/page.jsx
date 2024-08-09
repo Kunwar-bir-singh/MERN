@@ -1,16 +1,13 @@
 "use client"
-import React from 'react';
-import { ToastContainer } from 'sonner';
-import ToastNotification from '@/app/utils/toastNotification';
+import React, { useState } from 'react';
 
 function TestComponent() {
-  const showToast = () => {
-    ToastNotification(1, "This is a test success toast!");
-  };
+  const [val, setVal] = useState({code : 0 , msg : "" });
+  if(val.code)console.log("True when code = 0")
 
   return (
     <div>
-      <button onClick={showToast}>Show Toast</button>
+      Hi
       </div>
   );
 }

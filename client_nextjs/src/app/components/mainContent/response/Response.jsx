@@ -1,24 +1,13 @@
+/* eslint-disable react/prop-types */
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import LinkOrUnlinkProfession from "@/app/components/linkProfession/LinkOrUnlinkProfession";
 import CookieValue from "../../cookieValue/CookieValue";
 import "./Response.css";
-import { toast } from "sonner";
-import ToastNotification from "@/app/utils/toastNotification";
-
 
 const Response = ({ inputData, res }) => {
-  // console.log("Response of Response.jsx ", res);
-  const [linkClicked, setLinkClicked] = useState(false);
-  const [key, setKey] = useState(Date.now());
-
-  // const linkClickedOrNot = () => {
-  //   setLinkClicked(true);
-  //   setTimeout(() => {
-  //     setLinkClicked(false);
-  //   }, 1000);
-  // };
-
+  console.log("Res :", res);
+  const [unLink, setUnLink] = useState(null);
   const [cookieValue, setCookieValue] = useState(null);
   const [userAuthorization, setUserAuthorization] = useState(null);
 
@@ -37,6 +26,7 @@ const Response = ({ inputData, res }) => {
       if (res.ok) {
         const data = await res.json();
         setUserAuthorization(data.decoded);
+        setUnLink
         return;
       }
     });
@@ -49,7 +39,8 @@ const Response = ({ inputData, res }) => {
 
   useEffect(() => {
     if (res && res.code === 1) {
-      setKey(Date.now()); // Update the key to force re-render
+    
+      setUnLink(res.ifProviderLinked);
     }
   }, [res]);
 
@@ -60,7 +51,7 @@ const Response = ({ inputData, res }) => {
   return (
     <>
       <CookieValue CookieValueProp={handleCookieValue} />
-      <div className="response_area" key={key}>
+      <div className="response_area">
         {res == null ? (
           <div>
             <h2>Enter The Profession To Be Searched.</h2>
@@ -69,20 +60,14 @@ const Response = ({ inputData, res }) => {
           <div className="response_card">
             {userAuthorization && userAuthorization.isProvider !== false && (
               <>
-                {/* <div className="response_above-text" onClick={linkClickedOrNot}>
-                  Want To {res.ifProviderLinked ? `UnLink` : `Link`}  With This Profession?
-                  {console.log("Is Provider Linked : ",res.ifProviderLinked)}
-                </div>
-                  {linkClicked && (
-                    <LinkOrUnlinkProfession params={inputData} unLink={res.ifProviderLinked} loggedUserData={userAuthorization} professionID ={res.professionExists._id} />
-                  )} */}
                 <LinkOrUnlinkProfession
                   params={inputData}
-                  unLink={res.ifProviderLinked}
+                  setUnLink={setUnLink}
+                  unLink={unLink}
                   loggedUserData={userAuthorization}
                   professionID={res.professionExists._id}
                 />
-                {/* {ToastNotification(1, "test")} */}
+                
               </>
             )}
             <div className="response_border"></div>

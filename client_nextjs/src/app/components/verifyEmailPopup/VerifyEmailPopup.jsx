@@ -4,6 +4,7 @@ import Popup from 'reactjs-popup'
 import './Popup.css'
 
 const VerifyEmail = ({userEmail ,emailVerifyRes, setEmailVerifyRes}) => {
+  console.log("User Email", userEmail);
   const [emailVerifyCode, setEmailVerifyCode] = useState(null);
   const [inputCode, setInputCode] = useState('');
 
@@ -18,7 +19,7 @@ const VerifyEmail = ({userEmail ,emailVerifyRes, setEmailVerifyRes}) => {
       {
         method :"POST",
         headers : { "Content-Type": "application/json" },
-        body : JSON.stringify({ email : userEmail })
+        body : JSON.stringify({ userEmail : userEmail })
       }
     )
       const data = await api.json();

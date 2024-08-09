@@ -1,17 +1,17 @@
-import { useState , useEffect} from "react";
+/* eslint-disable react/prop-types */
+import React, { useState , useEffect} from "react";
 import UnLinkProfession from "@/app/services/provider/unlinkProfessions";
 import LinkProfessionFunc from "@/app/services/provider/linkProfession";
 const { default: ToastNotification } = require("@/app/utils/toastNotification");
 import "./LinkOrUnlink.css";
 
-const LinkOrUnlinkProfession = ({params, unLink, loggedUserData,professionID,}) => {
+const LinkOrUnlinkProfession = ({params, unLink,setUnLink, loggedUserData,professionID,}) => {
   const [linkUnlinkRes, setLinkUnlinkRes]= useState({
     code: null,
     msg: null,
   });
 
   const callbackFunc = (data) =>{
-    console.log("Data From CALLBACK");
     setLinkUnlinkRes({...linkUnlinkRes, code: data.code, msg: data.msg });
   }
   const triggerAction =()=>{
@@ -20,8 +20,13 @@ const LinkOrUnlinkProfession = ({params, unLink, loggedUserData,professionID,}) 
       : LinkProfessionFunc(params, loggedUserData.userID, callbackFunc);
   }
   useEffect(()=>{
-    if(linkUnlinkRes.code){
+    if(linkUnlinkRes.code!=null){
       ToastNotification(linkUnlinkRes.code, linkUnlinkRes.msg);}
+  },[linkUnlinkRes])
+
+  useEffect(()=>{
+    if(linkUnlinkRes.code == 1){
+      setUnLink(!unLink)}
   },[linkUnlinkRes])
 
   return (
