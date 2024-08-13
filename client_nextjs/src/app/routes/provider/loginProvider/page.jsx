@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import "./login.css";
 import { toast } from "sonner";
 import GoogleSignInButton from "@/app/components/googleLogin/GoogleLogin";
+import ChangePassword from "@/app/components/changePassword/ChangePassword";
 
 const page = () => {
   const [input, setInput] = useState({
@@ -92,7 +93,7 @@ const page = () => {
   return (
     <>
       <div className="user_form_container">
-        <form onSubmit={submitHandler}>
+        <form className="login_provider_form" onSubmit={submitHandler}>
           <h3>Login Provider</h3>
           <label htmlFor="phone">Phone</label>
           <input
@@ -114,6 +115,8 @@ const page = () => {
             value={input.password}
           />
           <p className="formErrors">{formErrors.phone}</p>
+          {/* <div><button>Forgot Password?</button></div> */}
+          <ChangePassword/>
           <div className="login_btns">
           <button className="login_provider_btn">Log In</button>
             <GoogleSignInButton isProvider={true} />

@@ -1,9 +1,11 @@
+/* eslint-disable react/no-unescaped-entities */
+/* eslint-disable react/prop-types */
 'use client'
 import React, { useState } from 'react'
 import Popup from 'reactjs-popup'
 import './Popup.css'
 
-const VerifyEmail = ({userEmail ,emailVerifyRes, setEmailVerifyRes}) => {
+const VerifyEmail = ({popupHeading, userEmail , setEmailVerifyRes}) => {
   console.log("User Email", userEmail);
   const [emailVerifyCode, setEmailVerifyCode] = useState(null);
   const [inputCode, setInputCode] = useState('');
@@ -41,7 +43,7 @@ const VerifyEmail = ({userEmail ,emailVerifyRes, setEmailVerifyRes}) => {
 
   return (
     <Popup
-    trigger={<button className="button"> Verify Email </button>}
+    trigger={<button className="button"> {popupHeading} </button>}
     modal
     nested
   >

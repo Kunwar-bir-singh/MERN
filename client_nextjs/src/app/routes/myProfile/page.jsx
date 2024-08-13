@@ -269,7 +269,7 @@ const Page = () => {
               </h6>
             </div>
             {!userDetails.isVerified ? (<div className={checkDetailsSaved === 0 ? "no_point" : "" }>
-            <VerifyEmail emailVerifyRes = {emailVerifyRes} setEmailVerifyRes={setEmailVerifyRes} userEmail={userDetails.email}  />
+            <VerifyEmail popupHeading={"Verify Your Email!"} emailVerifyRes = {emailVerifyRes} setEmailVerifyRes={setEmailVerifyRes} userEmail={userDetails.email}  />
               
             </div>) :(
               <div>
