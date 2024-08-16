@@ -2,6 +2,8 @@
 import React from "react";
 import "./globals.css";
 import dynamic from "next/dynamic";
+import Navbar from "./components/navbar/Navbar";
+import { ChakraProvider } from "@chakra-ui/react";
 
 
 const MainContent = dynamic(
@@ -11,11 +13,12 @@ const MainContent = dynamic(
 
 const page = () => {
   return (
-    <>
+    <ChakraProvider>
       <div>
+        <Navbar/>
         <MainContent />
       </div>
-    </>
+    </ChakraProvider>
   );
 };
 

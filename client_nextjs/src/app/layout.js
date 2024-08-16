@@ -1,7 +1,8 @@
+
+import React from "react";
 import { Inter } from "next/font/google";
-import "./globals.css";
-import Navbar from "./components/navbar/Navbar";
 import { Toaster} from 'sonner'
+import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -15,7 +16,6 @@ export default function RootLayout({ children }) {
     <html lang="en" suppressHydrationWarning={true}>
       <body suppressHydrationWarning={true} className={inter.className}>
         <Toaster richColors position="top-center"/>
-        <Navbar />  
         {children}
       </body>
     </html>
