@@ -53,8 +53,9 @@ const Page = () => {
   };
 
   return (
+    <div className="register_provider_bg">
     <div className="multiStepForm-container">
-      <header className="multiStepForm-header">Signup Form</header>
+      <header className="multiStepForm-header">Register Here</header>
       <div className={`multiStepForm-progress-bar ${halfDetailCheck ? 'active' : ''}`}>
         {["Personal Details", "Professional Details"].map((step, index) => (
           <div
@@ -87,7 +88,7 @@ const Page = () => {
         ) : (
           <form onSubmit={submitHandler}>
             <div className="multiStepForm-page active">
-              <div className="multiStepForm-title">Basic Info:</div>
+              {/* <div className="multiStepForm-title">Basic Info:</div> */}
               <div className="multiStepForm-field">
                 <div className="multiStepForm-label">Username</div>
                 <input
@@ -136,6 +137,7 @@ const Page = () => {
           </form>
         )}
       </div>
+    </div>
     </div>
   );
 };
@@ -281,3 +283,4 @@ const OtherDetails = ({ firstHalfInput }) => {
 };
 
 export default Page;
+  
