@@ -91,7 +91,7 @@ const ChangePassword = () => {
   );
 };
 
-function ChangePasswordForm({toggleEye ,SetToggleEye , getInput, password ,submitHandler}) {
+function  ChangePasswordForm({toggleEye ,SetToggleEye , getInput, password ,submitHandler}) {
   return (
     <form className="changePassform" onSubmit={submitHandler}>
       <div className="changePassheader">

@@ -1,103 +1,271 @@
-*:before,
-*:after{
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-}
-body{
-    background-color: #080710;
-    background-image: url('/client_nextjs/src/app/assets/images/login_background.jpg');
-    background-repeat: no-repeat;
-    background-size: cover;
-    
-}
-.user_form_container{
+.register_provider_bg{
+  /* background-image: url('../../../../public/images/register_bg.jpg'); */
+  background-color: #F3F4F8;
+  /* 
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1 */
   display: flex;
-  align-items: center;
   justify-content: center;
-  }
-  .user_form_container form{
-      height: 520px;
-      width: 400px;
-      background-color: rgba(255,255,255,0.13);
-      position: relative;
-      border-radius: 10px;
-      backdrop-filter: blur(10px);
-      border: 2px solid rgba(255,255,255,0.1);
-      box-shadow: 0 0 40px rgba(8,7,16,0.6);
-      padding: 50px 35px;
-      margin-top: 20px;
-  }
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
 
-form *{
-    font-family: 'Poppins',sans-serif;
-    color: #ffffff;
-    letter-spacing: 0.5px;
-    outline: none;
-    border: none;
 }
-form h3{
-    font-size: 32px;
-    font-weight: 500;
-    line-height: 42px;
-    text-align: center;
+.multiStepForm-container {
+  width: 90%;
+  max-width: 400px;
+  /* margin: 50px auto; */
+  
+  background: rgb(241,239,253);
+background: linear-gradient(180deg, rgba(241,239,253,1) 21%, rgba(255,255,255,1) 48%);
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-label{
-    display: block;
-    margin-top: 16px;
-    font-size: 16px;
-    font-weight: 500;
-}
-input{
-    display: block;
-    height: 40px;
-    width: 100%;
-    background-color: rgba(255,255,255,0.07);
-    border-radius: 3px;
-    padding: 0 10px;
-    margin-top: 8px;
-    font-size: 14px;
-    font-weight: 300;
-}
-::placeholder{
-    color: #e5e5e5;
-}
-button{
-    margin-top: 40px;
-    width: 100%;
-    background-color: #ffffff;
-    color: #080710;
-    padding: 12px 0;
-    font-size: 19px;
-    font-weight: 600;
-    border-radius: 5px;
-    cursor: pointer;
-}
-.social{
-  margin-top: 30px;
-  display: flex;
-}
-.social div{
-  background: red;
-  width: 150px;
-  border-radius: 3px;
-  padding: 5px 10px 10px 5px;
-  background-color: rgba(255,255,255,0.27);
-  color: #eaf0fb;
+.multiStepForm-header {
+  font-size: 25px;
+  font-weight: 600;
+  margin-bottom: 20px;
   text-align: center;
 }
-.social div:hover{
-  background-color: rgba(255,255,255,0.47);
-}
-.social .fb{
-  margin-left: 25px;
-}
-.social i{
-  margin-right: 4px;
-}
-.formErrors{
-  color: red;
-    font-size: 0.9em;
+
+.multiStepForm-progress-bar {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 30px;
+  position: relative;
+  width: 100%;
 }
 
+.multiStepForm-progress-bar::before {
+  content: "";
+  position: absolute;
+  top: 68%;
+  left: 22%;
+  width: 54%;
+  height: 4px;
+  background: #ccc;
+  z-index: 0;
+}
+
+.multiStepForm-progress-bar.active::before {
+  background: #4caf50;
+}
+
+.multiStepForm-step {
+  flex: 1;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+.multiStepForm-step p {
+  margin-bottom: 5px;
+  font-weight: 500;
+  color: #ccc;
+}
+
+.multiStepForm-step .multiStepForm-bullet {
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  border: 2px solid #ccc;
+  display: inline-block;
+  border-radius: 50%;
+  background: white;
+  margin: 0 auto;
+}
+
+.multiStepForm-step .multiStepForm-bullet.active {
+  background: #4caf50;
+  border-color: #4caf50;
+  color: white;
+}
+
+.multiStepForm-step .multiStepForm-bullet.next {
+  background: #ff9800;
+  border-color: #ff9800;
+  color: white;
+}
+
+.multiStepForm-step .multiStepForm-check {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 15px;
+  color: white;
+  display: none;
+}
+
+.multiStepForm-step .multiStepForm-check.active {
+  display: inline-block;
+}
+
+.multiStepForm-step.active p {
+  color: #4caf50;
+}
+
+.multiStepForm-form-outer {
+  overflow: hidden;
+}
+
+.multiStepForm-page {
+  display: none;
+}
+
+.multiStepForm-page.active {
+  display: block;
+  animation: multiStepForm-slide 0.4s ease;
+}
+
+.formErrors{
+  color: red;
+  font-size: 14px;
+}
+
+@keyframes multiStepForm-slide {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.multiStepForm-field {
+  margin-bottom: 20px;
+}
+
+.multiStepForm-label {
+  font-weight: 600;
+  margin-bottom: 5px;
+  display: block;
+}
+
+.multiStepForm-input,
+.multiStepForm-select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.multiStepForm-button {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.multiStepForm-button.prev {
+  background: #999;
+}
+
+.multiStepForm-button.next,
+.multiStepForm-button.submit {
+  float: right;
+}
+
+/* Media query for smaller screens */
+@media (max-width: 480px) {
+  .multiStepForm-container {
+    padding: 20px;
+  }
+
+  .multiStepForm-progress-bar::before {
+    top: 67%;
+  }
+
+  .multiStepForm-step p {
+    font-size: 12px;
+  }
+
+  .multiStepForm-button {
+    padding: 8px;
+  }
+}
+/* MultiStepForm Styles */
+.multiStepForm-progress-bar.active::before {
+  background: #4caf50; /* Green for the progress bar */
+}
+
+.multiStepForm-step.active p {
+  color: #4caf50; /* Green text for the active step */
+}
+
+.multiStepForm-bullet.active {
+  background: #4caf50; /* Green for the completed step */
+  border-color: #4caf50;
+}
+
+.multiStepForm-bullet.next {
+  background: #ff9800; /* Orange for the current step */
+  border-color: #ff9800;
+}
+
+.multiStepForm-check.active {
+  display: inline-block; /* Show checkmark for completed step */
+}
+.btn_center{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+.multiStepForm-button.next {
+  align-items: center;
+  background-image: linear-gradient(144deg, #00ff7f, #32cd32 50%, #00b300);
+  border: 0;
+  border-radius: 8px;
+  box-shadow: rgba(50, 205, 50, 0.2) 0 15px 30px -5px;
+  box-sizing: border-box;
+  color: #000000;
+  display: flex;
+  font-size: 18px;
+  justify-content: center;
+  line-height: 1em;
+  max-width: 38%;
+  min-width: 140px;
+  padding: 9px;
+  text-decoration: none;
+  -moz-user-select: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.multiStepForm-button.next:active,
+.multiStepForm-button.next:hover {
+  outline: 0;
+}
+
+.multiStepForm-button.next span {
+  background-color: rgb(5, 6, 45); /* You may want to adjust this for better contrast */
+  padding: 16px 24px;
+  border-radius: 6px;
+  width: 100%;
+  height: 100%;
+  transition: 300ms;
+}
+
+.multiStepForm-button.next:hover span {
+  background: none;
+}
+
+.multiStepForm-button.next:active {
+  transform: scale(0.9);
+}

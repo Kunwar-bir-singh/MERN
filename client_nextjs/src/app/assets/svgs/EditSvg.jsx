@@ -1,3 +1,4 @@
+import React from "react";
 const EditSvg = () => {
   return (
     <span className="icon">

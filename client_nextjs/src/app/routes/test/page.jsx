@@ -1,286 +1,447 @@
-/* eslint-disable react/prop-types */
-'use client'
-import React, { useState, useEffect } from "react";
+"use client";
+import React, { useEffect, useState } from "react";
+import { toast } from "sonner";
 import "./css.css";
-// import OtherDetails from "./OtherDetails";
+import CookieValue from "@/app/components/cookieValue/CookieValue";
+import VerifyEmail from "@/app/components/verifyEmailPopup/VerifyEmailPopup";
+import EditSvg from "@/app/assets/svgs/EditSvg";
+import SaveSvg from "@/app/assets/svgs/SaveSvg";
+import ChangePassword from "@/app/components/changePassword/ChangePassword";
 
 const Page = () => {
-  const [halfDetailCheck, setHalfDetailCheck] = useState(false);
-  const [input, setInput] = useState({
+  const [cookieValue, setCookieValue] = useState(null);
+  const [userDetails, setUserDetails] = useState(null);
+  const [resFromDetailsSaved, setResFromDetailsSaved] = useState(null);
+  const [profileImg, setProfileImg] = useState("");
+  const [editMode, setEditMode] = useState(false);
+  const [editedDetails, setEditedDetails] = useState({
     username: "",
-    password: "",
-    phone: "",
+    fullname: "",
+    phone: 0,
     profession: "",
     city: "",
     email: "",
+    address: "",
+    isProvider: null,
+    isAvailable : true,
+    isVerified : false,
   });
-  const [formErrors, setFormErrors] = useState({});
+  const [emailVerifyRes, setEmailVerifyRes] = useState(null);
 
-  const inputHandler = (e) => {
+  const [image, setImage] = useState(null);
+  const [imageBase64, setImageBase64] = useState("");
+
+  const [checkDetailsSaved, setCheckDetailsSaved] = useState(0);
+
+  const toggleEditMode = () => {
+    setEditMode(!editMode);
+    setCheckDetailsSaved((checkDetailsSaved) => ++checkDetailsSaved);
+  };
+  const handleCookieValue = (value) => {
+    setCookieValue(value);
+  };
+  const jwtVerify = async () => {
+    const response = await fetch("http://localhost:3001/api/auth/jwtVerify", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${cookieValue}`,
+      },
+    }).then(async (res) => {
+      const data = await res.json();
+      const getDetails = async () => {
+        const api = await fetch(
+          "http://localhost:3001/api/auth/getUserDetails",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+          }
+        );
+        const userData = await api.json();
+        setUserDetails(userData.user);
+      };
+      getDetails();
+    });
+  };
+
+  const getInput = (e) => {
     const { name, value } = e.target;
-    setInput({
-      ...input,
+    console.log("Name : ",name ,"Value : ", value);
+    setEditedDetails({
+      ...editedDetails,
       [name]: value,
     });
   };
 
-  const submitHandler = async (e) => {
-    e.preventDefault();
-    const errors = validate(input);
-    setFormErrors(errors);
-    if (Object.keys(errors).length === 0) {
-      setHalfDetailCheck(true); // This sets the state to show the next step
-    }
-  };
-
-  const validate = (values) => {
-    const errors = {};
-    const regex = /^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/;
-    if (!values.phone) {
-      errors.phone = "Phone Number is required.";
-    } else if (values.phone.length !== 10) {
-      errors.phone = "Phone Number must be of 10 digits.";
-    }
-    if (!values.password) {
-      errors.password = "Password is required.";
-    }
-    if (!values.username) {
-      errors.username = "Username is required.";
-    } else if (values.username.length < 3) {
-      errors.username = "Username must be at least 3 characters long.";
-    }
-    return errors;
-  };
-
-  return (
-    <div className="register_provider_bg">
-    <div className="multiStepForm-container">
-      <header className="multiStepForm-header">Register Here</header>
-      <div className={`multiStepForm-progress-bar ${halfDetailCheck ? 'active' : ''}`}>
-        {["Personal Details", "Professional Details"].map((step, index) => (
-          <div
-            className={`multiStepForm-step ${
-              index === 0 && !halfDetailCheck ? "active" : (index === 1 && halfDetailCheck ? "active" : "")
-            }`}
-            key={index}
-          >
-            <p>{step}</p>
-            <div
-              className={`multiStepForm-bullet ${
-                index === 0 && !halfDetailCheck ? "active" : (index === 1 && halfDetailCheck ? "next" : "")
-              }`}
-            >
-              <span>{index + 1}</span>
-            </div>
-            <div
-              className={`multiStepForm-check fas fa-check ${
-                (index === 0 && !halfDetailCheck) || (index === 1 && halfDetailCheck) ? "active" : ""
-              }`}
-            ></div>
-          </div>
-        ))}
-      </div>
-      <div className="multiStepForm-form-outer">
-        {Object.keys(formErrors).length === 0 && halfDetailCheck ? (
-          <div>
-            <OtherDetails firstHalfInput={input} />
-          </div>
-        ) : (
-          <form onSubmit={submitHandler}>
-            <div className="multiStepForm-page active">
-              {/* <div className="multiStepForm-title">Basic Info:</div> */}
-              <div className="multiStepForm-field">
-                <div className="multiStepForm-label">Username</div>
-                <input
-                  type="text"
-                  placeholder="Username"
-                  id="username"
-                  className="multiStepForm-input"
-                  onChange={inputHandler}
-                  name="username"
-                  value={input.username}
-                />
-                <p className="formErrors">{formErrors.username}</p>
-              </div>
-              <div className="multiStepForm-field">
-                <div className="multiStepForm-label">Phone</div>
-                <input
-                  type="number"
-                  placeholder="Phone"
-                  id="phone"
-                  className="multiStepForm-input"
-                  onChange={inputHandler}
-                  name="phone"
-                  value={input.phone}
-                />
-                <p className="formErrors">{formErrors.phone}</p>
-              </div>
-              <div className="multiStepForm-field">
-                <div className="multiStepForm-label">Password</div>
-                <input
-                  type="password"
-                  placeholder="Password"
-                  id="password"
-                  className="multiStepForm-input"
-                  onChange={inputHandler}
-                  name="password"
-                  value={input.password}
-                />
-                <p className="formErrors">{formErrors.password}</p>
-              </div>
-              <div className="multiStepForm-field">
-                <button type="submit" className="multiStepForm-button next">
-                  Next
-                </button>
-              </div>
-            </div>
-          </form>
-        )}
-      </div>
-    </div>
-    </div>
-  );
-};
-
-const OtherDetails = ({ firstHalfInput }) => {
-  const [input, setInput] = useState(firstHalfInput);
-  const [formErrors, setFormErrors] = useState({});
-  const [isSubmit, setIsSubmit] = useState(false);
-
-  const inputHandler = (e) => {
-    const { name, value } = e.target;
-    setInput({
-      ...input,
-      [name]: value,
+  const getToggleInput = (e)=>{
+    const value =  e.target.checked;
+    console.log("Name : ",editedDetails.isAvailable ,"Value : ", value);
+    setEditedDetails({
+     ...editedDetails,
+      isAvailable: value,
     });
+  }
+
+  // convert image file to base64
+  const setFileToBase64 = (file) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      setImageBase64(reader.result);
+    };
   };
 
-  const submitHandler = async (e) => {
+  // receive file from form
+  const handleImage = (e) => {
+    const file = e.target.files[0];
+    setImage(file);
+    setFileToBase64(file);
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setFormErrors(validate(input));
-    setIsSubmit(true);
-  };
+    const response = await fetch("http://localhost:3001/api/auth/createImage", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ userDetails, image: imageBase64 }),
+    });
 
-  const validate = (values) => {
-    const errors = {};
-    const regex = /^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/;
-    if (!values.city) {
-      errors.city = "City is required.";
-    } else if (values.city.length < 3) {
-      errors.city = "City must be at least 3 characters long.";
+    const json = await response.json();
+
+    if (response.ok) {
+      console.log(json);
     }
-    if (!values.email) {
-      errors.email = "Email is required.";
-    } else if (!regex.test(values.email)) {
-      errors.email = "Email is invalid.";
-    }
-    if (!values.profession) {
-      errors.profession = "Profession is required.";
-    } else if (values.profession.length < 3) {
-      errors.profession = "Profession must be at least 3 characters long.";
-    }
-    return errors;
   };
 
   useEffect(() => {
-    if (Object.keys(formErrors).length === 0 && isSubmit) {
-      const api = async () => {
-        try {
+    if (checkDetailsSaved === 1) {
+      setEditedDetails({
+        ...editedDetails,
+        username: userDetails.username,
+        fullname: userDetails.fullname,
+        phone: userDetails.phone,
+        profession: userDetails.profession,
+        city: userDetails.city,
+        email: userDetails.email,
+        address: userDetails.address,
+        isProvider: userDetails.isProvider,
+        isAvailable: userDetails.isAvailable,
+        isVerified: userDetails.isVerified,
+      });
+    } else if (checkDetailsSaved === 2) {
+      console.log(editedDetails);
+      const response = async () => {
+        const api = await fetch(
+          "http://localhost:3001/api/auth/editUserDetails",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(editedDetails),
+          }
+        );
+        const apiRes = await api.json();
+        setResFromDetailsSaved(apiRes);
+        console.log("API Response ", apiRes);
+      };
+      response();
+
+      if (image) {
+        const getImageApi = async () => {
           const response = await fetch(
-            "http://localhost:3001/api/authProvider/registerProvider",
+            "http://localhost:3001/api/auth/createImage",
             {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
               },
-              body: JSON.stringify(input),
+              body: JSON.stringify({ userDetails, image: imageBase64 }),
             }
           );
-          const res = await response.json();
-          if (res.code === 1) {
-            toast.success("Registration Successful", {
-              duration: 2000,
-            });
-            setTimeout(() => {
-              window.location.href =
-                "http://localhost:3000/routes/provider/loginProvider";
-            }, 1500);
-            setInput({
-              profession: "",
-              username: "",
-              phone: "",
-              password: "",
-              city: "",
-            });
-          } else if (res.code === 0) {
-            toast.error("Provider Already Exists", {
-              duration: 2000,
-            });
-          }
-        } catch (error) {
-          toast.error("Something Went Wrong");
-        }
-      };
-      api();
+        };
+        getImageApi();
+      }
+      toast.info("Loading...Please wait");
     }
-  }, [formErrors]);
+  }, [checkDetailsSaved]);
 
-  return (
-    <form onSubmit={submitHandler}>
-      <div className="multiStepForm-page active">
-        <div className="multiStepForm-title">Register Here:</div>
+  useEffect(() => {
+    if (resFromDetailsSaved != null) {
+      toast.success(resFromDetailsSaved.msg);
+      setTimeout(() => {
+        window.location.href = "/routes/myProfile";
+      }, 2000);
+    }
+  }, [resFromDetailsSaved]);
 
-        <div className="multiStepForm-field">
-          <div className="multiStepForm-label">Profession</div>
-          <input
-            type="text"
-            placeholder="Profession Name"
-            id="profession"
-            className="multiStepForm-input"
-            onChange={inputHandler}
-            name="profession"
-            value={input.profession}
-          />
-          <p className="formErrors">{formErrors.profession}</p>
+  useEffect(() => {
+    console.log("Value 0f checkDetailsSaved ", checkDetailsSaved);
+  }, [checkDetailsSaved]);
+
+  useEffect(() => {
+    if (userDetails && userDetails.image && userDetails.image.url) {
+      console.log("userDetails : ", userDetails);
+      setProfileImg(userDetails.image.url);
+    }
+  }, [userDetails]);
+
+  useEffect(() => {
+    if (cookieValue !== null) {
+      console.log("Cookie Value in Profile : ", cookieValue);
+      jwtVerify();
+    }
+  }, [cookieValue]);
+
+    useEffect(() => {
+    if(emailVerifyRes && emailVerifyRes == 1){
+      toast.success("Email Verified! Please Save The Changes.");
+      setEditedDetails({...editedDetails, isVerified: true})
+    }
+    else if(emailVerifyRes && emailVerifyRes == 0){
+      toast.success("Invalid Code.");
+    }
+  },[emailVerifyRes])
+
+  return userDetails != null ? (
+    <div className="myProfile_body">
+      <div className="myProfile_container">
+        <div className="profile_user_img">
+          <div
+            className={`user-avatar ${
+              checkDetailsSaved === 0 ? "with-margin" : ""
+            }`}
+          >
+            {checkDetailsSaved === 1 ? (
+              <label id="edit_image_svg" htmlFor="image">
+                <svg
+                  className="feather feather-edit"
+                  fill="none"
+                  height="27"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  viewBox="0 0 24 24"
+                  width="27"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                  <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+                </svg>
+              </label>
+            ) : (
+              <></>
+            )}
+
+            <img src={profileImg} alt="Loading..." />
+            <form onSubmit={handleSubmit} action="" method="post">
+              <input
+                name="image"
+                className="w-full rounded-lg border-gray-200 p-3 text-sm"
+                placeholder="Image"
+                type="file"
+                accept="image/*"
+                id="image"
+                onChange={handleImage}
+                style={{ display: "none" }}
+              />
+            </form>
+          </div>
+          <div className="user_deatils_view">
+            {image ? (
+              <div className="ifImageSeleected">
+                <h6>Image Selected!</h6>
+              </div>
+            ) : (
+              <></>
+            )}
+            <div className="username_phone">
+              <h5 className="user-name">{userDetails.username}</h5>
+
+              <h6 className="user-phone">
+                <strong>Phone :</strong> {userDetails.phone}
+              </h6>
+            </div>
+            {!userDetails.isVerified ? (<div className={checkDetailsSaved === 0 ? "no_point" : "" }>
+            <VerifyEmail popupHeading={"Verify Your Email!"} emailVerifyRes = {emailVerifyRes} setEmailVerifyRes={setEmailVerifyRes} userEmail={userDetails.email}  />
+              
+            </div>) :(
+              <div>
+                <h6 className="verified_text">Email Verified!</h6>
+              </div>
+            ) }
+            
+          </div>
+          <div className="provider_available">
+          <div style={{ height: '36px' }}>
+              <label className="toggle-switch" id={checkDetailsSaved === 0 ? "grayed-out" : "" }>
+                <input type="checkbox"  name="isAvailable"  checked={userDetails.isAvailable}
+                 {...(checkDetailsSaved === 0
+                  ? { disabled: true, } 
+                  : { disabled : false ,  checked: editedDetails.isAvailable ,onChange: getToggleInput })}/>
+                <div className="toggle-switch-background">
+                  <div className="toggle-switch-handle"></div>
+                </div>
+              </label>
+            </div>
+            <div>
+              <h6 className="available_text">
+              {checkDetailsSaved === 0 ? (userDetails.isAvailable ? "Available" : "Not Available") : (editedDetails.isAvailable ? "Available" : "Not Available")
+}              </h6>
+            </div>
+          </div>
         </div>
 
-        <div className="multiStepForm-field">
-          <div className="multiStepForm-label">City</div>
-          <input
-            type="text"
-            placeholder="City"
-            id="city"
-            className="multiStepForm-input"
-            onChange={inputHandler}
-            name="city"
-            value={input.city}
-          />
-          <p className="formErrors">{formErrors.city}</p>
-        </div>
+        <div className="profile_user_details">
+        <ChangePassword/>
+          {!editMode ? (
+            <>
+              <button className="btn" onClick={toggleEditMode}>
+                <EditSvg/>
+                <span className="edit_button_text">Edit</span>
+              </button>
+            </>
+          ) : (
+            <button className="btn" id="saveBtn" onClick={toggleEditMode}>
+            <SaveSvg/>
+              <span className="edit_button_text">Save</span>
+            </button>
+          )}
 
-        <div className="multiStepForm-field">
-          <div className="multiStepForm-label">Email</div>
-          <input
-            type="text"
-            placeholder="Email"
-            id="email"
-            className="multiStepForm-input"
-            onChange={inputHandler}
-            name="email"
-            value={input.email}
-          />
-          <p className="formErrors">{formErrors.email}</p>
-        </div>
-
-        <div className="multiStepForm-field">
-          <button type="submit" className="multiStepForm-button register">
-            Register
-          </button>
+          <form action="#">
+            <div className="form-row">
+              <div className="coolinput">
+                <label htmlFor="input" className="text">
+                  Username:
+                </label>
+                <input
+                  type="text"
+                  placeholder={userDetails.username}
+                  name="username"
+                  className="input"
+                  {...(checkDetailsSaved === 0
+                    ? { readOnly: true, id: "grayed-out" }
+                    : { value: editedDetails.username, onChange: getInput })}
+                />
+              </div>
+              <div className="coolinput">
+                <label htmlFor="input" className="text">
+                  Fullname:
+                </label>
+                <input
+                  type="text"
+                  placeholder={userDetails.fullname}
+                  name="fullname"
+                  className="input"
+                  {...(checkDetailsSaved !== 1
+                    ? { readOnly: true, id: "grayed-out" }
+                    : { value: editedDetails.fullname, onChange: getInput })}
+                />
+              </div>
+            </div>
+            {userDetails.isProvider ? (
+              <div className="form-row">
+                <div className="coolinput">
+                  <label htmlFor="input" className="text">
+                    Profession:
+                  </label>
+                  <input
+                    type="text"
+                    placeholder={userDetails.profession}
+                    name="profession"
+                    className="input"
+                    {...(checkDetailsSaved !== 1
+                      ? { readOnly: true, id: "grayed-out" }
+                      : {
+                          value: editedDetails.profession,
+                          onChange: getInput,
+                        })}
+                  />
+                </div>
+                <div className="coolinput">
+                  <label htmlFor="input" className="text">
+                    City:
+                  </label>
+                  <input
+                    type="text"
+                    placeholder={userDetails.city}
+                    name="city"
+                    className="input"
+                    {...(checkDetailsSaved !== 1
+                      ? { readOnly: true, id: "grayed-out" }
+                      : { value: editedDetails.city, onChange: getInput })}
+                  />
+                </div>
+              </div>
+            ) : (
+              <></>
+            )}
+            <div className="form-row">
+              <div className="coolinput">
+                <label htmlFor="input" className="text">
+                  Phone Number:
+                </label>
+                <input
+                  type="text"
+                  placeholder={userDetails.phone}
+                  name="phone"
+                  className="input"
+                  {...(checkDetailsSaved !== 1
+                    ? { readOnly: true, id: "grayed-out" }
+                    : { value: editedDetails.phone, onChange: getInput })}
+                />
+              </div>
+              <div className="coolinput">
+                <label htmlFor="input" className="text">
+                  E-Mail:
+                </label>
+                <input
+                  type="text"
+                  placeholder={userDetails.email}
+                  name="email"
+                  className="input"
+                  {...(checkDetailsSaved !== 1
+                    ? { readOnly: true, id: "grayed-out" }
+                    : { value: editedDetails.email, onChange: getInput })}
+                />
+              </div>
+            </div>
+            <div className="form-row">
+              <div className="coolinput" id="address_input">
+                <label htmlFor="input" className="text">
+                  Address:
+                </label>
+                <textarea
+                  rows="8"
+                  cols="80"
+                  type="text"
+                  placeholder={userDetails.address}
+                  name="address"
+                  className="address_input"
+                  {...(checkDetailsSaved !== 1
+                    ? { readOnly: true, id: "grayed-out" }
+                    : { value: editedDetails.address, onChange: getInput })}
+                />
+              </div>
+            </div>
+          </form>
         </div>
       </div>
-    </form>
+    </div>
+  ) : (
+    <div className="loading_svg_div">
+      <CookieValue CookieValueProp={handleCookieValue} />
+      <svg viewBox="25 25 50 50" className="loading_svg">
+        <circle r="20" cy="50" cx="50"></circle>
+      </svg>
+    </div>
   );
 };
 
 export default Page;
-  

@@ -1,214 +1,464 @@
-.register_provider_bg{
-  background-image: url('/assets/images/register_bg.jpg');
-  /* 
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  height: 100vh;
-  width: 100vw;
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: -1 */
-
+.myProfile_body {
+  height: 630px;
+  background-color: aliceblue;
 }
-.multiStepForm-container {
-  width: 90%;
-  max-width: 400px;
-  margin: 50px auto;
-  background: #fff;
-  padding: 25px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-.multiStepForm-header {
-  font-size: 25px;
-  font-weight: 600;
-  margin-bottom: 20px;
-  text-align: center;
-}
-
-.multiStepForm-progress-bar {
+.myProfile_container {
+  /* padding-top: 10vh; */
   display: flex;
-  justify-content: space-between;
-  margin-bottom: 30px;
-  position: relative;
+  justify-content: center;
+  align-items: center;
+  /* background-color: brown ; */
+  height: 100%;
   width: 100%;
 }
-
-.multiStepForm-progress-bar::before {
-  content: "";
-  position: absolute;
-  top: 68%;
-  left: 22%;
-  width: 54%;
-  height: 4px;
-  background: #ccc;
-  z-index: 0;
+.profile_user_img {
+  width: 15%;
+  height: 60%;
+  background: #fff;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  margin-right: 3%;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+.user_deatils_view {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  height: 43%;
 }
 
-.multiStepForm-progress-bar.active::before {
-  background: #4caf50;
+.profile_user_details {
+  height: 60%;
+  border-radius: 10px;
+  max-width: 800px;
+  background: #fff;
+  max-width: 51vw;
+  padding: 0px 40px 10px 40px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+.profile_user_details form {
+  width: 100%;
+  height: 88%;
+}
+.user-name {
+  font-size: 1.5em;
+  font-weight: bold;
+}
+.username_phone {
+  color: #3498db;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
-.multiStepForm-step {
-  flex: 1;
-  text-align: center;
+.profile_user_details form {
+  padding: 0 0 0 0;
+}
+.profile_user_details form .form-row {
+  display: flex;
+  margin-bottom: 30px;
+  max-width: 49vw;
+}
+#grayed-out {
+  cursor: not-allowed; 
+}
+.no_point{
+  pointer-events: none;
+}
+.verified_text{
+  color:  rgb(14, 155, 14);
+}
+#saveBtn{
+  background: rgb(14, 155, 14);
+  
+}
+.coolinput {
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
+  width: 19vw;
+  height: 40px;
+  margin: 0 20px;
   position: relative;
+  margin-right: 1vw;
+}
+
+.coolinput label.text {
+  font-size: 1rem;
+  color: #3498db;
+  font-weight: 700;
+  position: relative;
+  top: 0.5rem;
+  margin: 0 0 0 7px;
+  padding: 0 3px;
+  background: white;
+  width: fit-content;
   z-index: 1;
 }
 
-.multiStepForm-step p {
-  margin-bottom: 5px;
-  font-weight: 500;
-  color: #ccc;
-}
-
-.multiStepForm-step .multiStepForm-bullet {
-  width: 30px;
-  height: 30px;
-  line-height: 30px;
-  border: 2px solid #ccc;
-  display: inline-block;
-  border-radius: 50%;
-  background: white;
-  margin: 0 auto;
-}
-
-.multiStepForm-step .multiStepForm-bullet.active {
-  background: #4caf50;
-  border-color: #4caf50;
-  color: white;
-}
-
-.multiStepForm-step .multiStepForm-bullet.next {
-  background: #ff9800;
-  border-color: #ff9800;
-  color: white;
-}
-
-.multiStepForm-step .multiStepForm-check {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 15px;
-  color: white;
-  display: none;
-}
-
-.multiStepForm-step .multiStepForm-check.active {
-  display: inline-block;
-}
-
-.multiStepForm-step.active p {
-  color: #4caf50;
-}
-
-.multiStepForm-form-outer {
-  overflow: hidden;
-}
-
-.multiStepForm-page {
-  display: none;
-}
-
-.multiStepForm-page.active {
-  display: block;
-  animation: multiStepForm-slide 0.4s ease;
-}
-
-.formErrors{
-  color: red;
-  font-size: 14px;
-}
-
-@keyframes multiStepForm-slide {
-  from {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.multiStepForm-field {
-  margin-bottom: 20px;
-}
-
-.multiStepForm-label {
-  font-weight: 600;
-  margin-bottom: 5px;
-  display: block;
-}
-
-.multiStepForm-input,
-.multiStepForm-select {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
+.coolinput input[type="text"].input {
+  padding: 11px 10px;
+  font-size: 1rem;
+  border: 2px #3498db solid;
   border-radius: 5px;
+  background: white;
 }
 
-.multiStepForm-button {
-  width: 100%;
-  padding: 10px;
+.coolinput input[type="text"].input:focus {
+  outline: none;
+}
+#address_input {
+  height: 100px;
+  width: 41vw;
+}
+.address_input {
+  /* /* height: 100%; */
+  border: 2px #818cf8 solid;
+}
+/* //// */
+
+@media (max-width: 700px) {
+  .profile_user_details .text {
+    font-size: 30px;
+  }
+  .profile_user_details form {
+    padding: 10px 0 0 0;
+  }
+  /* .profile_user_details form .form-row {
+    display: block;
+  } */
+ .form-row .input-data {
+    margin: 35px 0 !important;
+  }
+  .submit-btn .input-data {
+    width: 40% !important;
+  }
+}
+
+.with-margin {
+  margin: 2rem 0 0 0;
+}
+.user-avatar img {
+  width: 140px;
+  height: 140px;
+  -webkit-border-radius: 100px;
+  -moz-border-radius: 100px;
+  border-radius: 100px;
+}
+
+.profile_user_img h6.user-email {
+  margin: 0;
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: #9fa8b9;
+}
+.btn {
+  width: 98px;
+  height: 39px;
   border-radius: 5px;
   border: none;
+  transition: all 0.5s ease-in-out;
+  font-size: 16px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  background: #3498db;
+  color: #f5f5f5;
+  position: relative;
+  left: 82%;
+  top: 4%;
+}
+
+.btn:hover {
+  box-shadow: 0 0 20px 0px #2e2e2e3a;
+}
+
+.btn .icon {
+  position: absolute;
+  height: 30px;
+  width: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.5s;
+}
+
+.btn .edit_button_text {
+  transform: translateX(45px);
+}
+
+.btn:hover .icon {
+  width: 125px;
+}
+
+.btn:hover .edit_button_text {
+  transition: all 0.5s;
+  opacity: 0;
+}
+
+.btn:focus {
+  outline: none;
+}
+
+.btn:active .icon {
+  transform: scale(0.85);
+}
+.loading_svg_div {
+  width: 100%;
+  height: 90vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loading_svg {
+  width: 6.5em;
+  transform-origin: center;
+  animation: rotate4 2s linear infinite;
+}
+
+circle {
+  fill: none;
+  stroke: hsl(214, 97%, 59%);
+  stroke-width: 2;
+  stroke-dasharray: 1, 200;
+  stroke-dashoffset: 0;
+  stroke-linecap: round;
+  animation: dash4 1.5s ease-in-out infinite;
+}
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 80px;
+  height: 40px;
   cursor: pointer;
-  margin-top: 10px;
 }
 
-.multiStepForm-button.prev {
-  background: #999;
+.toggle-switch input[type="checkbox"] {
+  display: none;
 }
 
-.multiStepForm-button.next,
-.multiStepForm-button.submit {
-  float: right;
+.toggle-switch-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 80%;
+  height: 80%;
+  background-color: #ddd;
+  border-radius: 20px;
+  box-shadow: inset 0 0 0 2px #ccc;
+  transition: background-color 0.3s ease-in-out;
 }
 
-/* Media query for smaller screens */
-@media (max-width: 480px) {
-  .multiStepForm-container {
-    padding: 20px;
+.toggle-switch-handle {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: 24px;
+  height: 24px;
+  background-color: #fff;
+  border-radius: 50%;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease-in-out;
+}
+
+.toggle-switch::before {
+  content: "";
+  position: absolute;
+  top: -25px;
+  right: -35px;
+  font-size: 12px;
+  font-weight: bold;
+  color: #aaa;
+  text-shadow: 1px 1px #fff;
+  transition: color 0.3s ease-in-out;
+}
+
+.toggle-switch input[type="checkbox"]:checked + .toggle-switch-handle {
+  transform: translateX(45px);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2), 0 0 0 3px #3498DB;
+}
+
+.toggle-switch input[type="checkbox"]:checked + .toggle-switch-background {
+  background-color: #3498DB;
+  box-shadow: inset 0 0 0 2px #187dc1;
+}
+
+.toggle-switch input[type="checkbox"]:checked + .toggle-switch:before {
+  content: "On";
+  color: #3498DB;
+  right: -15px;
+}
+
+.toggle-switch input[type="checkbox"]:checked + .toggle-switch-background .toggle-switch-handle {
+  transform: translateX(30px);
+}
+
+@keyframes rotate4 {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes dash4 {
+  0% {
+    stroke-dasharray: 1, 200;
+    stroke-dashoffset: 0;
   }
 
-  .multiStepForm-progress-bar::before {
-    top: 67%;
+  50% {
+    stroke-dasharray: 90, 200;
+    stroke-dashoffset: -35px;
   }
 
-  .multiStepForm-step p {
-    font-size: 12px;
-  }
-
-  .multiStepForm-button {
-    padding: 8px;
+  100% {
+    stroke-dashoffset: -125px;
   }
 }
-/* MultiStepForm Styles */
-.multiStepForm-progress-bar.active::before {
-  background: #4caf50; /* Green for the progress bar */
+
+#edit_image_svg {
+  display: inline-block;
+  position: relative;
+  left: 85%;
+  top: 15%;
+  font-size: 15px;
+  cursor: pointer;
+}
+.ifImageSeleected {
+  color: #696b6f;
+  font-size: 15px;
+  font-weight: bold;
+  margin-top: 6px;
 }
 
-.multiStepForm-step.active p {
-  color: #4caf50; /* Green text for the active step */
+@media screen and (min-width: 960px) and (max-width: 1224px) {
+  .profile_user_img {
+    width: 20%;
+  }
 }
 
-.multiStepForm-bullet.active {
-  background: #4caf50; /* Green for the completed step */
-  border-color: #4caf50;
+@media screen and (min-width: 912px) and (max-width: 959px) {
+  .profile_user_img {
+    width: 20vw;
+  }
+  .profile_user_details form .form-row {
+    width: 62vw;
+  }
+  .coolinput {
+    width: 19vw;
+    margin-right: 1vw;
+  }
+}
+@media screen and (min-width: 300px) and (max-width: 912px) {
+  .with-margin {
+    margin: 1rem 0 0 0;
+  }
+  .profile_user_img {
+    width: 45%;
+    height: 45%;
+    margin-bottom: 7%;
+    margin-top: 22%;
+  }
+  .user-avatar img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+  }
+  .username_phone{
+    margin-bottom: 7%;
+  }
+  .user_deatils_view {
+    margin-bottom: 5%;
+    margin-top: 5%;
+  }
+  .myProfile_container {
+    flex-direction: column;
+  }
+
+  .profile_user_details {
+    width: 70%;
+    max-width: 100%;
+  }
+  .profile_user_details form .form-row {
+    width: 100%;
+  }
+  .coolinput {
+    width: 26vw;
+  }
+  #address_input {
+    width: 55vw;
+  }
+  .btn {
+    width: 78px;
+    height: 37px;
+    font-size: 17px;
+    left: 84%;
+        top: 3%;
+  }
+  .btn .icon {
+    height: 20px;
+    width: 37px;
+  }
+  .btn .edit_button_text {
+    transform: translateX(35px);
+  }
 }
 
-.multiStepForm-bullet.next {
-  background: #ff9800; /* Orange for the current step */
-  border-color: #ff9800;
+@media screen and (max-width: 533px) {
+  .with-margin {
+    margin: 1rem 0 0 0;
+  }
+  .profile_user_img {
+    width: 77%;
+    height: 49%;
+    margin-bottom: 7%;
+    margin-top: 29%;
+  }
+  .user-avatar img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+  }
+  .username_phone{
+    margin-bottom: 7%;
+  }
+  .user_deatils_view {
+    margin-bottom: 5%;
+    margin-top: 5%;
+  }
+  .btn {
+    width: 92px;
+    height: 45px;
+    font-size: 17px;
+    left: 72%;
+    top: 5%;
+  }
+  .btn .icon {
+    height: 20px;
+    width: 37px;
+  }
+  .btn .edit_button_text {
+    transform: translateX(35px);
+  }
+  .profile_user_details {
+    width: 100%;
+    padding: 0px 10px 10px 10px;
+  }
+  .profile_user_details form .form-row {
+    margin: 0;
+    flex-direction: column;
+  }
+  .coolinput {
+    margin-bottom: 8vw;
+    width: 89vw;
+  }
+  #address_input {
+    width: 89vw;
+  }
 }
-
-.multiStepForm-check.active {
-  display: inline-block; /* Show checkmark for completed step */
-}
-
