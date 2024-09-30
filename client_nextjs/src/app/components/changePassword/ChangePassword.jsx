@@ -72,7 +72,7 @@ const ChangePassword = () => {
     <>
     <JwtVerify setDecodedData={handleDecodedData} />
       <Popup
-        trigger={<button className="button"> Change Password</button>}
+        trigger={<button className="verify-email-button"> Change Password</button>}
         modal
         nested
       >

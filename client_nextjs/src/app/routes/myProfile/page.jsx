@@ -23,8 +23,8 @@ const Page = () => {
     email: "",
     address: "",
     isProvider: null,
-    isAvailable : true,
-    isVerified : false,
+    isAvailable: true,
+    isVerified: false,
   });
   const [emailVerifyRes, setEmailVerifyRes] = useState(null);
 
@@ -69,21 +69,21 @@ const Page = () => {
 
   const getInput = (e) => {
     const { name, value } = e.target;
-    console.log("Name : ",name ,"Value : ", value);
+    console.log("Name : ", name, "Value : ", value);
     setEditedDetails({
       ...editedDetails,
       [name]: value,
     });
   };
 
-  const getToggleInput = (e)=>{
-    const value =  e.target.checked;
-    console.log("Name : ",editedDetails.isAvailable ,"Value : ", value);
+  const getToggleInput = (e) => {
+    const value = e.target.checked;
+    console.log("Name : ", editedDetails.isAvailable, "Value : ", value);
     setEditedDetails({
-     ...editedDetails,
+      ...editedDetails,
       isAvailable: value,
     });
-  }
+  };
 
   // convert image file to base64
   const setFileToBase64 = (file) => {
@@ -198,15 +198,14 @@ const Page = () => {
     }
   }, [cookieValue]);
 
-    useEffect(() => {
-    if(emailVerifyRes && emailVerifyRes == 1){
+  useEffect(() => {
+    if (emailVerifyRes && emailVerifyRes == 1) {
       toast.success("Email Verified! Please Save The Changes.");
-      setEditedDetails({...editedDetails, isVerified: true})
-    }
-    else if(emailVerifyRes && emailVerifyRes == 0){
+      setEditedDetails({ ...editedDetails, isVerified: true });
+    } else if (emailVerifyRes && emailVerifyRes == 0) {
       toast.success("Invalid Code.");
     }
-  },[emailVerifyRes])
+  }, [emailVerifyRes]);
 
   return userDetails != null ? (
     <div className="myProfile_body">
@@ -268,23 +267,42 @@ const Page = () => {
                 <strong>Phone :</strong> {userDetails.phone}
               </h6>
             </div>
-            {!userDetails.isVerified ? (<div className={checkDetailsSaved === 0 ? "no_point" : "" }>
-            <VerifyEmail popupHeading={"Verify Your Email!"} emailVerifyRes = {emailVerifyRes} setEmailVerifyRes={setEmailVerifyRes} userEmail={userDetails.email}  />
-              
-            </div>) :(
+            {!userDetails.isVerified ? (
+              <div className={checkDetailsSaved === 0 ? "no_point" : ""}>
+                <VerifyEmail
+                  popupHeading={"Verify Your Email!"}
+                  emailVerifyRes={emailVerifyRes}
+                  setEmailVerifyRes={setEmailVerifyRes}
+                  userEmail={userDetails.email}
+                />
+              </div>
+            ) : (
               <div>
                 <h6 className="verified_text">Email Verified!</h6>
               </div>
-            ) }
-            
+            )}
+            <div className={checkDetailsSaved === 0 ? "no_point" : ""}>
+              <ChangePassword />
+            </div>
           </div>
           <div className="provider_available">
-          <div style={{ height: '36px' }}>
-              <label className="toggle-switch" id={checkDetailsSaved === 0 ? "grayed-out" : "" }>
-                <input type="checkbox"  name="isAvailable"  checked={userDetails.isAvailable}
-                 {...(checkDetailsSaved === 0
-                  ? { disabled: true, } 
-                  : { disabled : false ,  checked: editedDetails.isAvailable ,onChange: getToggleInput })}/>
+            <div style={{ height: "36px" }}>
+              <label
+                className="toggle-switch"
+                id={checkDetailsSaved === 0 ? "grayed-out" : ""}
+              >
+                <input
+                  type="checkbox"
+                  name="isAvailable"
+                  checked={userDetails.isAvailable}
+                  {...(checkDetailsSaved === 0
+                    ? { disabled: true }
+                    : {
+                        disabled: false,
+                        checked: editedDetails.isAvailable,
+                        onChange: getToggleInput,
+                      })}
+                />
                 <div className="toggle-switch-background">
                   <div className="toggle-switch-handle"></div>
                 </div>
@@ -292,24 +310,29 @@ const Page = () => {
             </div>
             <div>
               <h6 className="available_text">
-              {checkDetailsSaved === 0 ? (userDetails.isAvailable ? "Available" : "Not Available") : (editedDetails.isAvailable ? "Available" : "Not Available")
-}              </h6>
+                {checkDetailsSaved === 0
+                  ? userDetails.isAvailable
+                    ? "Available"
+                    : "Not Available"
+                  : editedDetails.isAvailable
+                  ? "Available"
+                  : "Not Available"}{" "}
+              </h6>
             </div>
           </div>
         </div>
 
         <div className="profile_user_details">
-        <ChangePassword/>
           {!editMode ? (
             <>
               <button className="btn" onClick={toggleEditMode}>
-                <EditSvg/>
+                <EditSvg />
                 <span className="edit_button_text">Edit</span>
               </button>
             </>
           ) : (
             <button className="btn" id="saveBtn" onClick={toggleEditMode}>
-            <SaveSvg/>
+              <SaveSvg />
               <span className="edit_button_text">Save</span>
             </button>
           )}

@@ -63,7 +63,7 @@ const VerifyEmail = ({ popupHeading, userEmail, setEmailVerifyRes }) => {
                 <button className="verify-email-button" onClick={sendEmailCode}>
                   Send Code
                 </button>
-                <button className="verify-email-button" onClick={verifyCode}>
+                <button className="verify-email-button" id='verify-email-button' onClick={verifyCode}>
                   Verify
                 </button>
               </div>
